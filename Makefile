@@ -68,6 +68,7 @@ SRCS        :=      libft/ft_strnstr.c \
                         libft/ft_tolower.c \
                         libft/ft_strcmp.c \
                         main.c \
+                        parsing/lexer.c \
 
 OBJS        := $(SRCS:.c=.o)
 

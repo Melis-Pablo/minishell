@@ -7,7 +7,7 @@ Minishell is a project aimed at creating a simple shell, similar to Bash, provid
 Common Instructions:
 Language: The project must be written in C.
 Code Norms: Compliance with specific coding standards (referred to as "Norm") is required. Any norm violation in bonus files/functions results in a zero score.
-	-Functions must be 25 lines or less
+	-Functions CANNOT be more than 25 lines
 Memory Management: No memory leaks will be tolerated. All heap allocated spaces must be freed appropriately.
 Makefile:
   - Must compile the project using `cc` with flags `-Wall`, `-Wextra`, and `-Werror`.
@@ -18,7 +18,7 @@ Mandatory Part
 
 Program Name: `minishell`
 Files to Turn In: `Makefile`, `*.h`, `*.c`
-External Functions:
+External Functions allowed (Only these external functions are allowed, all other functions need to be written):
   - `readline`, `rl_clear_history`, `rl_on_new_line`, `rl_replace_line`, `rl_redisplay`, `add_history`, `printf`, `malloc`, `free`, `write`, `access`, `open`, `read`, `close`, `fork`, `wait`, `waitpid`, `wait3`, `wait4`, `signal`, `sigaction`, `sigemptyset`, `sigaddset`, `kill`, `exit`, `getcwd`, `chdir`, `stat`, `lstat`, `fstat`, `unlink`, `execve`, `dup`, `dup2`, `pipe`, `opendir`, `readdir`, `closedir`, `strerror`, `perror`, `isatty`, `ttyname`, `ttyslot`, `ioctl`, `getenv`, `tcsetattr`, `tcgetattr`, `tgetent`, `tgetflag`, `tgetnum`, `tgetstr`, `tgoto`, `tputs`.
 
 Functionality:
@@ -27,7 +27,7 @@ Signal Handling
   - Implement signal handling with minimal global variables.
   - Handle ctrl-C, ctrl-D and ctrl-\ which should behave like in bash.
   - In interactive mode: ctrl-C displays a new prompt on a new line. ctrl-D exits the shell. ctrl-\ does nothing.
-Parsing:
+Needs Parsing:
   - Search and launch the right executable (based on the PATH variable or using a relative or an absolute path).
   - Not interpret unclosed quotes or special characters which are not required by the subject such as \ (backslash) or ; (semicolon).
   - Handle ’ (single quote) which should prevent the shell from interpreting the meta-characters in the quoted sequence.
@@ -43,4 +43,4 @@ Here is what i need you to do:
 
 I need you to create the lexer function, this function takes a char * which is the input and allocates memory and creates nodes of t_lexer struct,
 each node will be filled with the address of the previous node, the next node, and if it is a token which type it is (inside the enum) the tokens are >, <, >>, <<, |
-if it is not a token it will be set to 0 and store the string inside the char *. the function should return the pointer to the first node
+and set the string to null. if it is not a token it will be set to 0 and store the string inside the char *. the function should return the pointer to the first node
