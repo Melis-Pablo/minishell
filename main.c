@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 23:12:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/04/29 19:07:31 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/06 14:09:47 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,20 @@ void	signal_handler(int sig)
 	}
 }
 
-t_lexer	*lexer(char *input)
+void	print_lexer_nodes(t_lexer *head)
 {
+	t_lexer *current = head;
 
+	while (current != NULL)
+	{
+		printf("------------------------------------\n");
+		printf("Token Number: %d\n", current->index);
+		printf("Token String: %s\n", current->str);
+		printf("Token Type: %d\n", current->token);
+		printf("------------------------------------\n");
+		current = current->next;
+	}
 }
-
 
 int	main(void)
 {
@@ -42,6 +51,8 @@ int	main(void)
 		if (!input)
 			break ;
 		add_history(input);
+		t_lexer *head = lexer(input);
+		print_lexer_nodes(head);
 		free(input);
 	}
 	return (0);

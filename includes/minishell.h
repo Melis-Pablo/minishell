@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 22:26:27 by pmelis            #+#    #+#             */
-/*   Updated: 2024/04/29 19:05:51 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/06 14:05:57 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,10 @@ typedef struct s_lexer
 	t_token_type	token;
 	struct s_lexer	*next;
 	struct s_lexer	*prev;
+	int				index;
 }					t_lexer;
 
 // Function prototypes
+t_lexer	*lexer(char *str);
 
 #endif
