@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 16:56:55 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/07 15:26:22 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/07 15:42:02 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_lexer	*new_lexer_node(char *str, t_token_type token, int index)
 
 #How it works:
 */
-t_lexer *lexer(char *input)
+t_lexer	*lexer(char *input)
 {
 	t_lexer			*head;
 	t_lexer			*current;
@@ -64,6 +64,8 @@ t_lexer *lexer(char *input)
 	t_token_type	token_type;
 	int				index;
 	t_lexer			*node;
+	char			quote;
+	char			*start;
 
 	index = 0;
 	head = NULL;
@@ -78,12 +80,12 @@ t_lexer *lexer(char *input)
 		}
 		else
 		{
-			char *start = input;
+			start = input;
 			while (*input && *input != '|')
 			{
 				if (*input == '\'' || *input == '\"')
 				{
-					char quote = *input++;
+					quote = *input++;
 					while (*input && *input != quote)
 						input++;
 					if (*input)
