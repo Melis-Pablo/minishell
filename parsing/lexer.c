@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 16:56:55 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/07 15:42:02 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/07 15:51:41 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,68 +47,74 @@ t_lexer	*new_lexer_node(char *str, t_token_type token, int index)
 	return (node);
 }
 
-/*
-#():
 
-#Parameters:
-
-#Return value:
-
-#How it works:
-*/
-t_lexer	*lexer(char *input)
+void	create_token(char **input, char **token, t_token_type *token_type)
 {
-	t_lexer			*head;
-	t_lexer			*current;
-	char			*token;
-	t_token_type	token_type;
-	int				index;
-	t_lexer			*node;
-	char			quote;
-	char			*start;
+	char *start;
+	char quote;
+
+	if (**input == '|')
+	{
+		*token = NULL;
+		*token_type = PIPE;
+		(*input)++;
+	}
+	else
+	{
+		start = *input;
+		while (**input && **input != '|')
+		{
+			if (**input == '\'' || **input == '\"')
+			{
+				quote = *(*input)++;
+				while (**input && **input != quote)
+					(*input)++;
+				if (**input)
+					(*input)++;
+			}
+			else
+				(*input)++;
+		}
+		*token = strndup(start, *input - start);
+		*token_type = NONE;
+	}
+}
+
+t_lexer *add_node(t_lexer **head, t_lexer **current, char *token, t_token_type token_type, int index)
+{
+	t_lexer *node;
+
+	node = new_lexer_node(token, token_type, index);
+	if (!node)
+		return (NULL);
+	if (!*head)
+		*head = node;
+	else
+	{
+		(*current)->next = node;
+		node->prev = *current;
+	}
+	*current = node;
+
+	return node;
+}
+
+t_lexer *lexer(char *input)
+{
+	t_lexer *head;
+	t_lexer *current;
+	char *token;
+	t_token_type token_type;
+	int index;
 
 	index = 0;
 	head = NULL;
 	current = NULL;
 	while (*input)
 	{
-		if (*input == '|')
-		{
-			token = NULL;
-			token_type = PIPE;
-			input++;
-		}
-		else
-		{
-			start = input;
-			while (*input && *input != '|')
-			{
-				if (*input == '\'' || *input == '\"')
-				{
-					quote = *input++;
-					while (*input && *input != quote)
-						input++;
-					if (*input)
-						input++;
-				}
-				else
-					input++;
-			}
-			token = strndup(start, input - start);
-			token_type = NONE;
-		}
-
-		node = new_lexer_node(token, token_type, index++);
-		if (!node)
+		create_token(&input, &token, &token_type);
+		if (!add_node(&head, &current, token, token_type, index++))
 			return (NULL);
-		if (!head)
-			head = node;
-		else
-		{
-			current->next = node;
-			node->prev = current;
-		}
-		current = node;
 	}
 	return (head);
 }
