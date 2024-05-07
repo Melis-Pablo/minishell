@@ -42,3 +42,14 @@ Tokenize input -> Parse -> Execute
   e.  `unset`
   f.  `env`
   g.  `exit`
+
+
+/*
+#():
+
+#Parameters:
+
+#Return value:
+
+#How it works:
+*/

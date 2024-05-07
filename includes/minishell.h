@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 22:26:27 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/06 14:05:57 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/07 15:21:50 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,6 @@ typedef enum s_token_type
 {
 	NONE = 0,
 	PIPE = 1,
-	GREATER = 2,
-	GREATER_GREATER = 3,
-	LESS = 4,
-	LESS_LESS = 5,
 }	t_token_type;
 
 typedef struct s_lexer
