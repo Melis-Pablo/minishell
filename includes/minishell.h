@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 22:26:27 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/07 15:21:50 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/09 14:40:08 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,30 @@ typedef enum s_token_type
 {
 	NONE = 0,
 	PIPE = 1,
+	GREATER = 2,
+	LESS = 3,
+	GREATER_GREATER = 4,
+	LESS_LESS = 5, 
 }	t_token_type;
 
 typedef struct s_lexer
 {
 	char			*str;
 	t_token_type	token;
-	struct s_lexer	*next;
-	struct s_lexer	*prev;
 	int				index;
+	struct s_lexer	*prev;
+	struct s_lexer	*next;
 }					t_lexer;
+
+typedef struct s_cmd
+{
+	char			*cmd;
+	char			**argv;
+	char			*infile;
+	char			*outfile;
+	struct	s_cmd	*left;
+	struct	s_cmd	*right;
+}					t_cmd;
 
 // Function prototypes
 t_lexer	*lexer(char *str);
