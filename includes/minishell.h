@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 22:26:27 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/09 14:40:08 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/09 17:07:39 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@
 								//tcgetattr
 # include <unistd.h>            // write, getcwd, chdir, unlink, execve, dup,
 								//dup2, pipe
-# include "../libft/libft.h"    // libft functions
 
 // Data structures
 typedef enum s_token_type
@@ -61,8 +60,8 @@ typedef struct s_cmd
 	char			**argv;
 	char			*infile;
 	char			*outfile;
-	struct	s_cmd	*left;
-	struct	s_cmd	*right;
+	struct	s_cmd	*prev;
+	struct	s_cmd	*next;
 }					t_cmd;
 
 // Function prototypes
