@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 23:12:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/09 17:09:34 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/12 16:48:50 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,9 @@ void	print_lexer_nodes(t_lexer *head)
 	while (current != NULL)
 	{
 		printf("------------------------------------\n");
+		printf("Node Address: %p\n", (void *)current);
+		printf("Prev Node Address: %p\n", (void *)current->prev);
+		printf("Next Node Address: %p\n", (void *)current->next);
 		printf("Token Number: %d\n", current->index);
 		printf("Token String: %s\n", current->str);
 		printf("Token Type: %d\n", current->token);

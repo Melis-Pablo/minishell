@@ -24,11 +24,11 @@ External Functions allowed (Only these external functions are allowed, all other
 
 Functionality:
   - Display a command prompt and handle command input with history.
-Signal Handling
+
   - Implement signal handling with minimal global variables.
   - Handle ctrl-C, ctrl-D and ctrl-\ which should behave like in bash.
   - In interactive mode: ctrl-C displays a new prompt on a new line. ctrl-D exits the shell. ctrl-\ does nothing.
-Needs Parsing:
+  
   - Search and launch the right executable (based on the PATH variable or using a relative or an absolute path).
   - Not interpret unclosed quotes or special characters which are not required by the subject such as \ (backslash) or ; (semicolon).
   - Handle ’ (single quote) which should prevent the shell from interpreting the meta-characters in the quoted sequence.
@@ -40,4 +40,5 @@ Needs Parsing:
 
 When generating code make sure to add a place for all the functionality needed in the project, for example when generating code for parsing it has to accomodate for all features that have to be parsed before executing. since the program works using user input for almost all features the code for parsing needs to accomodate for all those features.
 
-Here is what i need you to do:
+Here is what i need you to help me with:
+
