@@ -42,6 +42,32 @@ When generating code make sure to add a place for all the functionality needed i
 
 Here is what i need you to help me with:
 
+i need to create a lexer function that takes in a char *input and creates a linked list.
+
+the lexer function should use the struct t_lexer and it will be filled as follows:
+
+typedef struct s_lexer
+{
+	char			*str; = (further explanations will follow)
+	t_token_type	token; = NONE or PIPE
+	int				index; = index of node (starts from 0)
+	struct s_lexer	*prev; = previous node in list pointer (null if first node)
+	struct s_lexer	*next; = next node in list pointer (null if last node)
+}					t_lexer;
+
+the char *str will be set with the following rules:
+it will be filled with all the characters within pipes (pipes inside "" and '' should be treated as normal char)
+not treat unclosed quotes
+if the char is a pipe (|) and its not between quotes it will be set to null
+
+the list should process the input like this:
+
+Cmd1 -flag1 arg1 "arg | 2" | Cmd2 -flag2 "arg | 2 arg | cmd3
+
+node 0: Cmd1 -flag1 arg1 "arg | 2"
+node 1: PIPE
+node 2: Cmd2 -flag2 "arg | 2 arg | cmd3
+
 You have completed the previous task. now i need you to create a parsing function
 that takes in a t_lexer *head and creates a linked list in which each node is one of
 the str nodes from the lexer, the pipes should be skipped. 
@@ -67,36 +93,3 @@ typedef struct s_cmd
 
 	int				append; = 1 if >> is found 0 if not (the file can be atached to the >>file.txt) and as usual ignore if it is inside "" or ''
 }					t_cmd;
-
-the list should process the input like this:
-
-lexer->
-
-Cmd1 -flag1 arg1 "arg | 2" <infile.txt | Cmd2 -flag2 "arg | 2 arg | cmd3" >>outfile.txt
-
-node 0: Cmd1 -flag1 arg1 "arg | 2" <infile.txt
-node 1: PIPE
-node 2: Cmd2 -flag2 "arg | 2 arg | cmd3" >>outfile.txt
-
-parser->
-
-node 0: 
-	char			*cmd; = Cmd1
-	char			**argv; = arg1, "arg | 2"
-	char			*infile; = infile.txt
-	char			*outfile; = "pipe"
-	char			*delimiter; = NULL
-	struct s_cmd	*prev; = NULL
-	struct s_cmd	*next; = pointer to node 1
-	int				append;
-
-node 1:
-	char			*cmd; = Cmd2
-	char			**argv; = -flag2, "arg | 2 arg | cmd3"
-	char			*infile; = PIPE
-	char			*outfile; = outfile.txt
-	char			*delimiter; = NULL
-	struct s_cmd	*prev; = pointer to node 0
-	struct s_cmd	*next; = NULL
-	int				append;
-

@@ -6,11 +6,11 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 16:56:55 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/09 15:11:01 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/12 17:54:11 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 /*
 #new_lexer_node():	Creates a new token node
@@ -47,11 +47,10 @@ t_lexer	*new_lexer_node(char *str, t_token_type token, int index)
 	return (node);
 }
 
-
 void	create_token(char **input, char **token, t_token_type *token_type)
 {
-	char *start;
-	char quote;
+	char	*start;
+	char	quote;
 
 	if (**input == '|')
 	{
@@ -80,41 +79,29 @@ void	create_token(char **input, char **token, t_token_type *token_type)
 	}
 }
 
-t_lexer *add_node(t_lexer **head, t_lexer **current, char *token, t_token_type token_type, int index)
+t_lexer	*lexer(char *input)
 {
-	t_lexer *node;
+	t_lexer	*head = NULL;
+	t_lexer	*current = NULL;
+	char	*token = NULL;
+	t_token_type token_type = NONE;
+	int		index = 0;
 
-	node = new_lexer_node(token, token_type, index);
-	if (!node)
-		return (NULL);
-	if (!*head)
-		*head = node;
-	else
-	{
-		(*current)->next = node;
-		node->prev = *current;
-	}
-	*current = node;
-
-	return node;
-}
-
-t_lexer *lexer(char *input)
-{
-	t_lexer *head;
-	t_lexer *current;
-	char *token;
-	t_token_type token_type;
-	int index;
-
-	index = 0;
-	head = NULL;
-	current = NULL;
 	while (*input)
 	{
 		create_token(&input, &token, &token_type);
-		if (!add_node(&head, &current, token, token_type, index++))
-			return (NULL);
+		if (!head)
+		{
+			head = new_lexer_node(token, token_type, index);
+			current = head;
+		}
+		else
+		{
+			current->next = new_lexer_node(token, token_type, index);
+			current->next->prev = current;
+			current = current->next;
+		}
+		index++;
 	}
 	return (head);
 }

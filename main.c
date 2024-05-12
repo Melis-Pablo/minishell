@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 23:12:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/12 16:48:50 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/12 18:34:36 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,29 @@ void	print_lexer_nodes(t_lexer *head)
 	}
 }
 
+void print_parser_nodes(t_cmd *head)
+{
+    t_cmd *current = head;
+    int index = 0;
+
+    while (current != NULL)
+    {
+        printf("------------------------------------\n");
+        printf("Node Address: %p\n", (void *)current);
+        printf("Token Number: %d\n", index);
+        printf("Tokens: \n");
+        int token_index = 0;
+        while (current->tokens[token_index] != NULL)
+        {
+            printf("Token %d: %s\n", token_index, current->tokens[token_index]);
+            token_index++;
+        }
+        printf("------------------------------------\n");
+        current = current->next;
+        index++;
+    }
+}
+
 /*
 #main():		Minishell program
 
@@ -97,7 +120,10 @@ int	main(void)
 		add_history(input);
 		t_lexer *head = lexer(input);
 		print_lexer_nodes(head);
+		t_cmd *cmds = parser(head);
+		print_parser_nodes(cmds);
 		free(input);
+		clear_lexer(head);
 	}
 	return (0);
 }
