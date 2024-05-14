@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 22:26:27 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/12 18:35:59 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/14 15:03:57 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,11 @@ typedef struct s_cmd
 }					t_cmd;
 
 // Function prototypes
+
+//lexer.c
 t_lexer	*lexer(char *str);
 
+//cleaner.c
 void	clear_lexer(t_lexer *head);
-t_cmd	*parser(t_lexer *head_node);
 
 #endif

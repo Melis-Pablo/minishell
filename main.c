@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 23:12:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/12 18:34:36 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/14 16:03:40 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,9 @@ void	signal_handler(int sig)
 */
 void	print_lexer_nodes(t_lexer *head)
 {
-	t_lexer *current = head;
+	t_lexer	*current;
 
+	current = head;
 	while (current != NULL)
 	{
 		printf("------------------------------------\n");
@@ -63,39 +64,19 @@ void	print_lexer_nodes(t_lexer *head)
 	}
 }
 
-void print_parser_nodes(t_cmd *head)
-{
-    t_cmd *current = head;
-    int index = 0;
-
-    while (current != NULL)
-    {
-        printf("------------------------------------\n");
-        printf("Node Address: %p\n", (void *)current);
-        printf("Token Number: %d\n", index);
-        printf("Tokens: \n");
-        int token_index = 0;
-        while (current->tokens[token_index] != NULL)
-        {
-            printf("Token %d: %s\n", token_index, current->tokens[token_index]);
-            token_index++;
-        }
-        printf("------------------------------------\n");
-        current = current->next;
-        index++;
-    }
-}
-
 /*
 #main():		Minishell program
 
-#Parameters:	
+#Parameters:	int argc
+				char **argv
 
 #Return value:	Exit Status
 
 #How it works:	1. Declares input variable
 				2. SIGINT (CTRL-C) prints new prompt
 				3. SIGQUIT (CTRL-\) nothing
+					If (./minishell) has any arguments
+					throw error
 				4. Infinite loop to run minishell
 				5. Readline into input
 				6. CTR-D check, ends program
@@ -103,15 +84,21 @@ void print_parser_nodes(t_cmd *head)
 				8. test lexer
 				9. prints lexer
 				10. free input
-				11. return 0
+				11. free lexer
+				12. return 0
 
 */
-int	main(void)
+int	main(int argc, char **argv)
 {
 	char	*input;
 
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, signal_handler);
+	if (argc != 1 || argv[1] != NULL)
+	{
+		printf("Minishell program does not take arguments. run ./minishell\n");
+		return (0);
+	}
 	while (1)
 	{
 		input = readline("minishell> ");
@@ -120,8 +107,6 @@ int	main(void)
 		add_history(input);
 		t_lexer *head = lexer(input);
 		print_lexer_nodes(head);
-		t_cmd *cmds = parser(head);
-		print_parser_nodes(cmds);
 		free(input);
 		clear_lexer(head);
 	}
