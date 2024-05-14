@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 16:56:55 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/14 15:57:00 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/14 16:36:19 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,24 +48,39 @@ t_lexer	*new_lexer_node(char *str, t_token_type token, int index)
 }
 
 /*
-#create_token():	creates/determines node
+#create_token():	Creates a token from the input string
 
 #Parameters:		char **input
-					char **token
-					t_token_type *token_type
+                    char **token
+                    t_token_type *token_type
 
 #Return value:		void
 
-#How it works:		1.
-					2.
-					3.
-					4.
-					5.
-					6.
-					7.
-					8.
-					9.
-					10.
+#How it works:		
+1. Declare char *start: This will hold the starting position of the token
+						in the input string.
+2. Declare char quote: This will hold the type of quote character if one is
+						encountered in the input string.
+3. If **input equals '|':
+    a. *token is set to NULL: This indicates that the token is a pipe character.
+    b. *token_type is set to PIPE: This sets the type of the token to PIPE.
+    c. *input is incremented: This moves the input pointer to the next character.
+4. Else (**input is not a pipe):
+    a. start is set to *input: This sets the start of the token to the current
+		position in the input string.
+    b. While **input is not NULL and not a pipe:
+        1. If **input equals '\'' or '\"':
+            a. quote is set to the current character in the input string
+				and the input pointer is incremented.
+            b. The input pointer is incremented until a matching quote is found
+				or the end of the string is reached.
+            c. If a matching quote is found, the input pointer is incremented
+				again to move past the quote.
+        2. If **input is not a quote, the input pointer is incremented.
+    c. *token is set to a new string that contains the characters from start to
+		the current position in the input string.
+    d. *token_type is set to NONE: This indicates that the token is not a
+		special character.
 */
 void	create_token(char **input, char **token, t_token_type *token_type)
 {
