@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 23:12:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/14 16:03:40 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/14 16:17:37 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		signal_status = 0;
 					4. else (SIGQUIT)
 						5. Do nothing
 */
-void	signal_handler(int sig)
+void	sigint_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -92,8 +92,8 @@ int	main(int argc, char **argv)
 {
 	char	*input;
 
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, signal_handler);
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
 	if (argc != 1 || argv[1] != NULL)
 	{
 		printf("Minishell program does not take arguments. run ./minishell\n");
