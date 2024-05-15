@@ -13,3 +13,7 @@ Cmd1 -flag1 arg1 "arg | 2" < infile.txt | Cmd2 -flag2 "arg | 2 arg" | cmd3 > out
 git add . && git commit -m "used gitty" && git push
 
 valgrind --leak-check=full ./your_program
+
+.
+.
+.
