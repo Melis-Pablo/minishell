@@ -41,3 +41,10 @@ Functionality:
 When generating code make sure to add a place for all the functionality needed in the project, for example when generating code for parsing it has to accomodate for all features that have to be parsed before executing. since the program works using user input for almost all features the code for parsing needs to accomodate for all those features.
 
 Here is what i need you to help me with:
+
+im creating a new tokenizer step by step with the following pseudo code
+
+takes the string input
+in a loop, calls for a function that counts the characters until it finds a pipe |
+that is outside "" or ''.
+after getting that number it will strncpy that into a str 

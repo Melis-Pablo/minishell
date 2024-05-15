@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 23:12:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/14 16:17:37 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/15 17:20:09 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,11 @@ int	main(int argc, char **argv)
 		if (!input)
 			break ;
 		add_history(input);
-		t_lexer *head = lexer(input);
-		print_lexer_nodes(head);
+		// t_lexer *head = lexer(input);
+		// print_lexer_nodes(head);
+		print_block_strings(input);
 		free(input);
-		clear_lexer(head);
+		//clear_lexer(head);
 	}
 	return (0);
 }

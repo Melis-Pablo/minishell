@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 22:26:27 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/14 15:03:57 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/15 17:25:55 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,8 @@ t_lexer	*lexer(char *str);
 
 //cleaner.c
 void	clear_lexer(t_lexer *head);
+
+int	count_chars_until_pipe(char *input);
+void	print_block_strings(char **blocks);
 
 #endif
