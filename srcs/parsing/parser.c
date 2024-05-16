@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:12:22 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/16 14:54:43 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/16 17:00:00 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,13 @@ int	count_chars_until_pipe(char *input)
 	return (count);
 }
 
-char **new_lexer(char *input)
+char **string_blocks(char *input)
 {
-	int num_pipes = 0;
-	char **strings = NULL;
+	int num_pipes;
+	char **strings;
+
+	num_pipes = 0;
+	strings = NULL;
 	while (*input)
 	{
 		int count = count_chars_until_pipe(input);

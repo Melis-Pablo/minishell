@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 23:12:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/16 14:57:26 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/16 16:45:11 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	main(int argc, char **argv)
 		add_history(input);
 		// t_lexer *head = lexer(input);
 		// print_lexer_nodes(head);
-		char **strings = new_lexer(input);
+		char **strings = string_blocks(input);
 		print_str_array(strings);
 		free(input);
 		//clear_lexer(head);
