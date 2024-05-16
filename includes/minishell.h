@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 22:26:27 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/15 17:25:55 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/16 14:54:57 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ typedef struct s_lexer
 typedef struct s_cmd
 {
 	char			*cmd;
-	char			**argv;
+	char			**args;
+	char			**flags;
 	char			*infile;
 	char			*outfile;
 	char			*delimiter;
@@ -74,7 +75,7 @@ t_lexer	*lexer(char *str);
 //cleaner.c
 void	clear_lexer(t_lexer *head);
 
-int	count_chars_until_pipe(char *input);
-void	print_block_strings(char **blocks);
+int		count_chars_until_pipe(char *input);
+char	**new_lexer(char *input);
 
 #endif

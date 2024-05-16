@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 23:12:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/15 17:20:09 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/16 14:57:26 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,20 @@ void	print_lexer_nodes(t_lexer *head)
 	}
 }
 
+void print_str_array(char **str_array)
+{
+    if (str_array == NULL)
+    {
+        printf("The array is empty.\n");
+        return;
+    }
+
+    for (int i = 0; str_array[i] != NULL; i++)
+    {
+        printf("String %d: %s\n", i, str_array[i]);
+    }
+}
+
 /*
 #main():		Minishell program
 
@@ -107,7 +121,8 @@ int	main(int argc, char **argv)
 		add_history(input);
 		// t_lexer *head = lexer(input);
 		// print_lexer_nodes(head);
-		print_block_strings(input);
+		char **strings = new_lexer(input);
+		print_str_array(strings);
 		free(input);
 		//clear_lexer(head);
 	}
