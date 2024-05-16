@@ -46,4 +46,6 @@ typedef struct s_cmd
 2.	heredoc / append
 3.	pipes
 4.	execve
-
+.
+.
+.
