@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 23:12:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/22 17:38:30 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/27 16:54:48 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,49 +36,22 @@ void	sigint_handler(int sig)
 	}
 }
 
-void print_nodes(t_cmd *head) {
-	t_cmd *current = head;
-	while (current != NULL) {
-		printf("Command: %s\n", current->cmd);
-		printf("Arguments: ");
-		for (int i = 0; current->args[i] != NULL; i++) {
-			printf("%s ", current->args[i]);
-		}
-		printf("\n");
-		if (current->flags != NULL) {
-			printf("Flags: ");
-			for (int i = 0; current->flags[i] != NULL; i++) {
-				printf("%s ", current->flags[i]);
-			}
-			printf("\n");
-		}
-		current = current->next;
-	}
-}
-
-void print_str_array(char **str_array)
+void	print_str_array(char **str_array)
 {
-    if (str_array == NULL)
-    {
-        printf("The array is empty.\n");
-        return;
-    }
+	int	i;
 
-    for (int i = 0; str_array[i] != NULL; i++)
-    {
-        printf("String %d: %s\n", i, str_array[i]);
-    }
-}
-
-void print_words(char **words) {
-    if (words == NULL) {
-        printf("The array is empty.\n");
-        return;
-    }
-
-    for (int i = 0; words[i] != NULL; i++) {
-        printf("%s\n", words[i]);
-    }
+	i = 0;
+	if (str_array == NULL)
+	{
+		printf("The array is empty.\n");
+		return ;
+	}
+	while (str_array[i])
+	{
+		printf("String %d: %s\n", i, str_array[i]);
+		i++;
+	}
+	return ;
 }
 
 /*
@@ -122,12 +95,10 @@ int	main(int argc, char **argv)
 		if (!input)
 			break ;
 		add_history(input);
+		////////////////////////////////////////////////////////////////////////
 		char **strings = string_blocks(input);
 		print_str_array(strings);
-		// t_cmd *head = lexer(strings);
-		// print_nodes(head);
-		char **words = split_string(input);
-		print_words(words);
+		////////////////////////////////////////////////////////////////////////
 		free(input);
 	}
 	return (0);

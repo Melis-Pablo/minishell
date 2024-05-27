@@ -11,7 +11,6 @@ FLAGS    := -Wall -Wextra -Werror
 
 SRCS        :=              main.c \
                             srcs/parsing/parser.c \
-							srcs/cleanup/cleaner.c \
 							
 OBJS        := $(SRCS:.c=.o)
 
