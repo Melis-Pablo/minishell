@@ -23,7 +23,7 @@ Tokenize input -> Parse -> Execute
 6.  Handle ’
   a.  should prevent the shell from interpreting the meta-characters in the quoted sequence.
 7.  Handle "
-  a.  should prevent the shell from interpreting the meta-characters in the quoted sequence except for $ (dollar sign).
+  a.  should prevent the shell from interpreting the meta-characters in the quoted sequence except for $(dollar sign).
 8.  Manage input/output redirection and piping.
   a.  >
   b.  <
@@ -42,14 +42,3 @@ Tokenize input -> Parse -> Execute
   e.  `unset`
   f.  `env`
   g.  `exit`
-
-
-/*
-#():
-
-#Parameters:
-
-#Return value:
-
-#How it works:
-*/

@@ -8,7 +8,7 @@
 #How it works:		
 */
 
-valgrind --leak-check=full ./your_program
+valgrind --leak-check=full ./minishell
 
 ########################################################################################################### readline()
 Cmd1 -flag1 arg1 "arg | 2" < infile.txt | Cmd2 -flag2 "arg | 2 arg" | cmd3 > outfile.txt
@@ -23,7 +23,7 @@ str[] = 0.	= "Cmd1 -flag1 arg1 "arg | 2" < infile.txt "
 ########################################################################################################### clean & split & tokenize & expand env
 .	Split words
 .	Clean spaces
-.	Clean redirection spaces
+.	Clean redirection without spaces and flags -
 .	Clean all words to only useful words
 .	Clean quotes
 .	Expand variables
@@ -53,3 +53,4 @@ typedef struct s_cmd
 .
 .
 .
+

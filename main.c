@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 23:12:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/16 16:45:11 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/22 17:38:30 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,30 +36,22 @@ void	sigint_handler(int sig)
 	}
 }
 
-/*
-#print_lexer_nodes():	prints nodes and whats inside
-
-#Parameters:			t_lexer *head
-
-#Return value:			void
-
-#How it works:			goes until end of list and prints elements
-*/
-void	print_lexer_nodes(t_lexer *head)
-{
-	t_lexer	*current;
-
-	current = head;
-	while (current != NULL)
-	{
-		printf("------------------------------------\n");
-		printf("Node Address: %p\n", (void *)current);
-		printf("Prev Node Address: %p\n", (void *)current->prev);
-		printf("Next Node Address: %p\n", (void *)current->next);
-		printf("Token Number: %d\n", current->index);
-		printf("Token String: %s\n", current->str);
-		printf("Token Type: %d\n", current->token);
-		printf("------------------------------------\n");
+void print_nodes(t_cmd *head) {
+	t_cmd *current = head;
+	while (current != NULL) {
+		printf("Command: %s\n", current->cmd);
+		printf("Arguments: ");
+		for (int i = 0; current->args[i] != NULL; i++) {
+			printf("%s ", current->args[i]);
+		}
+		printf("\n");
+		if (current->flags != NULL) {
+			printf("Flags: ");
+			for (int i = 0; current->flags[i] != NULL; i++) {
+				printf("%s ", current->flags[i]);
+			}
+			printf("\n");
+		}
 		current = current->next;
 	}
 }
@@ -75,6 +67,17 @@ void print_str_array(char **str_array)
     for (int i = 0; str_array[i] != NULL; i++)
     {
         printf("String %d: %s\n", i, str_array[i]);
+    }
+}
+
+void print_words(char **words) {
+    if (words == NULL) {
+        printf("The array is empty.\n");
+        return;
+    }
+
+    for (int i = 0; words[i] != NULL; i++) {
+        printf("%s\n", words[i]);
     }
 }
 
@@ -119,12 +122,13 @@ int	main(int argc, char **argv)
 		if (!input)
 			break ;
 		add_history(input);
-		// t_lexer *head = lexer(input);
-		// print_lexer_nodes(head);
 		char **strings = string_blocks(input);
 		print_str_array(strings);
+		// t_cmd *head = lexer(strings);
+		// print_nodes(head);
+		char **words = split_string(input);
+		print_words(words);
 		free(input);
-		//clear_lexer(head);
 	}
 	return (0);
 }

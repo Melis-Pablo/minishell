@@ -10,7 +10,6 @@ FLAGS    := -Wall -Wextra -Werror
 ################################################################################
 
 SRCS        :=              main.c \
-                            srcs/parsing/lexer.c \
                             srcs/parsing/parser.c \
 							srcs/cleanup/cleaner.c \
 							

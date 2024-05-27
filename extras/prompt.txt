@@ -42,9 +42,23 @@ When generating code make sure to add a place for all the functionality needed i
 
 Here is what i need you to help me with:
 
-im creating a new tokenizer step by step with the following pseudo code
+  Here are the rules of how to fill the nodes:
 
-takes the string input
-in a loop, calls for a function that counts the characters until it finds a pipe |
-that is outside "" or ''.
-after getting that number it will strncpy that into a str 
+  char			*cmd; = first word
+	
+  char			**args; = every word after cmd that is not a redirection or flag
+	
+  char			**flags;  = every word starting with "-"
+	
+  char			**infile; = every word after "<" or starting with "<"
+	
+  char			**outfile;  = every word after ">" or starting with ">"
+	
+  char			*delimiter; = word after "<<" or starting with "<<"
+	
+  struct s_cmd	*prev;  = pointer to previous node (null if first node)
+	
+  struct s_cmd	*next;  = pointer to next node (null if last node)
+	
+  char			**append; =  every word after ">>" or starting with ">>"
+
