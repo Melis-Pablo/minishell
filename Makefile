@@ -10,7 +10,7 @@ FLAGS    := -Wall -Wextra -Werror
 ################################################################################
 
 SRCS        :=              main.c \
-                            srcs/parsing/parser.c \
+                            parser.c \
 							
 OBJS        := $(SRCS:.c=.o)
 

@@ -6,11 +6,11 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:12:22 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/27 17:26:19 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/28 15:48:18 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 int	count_chars_until_pipe(char *input)
 {
