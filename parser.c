@@ -6,12 +6,29 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:12:22 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/28 15:48:18 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/28 16:03:34 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+#count_chars_until_pipe():	count chars until |
+
+#Parameters:				char *input
+
+#Return value:				int count
+
+#How it works:				
+	1. Initialize count to 0, quote to '\0' and in_quote to 0
+	2. Loop through the input string
+	3. If the current character is a quote, check if it is the same as the previous quote
+	4. If it is, set in_quote to 0
+	5. If it is not, set in_quote to 1 and quote to the current character
+	6. If the current character is a pipe and not in a quote, break the loop
+	7. Increment count and input
+	8. Return count
+*/
 int	count_chars_until_pipe(char *input)
 {
 	int		count;
