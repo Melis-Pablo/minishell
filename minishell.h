@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 22:26:27 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/27 16:26:23 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/28 15:57:01 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,5 @@ typedef struct s_cmd
 
 // Function prototypes
 char	**string_blocks(char *input);
-
-//void	random_test(char **str_blocks);
-t_cmd	*lexer(char **strings);
-char	**split_string(char *input);
 
 #endif
