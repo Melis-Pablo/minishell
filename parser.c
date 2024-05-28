@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:12:22 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/28 16:03:34 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/28 17:31:46 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,27 +58,74 @@ int	count_chars_until_pipe(char *input)
 	return (count);
 }
 
-char	**string_blocks(char *input)
-{
-	int		num_pipes;
-	char	**strings;
-	int		count;
-	char	*str;
+/*
+#add_string():	adds a string to a string array
 
-	num_pipes = 0;
-	strings = NULL;
+#Parameters:	char **strings, char *str, int num_pipes
+
+#Return value:	char **new_strings
+
+#How it works:	
+	1. Initialize i to 0
+	2. Allocate memory for a new string array
+	3. Loop through the strings array
+	4. Copy the strings to the new_strings array
+	5. Free the strings array
+	6. Add the new string to the new_strings array
+	7. Return new_strings
+*/
+char **add_string(char **strings, char *str, int num_pipes)
+{
+	char **new_strings;
+	int i;
+
+	i = 0;
+	new_strings = malloc((num_pipes + 1) * sizeof(char *));
+	while (i < num_pipes)
+	{
+		new_strings[i] = strings[i];
+		i++;
+	}
+	free(strings);
+	new_strings[num_pipes] = str;
+	return (new_strings);
+}
+
+int count_pipes(char *input)
+{
+	int count;
+	char quote;
+	int in_quote;
+
+	count = 0;
+	quote = '\0';
+	in_quote = 0;
 	while (*input)
 	{
-		count = count_chars_until_pipe(input);
-		str = malloc((count + 1) * sizeof(char));
-		strncpy(str, input, count);
-		str[count] = '\0';
-		strings = realloc(strings, (num_pipes + 1) * sizeof(char *));
-		strings[num_pipes] = str;
-		num_pipes++;
-		input += count;
-		if (*input == '|')
-			input++;
+		if (*input == '\'' || *input == '\"')
+		{
+			if (in_quote && *input == quote)
+				in_quote = 0;
+			else if (!in_quote)
+			{
+				quote = *input;
+				in_quote = 1;
+			}
+		}
+		else if (*input == '|' && !in_quote)
+			count++;
+		input++;
 	}
-	return (strings);
+	return (count);
+}
+
+char	**string_blocks(char *input)
+{
+	char	**blocks;
+	int		num_pipes;
+	int		count;
+
+	num_pipes = count_pipes(input);
+	count = 0;
+	blocks = malloc(num_pipes * sizeof(char *));
 }
