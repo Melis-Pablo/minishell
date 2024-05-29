@@ -6,12 +6,13 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:12:22 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/29 12:13:46 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/29 13:37:37 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+///////////////////////////////////////////////////////////////////////////////
 int	count_chars_until_pipe(char *input)
 {
 	int		count;
@@ -38,9 +39,16 @@ int	count_chars_until_pipe(char *input)
 		count++;
 		input++;
 	}
-
 	return (count);
 }
+
+int	is_whitespace(char c)
+{
+	if (c == '\t' || c == ' ')
+		return (1);
+	return (0);
+}
+///////////////////////////////////////////////////////////////////////////////
 
 char **string_blocks(char *input)
 {
@@ -63,27 +71,6 @@ char **string_blocks(char *input)
 			input++;
 	}
 	return strings;
-}
-
-int	is_whitespace(char c)
-{
-	if (c == '\t' || c == ' ')
-		return (1);
-	return (0);
-}
-
-t_cmd *create_new_node() {
-	t_cmd *node = malloc(sizeof(t_cmd));
-	node->cmd = NULL;
-	node->args = NULL;
-	node->flags = NULL;
-	node->infile = NULL;
-	node->outfile = NULL;
-	node->delimiter = NULL;
-	node->prev = NULL;
-	node->next = NULL;
-	node->append = NULL;
-	return node;
 }
 
 char **split_string(char *input) {
@@ -127,38 +114,4 @@ char **split_string(char *input) {
 	words = realloc(words, (num_words + 1) * sizeof(char *));
 	words[num_words] = NULL;
 	return words;
-}
-
-t_cmd *lexer(char **strings) {
-	t_cmd *head = NULL;
-	t_cmd *current = NULL;
-	for (int i = 0; strings[i] != NULL; i++) {
-		t_cmd *node = create_new_node();
-		char **words = split_string(strings[i]);
-		node->cmd = words[0];
-		for (int j = 1; words[j] != NULL; j++) {
-			char *word = words[j];
-			if (word[0] == '-') {
-				// Add word to node->flags
-			} else if (strcmp(word, "<") == 0) {
-				// Add next word to node->infile
-			} else if (strcmp(word, ">") == 0) {
-				// Add next word to node->outfile
-			} else if (strcmp(word, "<<") == 0) {
-				// Set node->delimiter to next word
-			} else if (strcmp(word, ">>") == 0) {
-				// Add next word to node->append
-			} else {
-				// Add word to node->args
-			}
-		}
-		if (head == NULL) {
-			head = node;
-		} else {
-			current->next = node;
-			node->prev = current;
-		}
-		current = node;
-	}
-	return head;
 }

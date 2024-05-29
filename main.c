@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 23:12:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/28 16:06:35 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/29 15:22:43 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,19 @@ void	print_str_array(char **str_array)
 	return ;
 }
 
+void	clean_blocks(char **blocks)
+{
+	int	i;
+
+	i = 0;
+	while (blocks[i])
+	{
+		free(blocks[i]);
+		i++;
+	}
+	free(blocks);
+}
+
 /*
 #main minishell():	creates a simple shell program
 
@@ -99,8 +112,9 @@ int	main(int argc, char **argv)
 			break ;
 		add_history(input);
 		////////////////////////////////////////////////////////////////////////
-		char **strings = string_blocks(input);
+		char **strings = str_blocks(input);
 		print_str_array(strings);
+		clean_blocks(strings);
 		////////////////////////////////////////////////////////////////////////
 		free(input);
 	}

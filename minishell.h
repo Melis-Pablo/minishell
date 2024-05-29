@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 22:26:27 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/28 15:57:01 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/29 12:57:17 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,6 @@ typedef struct s_cmd
 }					t_cmd;
 
 // Function prototypes
-char	**string_blocks(char *input);
+char	**str_blocks(char *input);
 
 #endif

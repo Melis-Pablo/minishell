@@ -11,7 +11,7 @@
 valgrind --leak-check=full ./minishell
 
 ########################################################################################################### readline()
-Cmd1 -flag1 arg1 "arg | 2" < infile.txt | Cmd2 -flag2 "arg | 2 arg" | cmd3 > outfile.txt
+Cmd1 -flag1 arg1 "arg | 2" < infile.txt | Cmd2 -flag2 "arg""'|'""2 arg" | cmd3 > outfile.txt
 ###########################################################################################################
 .
 .
@@ -53,4 +53,3 @@ typedef struct s_cmd
 .
 .
 .
-

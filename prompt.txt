@@ -1,0 +1,13 @@
+@workspace 
+i need to create the str_blocks function with some restrictions, i already have some code in my workspace. it should dinamically allocate memory since i dont know the size of the input:
+
+char	**str_blocks(char *input);
+
+restrictions:
+0. | inside " " or ' ' should be treated as normal characters (consider nested quotes)
+1. functions less than 25 lines (can write multiple functions)
+2. no realloc function
+3. no tenary operator
+4. while loops only
+5. maximum 5 variables per function
+6. function declaration and initialization must be in different lines
