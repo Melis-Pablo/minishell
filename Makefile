@@ -1,22 +1,27 @@
+#  |  |  ___ \    \  |         |
+#  |  |     ) |  |\/ |   _  |  |  /   _ 
+# ___ __|  __/   |   |  (   |    <    __/ 
+#    _|  _____| _|  _| \__,_| _|\_\ \___|
+#                              by jcluzet
 ################################################################################
 #                                     CONFIG                                   #
 ################################################################################
 
 NAME        := minishell
 CC        := gcc
-FLAGS    := -Wall -Wextra -Werror 
+FLAGS    := -Wall -Wextra -Werror
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
 
-SRCS        :=              main.c \
-                            parser.c \
-							cmd_builder.c \
-							split.c \
-							cleaners.c \
-							tools.c \
-							zprint.c \
-							
+SRCS        :=      main.c \
+						srcs/tools/tools.c \
+						srcs/tools/zprint.c \
+						srcs/cleanup/cleaners.c \
+						srcs/parsing/split.c \
+						srcs/parsing/cmd_builder.c \
+						srcs/parsing/parser.c \
+
 OBJS        := $(SRCS:.c=.o)
 
 .c.o:
@@ -42,8 +47,6 @@ ${NAME}:	${OBJS}
 
 all:		${NAME}
 
-bonus:		all
-
 clean:
 			@ ${RM} *.o */*.o */*/*.o
 			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)objs ✔️"
@@ -54,6 +57,6 @@ fclean:		clean
 
 re:			fclean all
 
-cleanly:   all clean
+cleanly:	all clean
 
 .PHONY:		all clean fclean re cleanly

@@ -6,11 +6,11 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 23:12:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/30 23:14:24 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/30 23:59:14 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "includes/minishell.h"
 
 int		signal_status = 0;
 

@@ -6,11 +6,11 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 23:22:11 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/30 23:24:59 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/30 23:58:56 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 /*
 #my_strndup():	duplicates a string up to n characters

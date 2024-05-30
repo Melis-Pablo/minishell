@@ -6,11 +6,11 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:53:26 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/30 23:01:22 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/30 23:57:53 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 /*
 #clean_blocks():	free the blocks array

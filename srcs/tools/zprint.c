@@ -6,11 +6,11 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 23:29:09 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/30 23:30:00 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/30 23:58:59 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 /*
 #print_all():	prints all strings and words in a 2D array of strings

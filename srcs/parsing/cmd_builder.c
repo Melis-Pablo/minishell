@@ -6,11 +6,11 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 22:42:38 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/30 23:12:31 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/30 23:58:39 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 char	**get_flags(char **words)
 {

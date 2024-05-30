@@ -6,11 +6,11 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:21:32 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/30 23:29:20 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/30 23:58:47 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 /*
 #is_space():	checks if a character is a space character
