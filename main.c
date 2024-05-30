@@ -6,26 +6,24 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 23:12:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/22 17:38:30 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/30 23:14:24 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+#include "minishell.h"
 
 int		signal_status = 0;
 
 /*
-#signal_handler():	Signal handler for SIGINT and SIGQUIT
+#sigint_handler():	handles the SIGINT signal (ctrl-c)
 
 #Parameters:		int sig
 
 #Return value:		void
 
-#How it works:		1. if SIGINT
-						2. set signal to 1
-						3. write new prompt
-					4. else (SIGQUIT)
-						5. Do nothing
+#How it works:		
+	1. If the signal is SIGINT, set signal_status to 1
+	2. Write "minishell> " to stdout
 */
 void	sigint_handler(int sig)
 {
@@ -36,74 +34,22 @@ void	sigint_handler(int sig)
 	}
 }
 
-void print_nodes(t_cmd *head) {
-	t_cmd *current = head;
-	while (current != NULL) {
-		printf("Command: %s\n", current->cmd);
-		printf("Arguments: ");
-		for (int i = 0; current->args[i] != NULL; i++) {
-			printf("%s ", current->args[i]);
-		}
-		printf("\n");
-		if (current->flags != NULL) {
-			printf("Flags: ");
-			for (int i = 0; current->flags[i] != NULL; i++) {
-				printf("%s ", current->flags[i]);
-			}
-			printf("\n");
-		}
-		current = current->next;
-	}
-}
-
-void print_str_array(char **str_array)
-{
-    if (str_array == NULL)
-    {
-        printf("The array is empty.\n");
-        return;
-    }
-
-    for (int i = 0; str_array[i] != NULL; i++)
-    {
-        printf("String %d: %s\n", i, str_array[i]);
-    }
-}
-
-void print_words(char **words) {
-    if (words == NULL) {
-        printf("The array is empty.\n");
-        return;
-    }
-
-    for (int i = 0; words[i] != NULL; i++) {
-        printf("%s\n", words[i]);
-    }
-}
-
 /*
-#main():		Minishell program
+#main minishell():	creates a simple shell program
 
-#Parameters:	int argc
-				char **argv
+#Parameters:		int argc, char **argv	
 
-#Return value:	Exit Status
+#Return value:		int
 
-#How it works:	1. Declares input variable
-				2. SIGINT (CTRL-C) prints new prompt
-				3. SIGQUIT (CTRL-\) nothing
-					If (./minishell) has any arguments
-					throw error
-				4. Infinite loop to run minishell
-				5. Readline into input
-				6. CTR-D check, ends program
-				7. Adds history
-				8. test lexer
-				9. prints lexer
-				10. free input
-				11. free lexer
-				12. return 0
-
+#How it works:	
+	1. Set signal handlers for SIGINT and SIGQUIT
+	2. If argc is not 1 or argv[1] is not NULL, print an error message
+	3. While 1, read input from the user
+	4. If input is NULL, break
+	5. Add input to history
+	6. Print the input
+	7. Free the input
+	8. Return 0
 */
 int	main(int argc, char **argv)
 {
@@ -122,12 +68,12 @@ int	main(int argc, char **argv)
 		if (!input)
 			break ;
 		add_history(input);
-		char **strings = string_blocks(input);
-		print_str_array(strings);
-		// t_cmd *head = lexer(strings);
-		// print_nodes(head);
-		char **words = split_string(input);
-		print_words(words);
+		////////////////////////////////////////////////////////////////////////
+		char **strings = str_blocks(input);
+		t_cmd *head = cmd_builder(strings);
+		print_all_nodes(head);
+		clean_blocks(strings);
+		////////////////////////////////////////////////////////////////////////
 		free(input);
 	}
 	return (0);

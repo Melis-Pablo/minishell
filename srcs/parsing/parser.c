@@ -6,159 +6,186 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:12:22 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/22 17:33:00 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/30 23:33:58 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
-int	count_chars_until_pipe(char *input)
+/*
+#count_until_pipe():	counts the number of characters until a pipe character
+
+#Parameters:			char *input	- the string to count characters in
+
+#Return value:			int - the number of characters until a pipe character
+
+#How it works:		
+	1. Initialize count to 0
+	2. Initialize in_quote to 0
+	3. Initialize quote to 0
+	4. Initialize i to 0
+	5. While input[i] is not NULL
+		1. If input[i] is a quote character
+			1. If in_quote is true and input[i] is the same as quote, set in_quote to false
+			2. If not in_quote, set quote to input[i] and in_quote to true
+		2. If input[i] is a pipe character and not in_quote, break
+		3. Increment count
+		4. Increment i
+	6. Return count
+*/
+int	count_until_pipe(char *input)
 {
 	int		count;
-	char	quote;
 	int		in_quote;
+	char	quote;
+	int		i;
 
 	count = 0;
-	quote = '\0';
 	in_quote = 0;
-	while (*input)
+	quote = '\0';
+	i = 0;
+	while (input[i])
 	{
-		if (*input == '\'' || *input == '\"')
+		if (input[i] == '\'' || input[i] == '\"')
 		{
-			if (in_quote && *input == quote)
+			if (in_quote && input[i] == quote)
 				in_quote = 0;
 			else if (!in_quote)
 			{
-				quote = *input;
+				quote = input[i];
 				in_quote = 1;
 			}
 		}
-		else if (*input == '|' && !in_quote)
+		else if (input[i] == '|' && !in_quote)
 			break ;
 		count++;
-		input++;
+		i++;
 	}
-
 	return (count);
 }
 
-char **string_blocks(char *input)
-{
-	int num_pipes;
-	char **strings;
+/*
+#count_pipes():	counts the number of pipe characters in a string
 
-	num_pipes = 0;
-	strings = NULL;
-	while (*input)
+#Parameters:	char *input	- the string to count pipe characters in
+
+#Return value:	int - the number of pipe characters in the string
+
+#How it works:	
+	1. Initialize count to 0
+	2. Initialize in_quote to 0
+	3. Initialize quote to 0
+	4. Initialize i to 0
+	5. While input[i] is not NULL
+		1. If input[i] is a quote character
+			1. If in_quote is true and input[i] is the same as quote, set in_quote to false
+			2. If not in_quote, set quote to input[i] and in_quote to true
+		2. If input[i] is a pipe character and not in_quote, increment count
+		3. Increment i
+	6. Return count
+*/
+int	count_pipes(char *input)
+{
+	int		count;
+	int		in_quote;
+	char	quote;
+	int		i;
+
+	count = 0;
+	in_quote = 0;
+	quote = '\0';
+	i = 0;
+	while (input[i])
 	{
-		int count = count_chars_until_pipe(input);
-		char *str = malloc((count + 1) * sizeof(char));
-		strncpy(str, input, count);
-		str[count] = '\0';
-		strings = realloc(strings, (num_pipes + 1) * sizeof(char *));
-		strings[num_pipes] = str;
-		num_pipes++;
-		input += count;
-		if (*input == '|')
-			input++;
-	}
-	return strings;
-}
-
-int	is_whitespace(char c)
-{
-	if (c == '\t' || c == ' ')
-		return (1);
-	return (0);
-}
-
-t_cmd *create_new_node() {
-	t_cmd *node = malloc(sizeof(t_cmd));
-	node->cmd = NULL;
-	node->args = NULL;
-	node->flags = NULL;
-	node->infile = NULL;
-	node->outfile = NULL;
-	node->delimiter = NULL;
-	node->prev = NULL;
-	node->next = NULL;
-	node->append = NULL;
-	return node;
-}
-
-char **split_string(char *input) {
-	int num_words = 0;
-	char **words = NULL;
-	int in_quote = 0;
-	char quote = '\0';
-	char *start = input;
-	while (*input) {
-		if (*input == '\'' || *input == '\"') {
-			if (in_quote && *input == quote) {
+		if (input[i] == '\'' || input[i] == '\"')
+		{
+			if (in_quote && input[i] == quote)
 				in_quote = 0;
-				quote = '\0';
-			} else if (!in_quote) {
+			else if (!in_quote)
+			{
+				quote = input[i];
 				in_quote = 1;
-				quote = *input;
 			}
-		} else if (!in_quote && is_whitespace(*input)) {
-			if (input > start) {
-				int length = input - start;
-				char *word = malloc((length + 1) * sizeof(char));
-				strncpy(word, start, length);
-				word[length] = '\0';
-				words = realloc(words, (num_words + 1) * sizeof(char *));
-				words[num_words] = word;
-				num_words++;
-			}
-			start = input + 1;
 		}
-		input++;
+		else if (input[i] == '|' && !in_quote)
+			count++;
+		i++;
 	}
-	if (input > start) {
-		int length = input - start;
-		char *word = malloc((length + 1) * sizeof(char));
-		strncpy(word, start, length);
-		word[length] = '\0';
-		words = realloc(words, (num_words + 1) * sizeof(char *));
-		words[num_words] = word;
-		num_words++;
-	}
-	words = realloc(words, (num_words + 1) * sizeof(char *));
-	words[num_words] = NULL;
-	return words;
+	return (count);
 }
 
-t_cmd *lexer(char **strings) {
-	t_cmd *head = NULL;
-	t_cmd *current = NULL;
-	for (int i = 0; strings[i] != NULL; i++) {
-		t_cmd *node = create_new_node();
-		char **words = split_string(strings[i]);
-		node->cmd = words[0];
-		for (int j = 1; words[j] != NULL; j++) {
-			char *word = words[j];
-			if (word[0] == '-') {
-				// Add word to node->flags
-			} else if (strcmp(word, "<") == 0) {
-				// Add next word to node->infile
-			} else if (strcmp(word, ">") == 0) {
-				// Add next word to node->outfile
-			} else if (strcmp(word, "<<") == 0) {
-				// Set node->delimiter to next word
-			} else if (strcmp(word, ">>") == 0) {
-				// Add next word to node->append
-			} else {
-				// Add word to node->args
-			}
-		}
-		if (head == NULL) {
-			head = node;
-		} else {
-			current->next = node;
-			node->prev = current;
-		}
-		current = node;
+/*
+#copy_until_pipe():	copies characters from a string until a pipe character
+
+#Parameters:		char *start	- the string to copy characters from
+
+#Return value:		char* - the copied string
+
+#How it works:	
+	1. Initialize count to the number of characters until a pipe character
+	2. Allocate memory for a new string of size count + 1
+	3. Initialize i to 0
+	4. While i is less than count
+		1. Copy start[i] to str[i]
+		2. Increment i
+	5. Set str[i] to NULL
+	6. Return str
+*/
+char	*copy_until_pipe(char *start)
+{
+	int		count;
+	char	*str;
+	int		i;
+
+	i = 0;
+	count = count_until_pipe(start);
+	str = malloc((count + 1) * sizeof(char));
+	if (!str)
+		return (NULL);
+	while (i < count)
+	{
+		str[i] = start[i];
+		i++;
 	}
-	return head;
+	str[i] = '\0';
+	return (str);
+
+}
+
+/*
+#str_blocks():	splits a string into blocks separated by pipe characters
+
+#Parameters:	char *input	- the string to split
+
+#Return value:	char** - an array of strings
+
+#How it works:	
+	1. Initialize pipe_count to the number of pipe characters in input
+	2. Initialize i to 0
+	3. Allocate memory for blocks
+	4. While i is less than or equal to pipe_count
+		1. Copy characters from input until a pipe character
+		2. Increment i
+	5. Set the last element of blocks to NULL
+	6. Return blocks
+*/
+char	**str_blocks(char *input)
+{
+	int		pipe_count;
+	int		i;
+	char	**blocks;
+
+	i = 0;
+	pipe_count = count_pipes(input);
+	blocks = malloc((pipe_count + 1) * sizeof(char *));
+	if (!blocks)
+		return (NULL);
+	while (i <= pipe_count)
+	{
+		blocks[i] = copy_until_pipe(input);
+		input += strlen(blocks[i]) + 1;
+		i++;
+	}
+	blocks[i] = NULL;
+	return (blocks);
 }
