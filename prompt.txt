@@ -1,38 +1,10 @@
 @workspace
-Introduction:
-Minishell is a project aimed at creating a simple shell, similar to Bash, providing insights into processes and file descriptors.
 
 Restrictions [IMPORTANT]:
-0. words are separated by whitespaces. anything inside "" or '' should be taken as a single word (consider nested quotes)
 1. functions less than 25 lines (can write multiple functions)
-2. no realloc function
+2. no realloc, strdup, or strok function (re create if needed)
 3. no tenary operator
 4. while loops only
 5. maximum 5 variables per function
 6. function declaration and initialization must be in different lines
 7. it should dinamically allocate memory since i dont know the size of the input
-
-Here is what i need you to help me with:
-
-I need to build a linked list called a command table where i store all the values to execute later
-
-  Here are the rules of how to fill the nodes:
-
-  char			*cmd; = first word
-	
-  char			**args; = every word after cmd that is not a redirection or flag
-	
-  char			**flags;  = every word starting with "-"
-	
-  char			**infile; = every word after "<" or starting with "<"
-	
-  char			**outfile;  = every word after ">" or starting with ">"
-	
-  char			*delimiter; = word after "<<" or starting with "<<"
-
-  char			**append; =  every word after ">>" or starting with ">>"
-
-  struct s_cmd	*prev;  = pointer to previous node (null if first node)
-	
-  struct s_cmd	*next;  = pointer to next node (null if last node)
-
