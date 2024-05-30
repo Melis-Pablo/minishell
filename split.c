@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:21:32 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/30 16:29:36 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/30 16:31:41 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int count_words(char *str_block)
             count++;
         str_block++;
     }
-    printf("Word Count: %d\n", count);
+    printf("Word Count: %d\n", count + 1);
     return count + 1;
 }
 
