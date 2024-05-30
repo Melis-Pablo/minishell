@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 23:12:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/29 15:22:43 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/30 15:54:14 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,48 +32,6 @@ void	sigint_handler(int sig)
 		signal_status = 1;
 		write(1, "\nminishell> ", 12);
 	}
-}
-
-/*
-#print_str_array():	prints a string array
-
-#Parameters:		char **str_array
-
-#Return value:		void
-
-#How it works:		
-	1. If the array is NULL, print "The array is empty."
-	2. Loop through the array and print each string with its index
-*/
-void	print_str_array(char **str_array)
-{
-	int	i;
-
-	i = 0;
-	if (str_array == NULL)
-	{
-		printf("The array is empty.\n");
-		return ;
-	}
-	while (str_array[i])
-	{
-		printf("String %d: %s\n", i, str_array[i]);
-		i++;
-	}
-	return ;
-}
-
-void	clean_blocks(char **blocks)
-{
-	int	i;
-
-	i = 0;
-	while (blocks[i])
-	{
-		free(blocks[i]);
-		i++;
-	}
-	free(blocks);
 }
 
 /*
@@ -113,7 +71,7 @@ int	main(int argc, char **argv)
 		add_history(input);
 		////////////////////////////////////////////////////////////////////////
 		char **strings = str_blocks(input);
-		print_str_array(strings);
+		print_all(strings);
 		clean_blocks(strings);
 		////////////////////////////////////////////////////////////////////////
 		free(input);

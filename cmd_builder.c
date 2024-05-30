@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 22:42:38 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/29 23:28:06 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/30 15:32:56 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,64 +14,181 @@
 
 char	**get_flags(char **words)
 {
-	// Iterate through words
-	// If word starts with '-' and is not a command, it is a flag
-	// Add it to the flags array
-	// Return the flags array
+	int count = 0;
+	int i = 0;
+	while (words[i] != NULL)
+	{
+		if (words[i][0] == '-' && words[i][1] != '\0')
+			count++;
+		i++;
+	}
+
+	char **flags = (char **)malloc((count + 1) * sizeof(char *));
+	if (flags == NULL)
+		return NULL;
+
+	int j = 0;
+	i = 0;
+	while (words[i] != NULL)
+	{
+		if (words[i][0] == '-' && words[i][1] != '\0')
+		{
+			flags[j] = words[i];
+			j++;
+		}
+		i++;
+	}
+	flags[j] = NULL;
+
+	return flags;
 }
 
 char	**get_infile(char **words)
 {
-	// Iterate through words
-	// If word is '<', the next word is the infile. or if word starts with only one '<', the rest of the word is the infile
-	// add it to the infile array
-	// Return the infile array
+	int count = 0;
+	int i = 0;
+	while (words[i] != NULL)
+	{
+		if (strcmp(words[i], "<") == 0 || (words[i][0] == '<' && words[i][1] != '\0'))
+			count++;
+		i++;
+	}
+
+	char **infile = (char **)malloc((count + 1) * sizeof(char *));
+	if (infile == NULL)
+		return NULL;
+
+	int j = 0;
+	i = 0;
+	while (words[i] != NULL)
+	{
+		if (strcmp(words[i], "<") == 0 || (words[i][0] == '<' && words[i][1] != '\0'))
+		{
+			infile[j] = words[i + 1];
+			j++;
+		}
+		i++;
+	}
+	infile[j] = NULL;
+
+	return infile;
 }
 
 char	**get_outfile(char **words)
 {
-	// Iterate through words
-	// If word is '>', the next word is the outfile. or if word starts with only one '>', the rest of the word is the outfile
-	// add it to the outfile array
-	// Return the outfile array
+	int count = 0;
+	int i = 0;
+	while (words[i] != NULL)
+	{
+		if (strcmp(words[i], ">") == 0 || (words[i][0] == '>' && words[i][1] != '\0'))
+			count++;
+		i++;
+	}
+
+	char **outfile = (char **)malloc((count + 1) * sizeof(char *));
+	if (outfile == NULL)
+		return NULL;
+
+	int j = 0;
+	i = 0;
+	while (words[i] != NULL)
+	{
+		if (strcmp(words[i], ">") == 0 || (words[i][0] == '>' && words[i][1] != '\0'))
+		{
+			outfile[j] = words[i + 1];
+			j++;
+		}
+		i++;
+	}
+	outfile[j] = NULL;
+
+	return outfile;
 }
 
 char	*get_delimiter(char **words)
 {
-	// Iterate through words
-	// If word is '<<', the next word is the delimiter. or if word starts with only one '<<', the rest of the word is the delimiter
-	// return the delimiter
+	int i = 0;
+	while (words[i] != NULL)
+	{
+		if (strcmp(words[i], "<<") == 0 || (words[i][0] == '<' && words[i][1] == '<' && words[i][2] != '\0'))
+			return words[i + 1];
+		i++;
+	}
+
+	return NULL;
 }
 
 char	**get_append(char **words)
 {
-	// Iterate through words
-	// If word is '>>', the next word is the append. or if word starts with only one '>>', the rest of the word is the append
-	// add it to the append array
-	// Return the append array
+	int count = 0;
+	int i = 0;
+	while (words[i] != NULL)
+	{
+		if (strcmp(words[i], ">>") == 0 || (words[i][0] == '>' && words[i][1] == '>' && words[i][2] != '\0'))
+			count++;
+		i++;
+	}
+
+	char **append = (char **)malloc((count + 1) * sizeof(char *));
+	if (append == NULL)
+		return NULL;
+
+	int j = 0;
+	i = 0;
+	while (words[i] != NULL)
+	{
+		if (strcmp(words[i], ">>") == 0 || (words[i][0] == '>' && words[i][1] == '>' && words[i][2] != '\0'))
+		{
+			append[j] = words[i + 1];
+			j++;
+		}
+		i++;
+	}
+	append[j] = NULL;
+
+	return append;
 }
 
 char	**get_arguments(char **words)
 {
-	// Iterate through words
-	// If word is not a flag, infile, outfile, delimiter or append, it is an argument
-	// Add it to the arguments array
-	// Return the arguments array
+	int count = 0;
+	int i = 0;
+	while (words[i] != NULL)
+	{
+		if (words[i][0] != '-' && strcmp(words[i], "<") != 0 && strcmp(words[i], ">") != 0 && strcmp(words[i], "<<") != 0 && strcmp(words[i], ">>") != 0)
+			count++;
+		i++;
+	}
+
+	char **arguments = (char **)malloc((count + 1) * sizeof(char *));
+	if (arguments == NULL)
+		return NULL;
+
+	int j = 0;
+	i = 0;
+	while (words[i] != NULL)
+	{
+		if (words[i][0] != '-' && strcmp(words[i], "<") != 0 && strcmp(words[i], ">") != 0 && strcmp(words[i], "<<") != 0 && strcmp(words[i], ">>") != 0)
+		{
+			arguments[j] = words[i];
+			j++;
+		}
+		i++;
+	}
+	arguments[j] = NULL;
+
+	return arguments;
 }
 
 struct s_cmd *add_tolst(struct s_cmd *head, struct s_cmd *node)
 {
 	if (head == NULL)
-	{
 		head = node;
-	}
 	else
 	{
 		struct s_cmd *current = head;
 		while (current->next != NULL)
-		{
 			current = current->next;
-		}
 		current->next = node;
 		node->prev = current;
 	}
