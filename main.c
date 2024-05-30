@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 23:12:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/30 15:54:14 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/30 23:14:24 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,15 @@ void	sigint_handler(int sig)
 
 #Return value:		int
 
-#How it works:		
+#How it works:	
 	1. Set signal handlers for SIGINT and SIGQUIT
-	2. If there are arguments, print an error message and return 0
-	3. Loop until the user presses ctrl-d
-	4. Read input from the user
-	5. If there is no input, break the loop
-	6. Add the input to the history
-	7. Print the input
-	8. Free the input
-	9. Return 0
+	2. If argc is not 1 or argv[1] is not NULL, print an error message
+	3. While 1, read input from the user
+	4. If input is NULL, break
+	5. Add input to history
+	6. Print the input
+	7. Free the input
+	8. Return 0
 */
 int	main(int argc, char **argv)
 {
@@ -71,7 +70,8 @@ int	main(int argc, char **argv)
 		add_history(input);
 		////////////////////////////////////////////////////////////////////////
 		char **strings = str_blocks(input);
-		print_all(strings);
+		t_cmd *head = cmd_builder(strings);
+		print_all_nodes(head);
 		clean_blocks(strings);
 		////////////////////////////////////////////////////////////////////////
 		free(input);

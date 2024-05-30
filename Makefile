@@ -14,6 +14,8 @@ SRCS        :=              main.c \
 							cmd_builder.c \
 							split.c \
 							cleaners.c \
+							tools.c \
+							zprint.c \
 							
 OBJS        := $(SRCS:.c=.o)
 

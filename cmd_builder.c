@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 22:42:38 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/30 15:32:56 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/05/30 23:12:31 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,4 +221,66 @@ struct s_cmd *cmd_builder(char **str_blocks)
 		head = add_tolst(head, node);
 	}
 	return head;
+}
+
+void print_cmd(struct s_cmd *cmd)
+{
+	printf("cmd: %s\n", cmd->cmd);
+	printf("args: ");
+	if (cmd->args != NULL)
+	{
+		for (int i = 0; cmd->args[i] != NULL; i++)
+		{
+			printf("%s ", cmd->args[i]);
+		}
+	}
+	printf("\n");
+	printf("flags: ");
+	if (cmd->flags != NULL)
+	{
+		for (int i = 0; cmd->flags[i] != NULL; i++)
+		{
+			printf("%s ", cmd->flags[i]);
+		}
+	}
+	printf("\n");
+	printf("infile: ");
+	if (cmd->infile != NULL)
+	{
+		for (int i = 0; cmd->infile[i] != NULL; i++)
+		{
+			printf("%s ", cmd->infile[i]);
+		}
+	}
+	printf("\n");
+	printf("outfile: ");
+	if (cmd->outfile != NULL)
+	{
+		for (int i = 0; cmd->outfile[i] != NULL; i++)
+		{
+			printf("%s ", cmd->outfile[i]);
+		}
+	}
+	printf("\n");
+	printf("delimiter: %s\n", cmd->delimiter);
+	printf("append: ");
+	if (cmd->append != NULL)
+	{
+		for (int i = 0; cmd->append[i] != NULL; i++)
+		{
+			printf("%s ", cmd->append[i]);
+		}
+	}
+	printf("\n");
+	printf("---------------------\n");
+}
+
+void print_all_nodes(struct s_cmd *head)
+{
+	struct s_cmd *current = head;
+	while (current != NULL)
+	{
+		print_cmd(current);
+		current = current->next;
+	}
 }
