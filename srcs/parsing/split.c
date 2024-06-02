@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:21:32 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/30 23:58:47 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/02 16:34:07 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@
 	1. If c is a space character, return 1
 	2. Otherwise, return 0
 */
-int is_space(char c)
+int	is_space(char c)
 {
 	if (c == ' ' || c == '\t' || c == '\n'
-			|| c == '\r' || c == '\f' || c == '\v')
+		|| c == '\r' || c == '\f' || c == '\v')
 		return (1);
 	return (0);
 }
@@ -50,22 +50,26 @@ int is_space(char c)
 		3. Increment str_block
 	5. Return count + 1
 */
-static int count_words(char *str_block)
+static int	count_words(char *str_block)
 {
-    int count = 0;
-    int in_quotes = 0;
+	int	count;
+	int	in_quotes;
 
-    while (*str_block && is_space(*str_block))
-        str_block++;
-    while (*str_block)
+	count = 0;
+	in_quotes = 0;
+	while (*str_block && is_space(*str_block))
+		str_block++;
+	while (*str_block)
 	{
-        if (*str_block == '"' || *str_block == '\'')
-            in_quotes = !in_quotes;
-        if (!in_quotes && *str_block == ' ' && *(str_block + 1) != ' ' && *(str_block + 1) != '\0')
-            count++;
-        str_block++;
-    }
-    return (count + 1);
+		if (*str_block == '"' || *str_block == '\'')
+			in_quotes = !in_quotes;
+		if (!in_quotes && *str_block == ' '
+			&& *(str_block + 1) != ' '
+			&& *(str_block + 1) != '\0')
+			count++;
+		str_block++;
+	}
+	return (count + 1);
 }
 
 /*
@@ -84,10 +88,10 @@ static int count_words(char *str_block)
 		2. Increment *str_block
 	4. Return a duplicate of the word from word_start to *str_block
 */
-static char *get_word(char **str_block)
+static char	*get_word(char **str_block)
 {
-	char *word_start;
-	int in_quotes;
+	char	*word_start;
+	int		in_quotes;
 
 	word_start = *str_block;
 	in_quotes = 0;
@@ -121,11 +125,11 @@ static char *get_word(char **str_block)
 	6. Set the last element of words to NULL
 	7. Return words	
 */
-char **split_into_words(char *str_block)
+char	**split_into_words(char *str_block)
 {
-	int word_count;
-	char **words;
-	int i;
+	int		word_count;
+	char	**words;
+	int		i;
 
 	i = 0;
 	while (*str_block && is_space(*str_block))
@@ -142,5 +146,5 @@ char **split_into_words(char *str_block)
 		i++;
 	}
 	words[word_count] = NULL;
-	return words;
+	return (words);
 }

@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 23:12:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/30 23:59:14 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/02 16:26:23 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,9 @@ int	main(int argc, char **argv)
 		add_history(input);
 		////////////////////////////////////////////////////////////////////////
 		char **strings = str_blocks(input);
-		t_cmd *head = cmd_builder(strings);
-		print_all_nodes(head);
+		print_all(strings);
+		// t_cmd *head = cmd_builder(strings);
+		// print_all_nodes(head);
 		clean_blocks(strings);
 		////////////////////////////////////////////////////////////////////////
 		free(input);

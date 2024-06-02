@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:12:22 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/30 23:58:43 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/02 16:34:32 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@
 	4. Initialize i to 0
 	5. While input[i] is not NULL
 		1. If input[i] is a quote character
-			1. If in_quote is true and input[i] is the same as quote, set in_quote to false
+			1. If in_quote is true and input[i] is the same as quote,
+				set in_quote to false
 			2. If not in_quote, set quote to input[i] and in_quote to true
 		2. If input[i] is a pipe character and not in_quote, break
 		3. Increment count
@@ -78,7 +79,8 @@ int	count_until_pipe(char *input)
 	4. Initialize i to 0
 	5. While input[i] is not NULL
 		1. If input[i] is a quote character
-			1. If in_quote is true and input[i] is the same as quote, set in_quote to false
+			1. If in_quote is true and input[i] is the same as quote,
+				set in_quote to false
 			2. If not in_quote, set quote to input[i] and in_quote to true
 		2. If input[i] is a pipe character and not in_quote, increment count
 		3. Increment i

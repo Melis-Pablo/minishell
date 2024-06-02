@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 23:29:09 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/30 23:58:59 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/02 16:30:25 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,21 @@
 			2. Increment j
 		5. Increment i
 */
-void print_all(char **strings)
+void	print_all(char **strings)
 {
 	int		i;
 	int		j;
 	char	**words;
 
 	i = 0;
-	while (strings[i] != NULL) {
+	while (strings[i] != NULL)
+	{
 		printf("String: >%s<\n", strings[i]);
 		words = split_into_words(strings[i]);
 		j = 0;
 		while (words[j] != NULL)
 		{
-			printf("Word %d: >%s<\n", j+1, words[j]);
+			printf("Word %d: >%s<\n", j + 1, words[j]);
 			j++;
 		}
 		i++;

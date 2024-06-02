@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 23:22:11 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/30 23:58:56 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/02 16:31:10 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,19 @@
 	7. Set new_str[i] to NULL
 	8. Return new_str
 */
-char	*my_strndup(const char* s, size_t n)
+char	*my_strndup(const char *s, size_t n)
 {
 	size_t	len;
 	size_t	i;
+	char	*new_str;
 
 	len = 0;
 	i = 0;
 	while (s[len] != '\0' && len < n)
 		len++;
-	char* new_str = malloc(len + 1);
+	new_str = malloc(len + 1);
 	if (new_str == NULL)
-		return NULL;
+		return (NULL);
 	while (i < len)
 	{
 		new_str[i] = s[i];
