@@ -2,9 +2,12 @@
 
 Restrictions [IMPORTANT]:
 1. functions less than 25 lines (can write multiple functions)
-2. no realloc, strdup, or strok function (re create if needed)
+2. Only use Allowed Functions (re create other functions if needed)
 3. no tenary operator
 4. while loops only
 5. maximum 5 variables per function
 6. function declaration and initialization must be in different lines
 7. it should dinamically allocate memory since i dont know the size of the input
+
+**External Functions Allowed**:
+  - `readline`, `rl_clear_history`, `rl_on_new_line`, `rl_replace_line`, `rl_redisplay`, `add_history`, `printf`, `malloc`, `free`, `write`, `access`, `open`, `read`, `close`, `fork`, `wait`, `waitpid`, `wait3`, `wait4`, `signal`, `sigaction`, `sigemptyset`, `sigaddset`, `kill`, `exit`, `getcwd`, `chdir`, `stat`, `lstat`, `fstat`, `unlink`, `execve`, `dup`, `dup2`, `pipe`, `opendir`, `readdir`, `closedir`, `strerror`, `perror`, `isatty`, `ttyname`, `ttyslot`, `ioctl`, `getenv`, `tcsetattr`, `tcgetattr`, `tgetent`, `tgetflag`, `tgetnum`, `tgetstr`, `tgoto`, `tputs`.
