@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 23:29:09 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/02 16:30:25 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/02 17:58:20 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,17 @@ void	print_all(char **strings)
 	char	**words;
 
 	i = 0;
-	while (strings[i] != NULL)
+	while (strings[i])
 	{
 		printf("String: >%s<\n", strings[i]);
 		words = split_into_words(strings[i]);
 		j = 0;
-		while (words[j] != NULL)
+		while (words[j])
 		{
 			printf("Word %d: >%s<\n", j + 1, words[j]);
 			j++;
 		}
 		i++;
+		clean_blocks(words);
 	}
 }

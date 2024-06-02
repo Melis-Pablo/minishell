@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 22:26:27 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/02 16:41:12 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/02 17:58:12 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,6 @@ void			clean_blocks(char **blocks);
 void			print_all_nodes(struct s_cmd *head);
 struct s_cmd	*cmd_builder(char **str_blocks);
 
-char			*my_strndup(const char *s, size_t n);
+char			*ft_strndup(const char *s, size_t n);
 
 #endif

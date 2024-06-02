@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:21:32 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/02 16:34:07 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/02 18:01:40 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ int	is_space(char c)
 	3. Skip leading spaces
 	4. While *str_block is not NULL
 		1. If *str_block is a quote character, toggle in_quotes
-		2. If not in_quotes and *str_block is a space character and the next character is not a space character or NULL, increment count
+		2. If not in_quotes and *str_block is a space character and
+			the next character is not a space character or NULL, increment count
 		3. Increment str_block
 	5. Return count + 1
 */
@@ -101,7 +102,7 @@ static char	*get_word(char **str_block)
 			in_quotes = !in_quotes;
 		(*str_block)++;
 	}
-	return (my_strndup(word_start, *str_block - word_start));
+	return (ft_strndup(word_start, *str_block - word_start));
 }
 
 /*

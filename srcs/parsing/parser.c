@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:12:22 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/02 16:34:32 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/02 18:00:37 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ char	**str_blocks(char *input)
 
 	i = 0;
 	pipe_count = count_pipes(input);
-	blocks = malloc((pipe_count + 1) * sizeof(char *));
+	blocks = malloc((pipe_count + 2) * sizeof(char *));
 	if (!blocks)
 		return (NULL);
 	while (i <= pipe_count)

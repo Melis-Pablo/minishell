@@ -6,12 +6,13 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 22:42:38 by pmelis            #+#    #+#             */
-/*   Updated: 2024/05/30 23:58:39 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/02 17:01:09 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/*
 char	**get_flags(char **words)
 {
 	int count = 0;
@@ -179,7 +180,9 @@ char	**get_arguments(char **words)
 
 	return arguments;
 }
+*/
 
+/*
 struct s_cmd *add_tolst(struct s_cmd *head, struct s_cmd *node)
 {
 	if (head == NULL)
@@ -222,7 +225,9 @@ struct s_cmd *cmd_builder(char **str_blocks)
 	}
 	return head;
 }
+*/
 
+/*
 void print_cmd(struct s_cmd *cmd)
 {
 	printf("cmd: %s\n", cmd->cmd);
@@ -284,3 +289,4 @@ void print_all_nodes(struct s_cmd *head)
 		current = current->next;
 	}
 }
+*/
