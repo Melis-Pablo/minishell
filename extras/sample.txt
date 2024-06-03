@@ -11,7 +11,7 @@
 valgrind --leak-check=full ./minishell
 
 ########################################################################################################### readline()
-Cmd1 -flag0 --flag1 arg1 "arg | 2" <infile.txt < infile1.txt <<heredoc1 | Cmd2 -flag2 --flag21 arg21 "arg | 22" <infile2.txt < infile_2.txt << heredoc2 | Cmd1 -flag3 --flag31 arg31 "arg | 23" <infile4.txt < infile5.txt <<heredoc3 > outfile.txt >>append3.txt << heredoc3
+Cmd1 -flag0 --flag1 arg1 "arg | 2" <infile.txt < infile1.txt <<heredoc1 | Cmd2 -flag2 --flag21 arg21 "arg | 22" <infile2.txt < infile_2.txt << heredoc2 | Cmd3 -flag3 --flag31 arg31 "arg | 23" <infile4.txt < infile5.txt <<heredoc3 > outfile.txt >>append3.txt << heredoc33
 ###########################################################################################################	string_blocks()
 str[] = 0.	= "Cmd1 -flag1 arg1 "arg""'|'""2" < infile.txt "
 		1. 	= " Cmd2 -flag2 "arg | 2 arg" "

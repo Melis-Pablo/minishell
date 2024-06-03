@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 23:29:09 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/03 17:40:50 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/03 19:16:35 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ How it works:
 	1. Loop through the array and print each string
 	2. Print a newline at the end
 */
-void	print_str_array(char **arr)	
+void	print_str_array(char **arr)
 {
 	int	i;
 

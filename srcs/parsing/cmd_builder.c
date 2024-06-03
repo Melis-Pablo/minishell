@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 22:42:38 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/03 18:29:45 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/03 19:17:24 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@
 #How it works:	
 
 */
-char **get_infile(char **words) {
+char **get_infile(char **words)
+{
 	int i = 0, j = 0, count = 0;
 	char **outfile;
 
@@ -61,7 +62,8 @@ char **get_infile(char **words) {
 	return outfile;
 }
 
-char **get_outfile(char **words) {
+char **get_outfile(char **words)
+{
 	int i = 0, j = 0, count = 0;
 	char **outfile;
 
@@ -109,7 +111,8 @@ char **get_outfile(char **words) {
 
 #How it works:	
 */
-char **get_append(char **words){
+char **get_append(char **words)
+{
 	int i = 0, j = 0, count = 0;
 	char **append;
 
@@ -149,7 +152,8 @@ char **get_append(char **words){
 
 }
 
-char **get_heredoc(char **words){
+char **get_heredoc(char **words)
+{
 	int i = 0, j = 0, count = 0;
 	char **append;
 
@@ -233,7 +237,7 @@ char	**get_flags(char **words)
 	return (flags);
 }
 
-// char	**get_args(char **words)
+//char	**get_args(char **words)
 // {
 // 	// iterate through the words array
 // 	// if the word is not a flag, infile, outfile, append or delimiter, add it to the args array
