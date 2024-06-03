@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 23:12:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/02 18:04:00 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/03 12:18:24 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,12 @@ int	main(int argc, char **argv)
 			break ;
 		add_history(input);
 
-
-		char **strings = str_blocks(input);
-		print_all(strings);
-		clean_blocks(strings);
+		t_cmd *head = cmd_builder(input);
+		print_cmds_list(head);
+		clean_cmd_list(head);
+		// char **strings = str_blocks(input);
+		// print_all(strings);
+		// clean_blocks(strings);
 
 
 		free(input);

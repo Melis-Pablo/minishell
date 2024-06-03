@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:53:26 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/02 17:59:48 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/03 12:17:21 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,31 @@ void	clean_blocks(char **blocks)
 		i++;
 	}
 	free(blocks);
+}
+
+/*
+#clean_cmd_list():	free the cmd list
+
+#Parameters:		t_cmd *cmd_list - the head of the list
+
+#Return value:		void
+
+#How it works:		
+	1. Iterate through the list
+	2. Free each node
+	3. Free the list
+*/
+void	clean_cmd_list(t_cmd *cmd_list)
+{
+	t_cmd	*current;
+	t_cmd	*next;
+
+	current = cmd_list;
+	while (current)
+	{
+		next = current->next;
+		free(current->cmd);
+		free(current);
+		current = next;
+	}
 }

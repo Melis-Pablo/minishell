@@ -6,13 +6,26 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 23:22:11 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/02 18:01:55 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/03 12:25:27 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-//ft_strndup():	duplicates a string up to n characters
+/*
+#ft_strndup():	duplicates a string up to n characters
+
+#Parameters:	const char *s1 - the string to be duplicated
+				size_t n - the number of characters to be duplicated
+
+#Return value:	char * - the duplicated string
+
+#How it works:	
+	1. Allocate memory for the new string
+	2. Copy the first n characters of s1 to the new string
+	3. Add a null terminator to the new string
+	4. Return the new string
+*/
 char	*ft_strndup(const char *s1, size_t n)
 {
 	char	*dup;

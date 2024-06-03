@@ -13,9 +13,10 @@ SRCS		:=			main.c \
 						srcs/tools/tools.c \
 						srcs/tools/zprint.c \
 						srcs/cleanup/cleaners.c \
+						srcs/parsing/parser.c \
 						srcs/parsing/split.c \
 						srcs/parsing/cmd_builder.c \
-						srcs/parsing/parser.c \
+
 
 OBJS        := $(SRCS:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 22:26:27 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/02 17:58:12 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/03 12:24:04 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,25 @@ typedef struct s_cmd
 }					t_cmd;
 
 // Function prototypes
-char			**str_blocks(char *input);
-char			**split_into_words(char *str_block);
-void			print_all(char **strings);
-void			print_str_array(char **str_array);
 
+//Cleaners.c
+void			clean_cmd_list(t_cmd *cmd_list);
 void			clean_blocks(char **blocks);
-void			print_all_nodes(struct s_cmd *head);
-struct s_cmd	*cmd_builder(char **str_blocks);
 
+//Parser.c
+char			**str_blocks(char *input);
+
+//Split.c
+char			**split_into_words(char *str_block);
+
+//Tools.c
 char			*ft_strndup(const char *s, size_t n);
+
+//zprint.c
+void			print_all(char **strings);
+
+//Cmd_builder.c
+t_cmd			*cmd_builder(char *input);
+void			print_cmds_list(t_cmd *head);
 
 #endif
