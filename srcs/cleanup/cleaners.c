@@ -6,64 +6,62 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:53:26 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/03 13:13:44 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/03 17:37:08 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 /*
-#clean_blocks():	free the blocks array
+free_array:	free the array of strings
 
-#Parameters:		char **blocks
+Parameters:	char **array - the array of strings to free
 
-#Return value:		void
+Return:		void
 
-#How it works:		
-	1. Iterate through the blocks array
-	2. Free each block
-	3. Free the blocks array
+How it works:
+	1. Loop through the array and free each string
+	2. Free the array itself
 */
-void	clean_blocks(char **blocks)
+void	free_array(char **array)
 {
 	int	i;
 
 	i = 0;
-	while (blocks[i])
+	while (array[i])
 	{
-		free(blocks[i]);
+		free(array[i]);
 		i++;
 	}
-	free(blocks);
+	free(array);
 }
 
 /*
-#clean_cmd_list():	free the cmd list
+free_cmds:	free the linked list of commands
 
-#Parameters:		t_cmd *cmd_list - the head of the list
+Parameters:	t_cmd *cmds - the linked list of commands to free
 
-#Return value:		void
+Return:		void
 
-#How it works:		
-	1. Iterate through the list
-	2. Free each node
-	3. Free the list
+How it works:
+	1. Loop through the linked list and free each command
+	2. Free the linked list itself
 */
-void	clean_cmd_list(t_cmd *cmd_list)
+void	free_cmds(t_cmd *cmds)
 {
 	t_cmd	*current;
 	t_cmd	*next;
 
-	current = cmd_list;
+	current = cmds;
 	while (current)
 	{
 		next = current->next;
 		free(current->cmd);
-		clean_blocks(current->flags);
-		clean_blocks(current->infile);
-		clean_blocks(current->outfile);
-		clean_blocks(current->append);
+		free_array(current->flags);
+		free_array(current->infile);
+		free_array(current->outfile);
+		free_array(current->append);
 		free(current);
 		current = next;
-	}
+	}	
 }

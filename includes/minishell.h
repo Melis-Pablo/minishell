@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 22:26:27 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/03 13:29:42 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/03 18:08:06 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,25 +35,6 @@
 								//dup2, pipe
 
 // Data structures
-typedef enum s_token_type
-{
-	NONE = 0,
-	PIPE = 1,
-	GREATER = 2,
-	LESS = 3,
-	GREATER_GREATER = 4,
-	LESS_LESS = 5,
-}	t_token_type;
-
-typedef struct s_lexer
-{
-	char			*str;
-	t_token_type	token;
-	int				index;
-	struct s_lexer	*prev;
-	struct s_lexer	*next;
-}					t_lexer;
-
 typedef struct s_cmd
 {
 	char			*cmd;
@@ -67,25 +48,28 @@ typedef struct s_cmd
 	char			**append;
 }					t_cmd;
 
-// Function prototypes
+/////////////////////////
+// Function prototypes //
+/////////////////////////
 
 //Cleaners.c
-void			clean_cmd_list(t_cmd *cmd_list);
-void			clean_blocks(char **blocks);
-
-//Parser.c
-char			**str_blocks(char *input);
-
-//Split.c
-char			**split_into_words(char *str_block);
+void			free_array(char **array);
+void			free_cmds(t_cmd *cmds);
 
 //Tools.c
 char			*ft_strndup(const char *s, size_t n);
 
 //zprint.c
-void			print_all(char **strings);
 void			print_str_array(char **arr);
 void			print_cmds_list(t_cmd *head);
+
+//Split_into_words.c
+char			**split_into_words(char *str_block);
+
+/////////////////////////Need Cleaning
+
+//Split_by_pipes.c
+char			**split_by_pipes(char *input);
 
 //Cmd_builder.c
 t_cmd			*cmd_builder(char *input);

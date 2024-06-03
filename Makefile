@@ -13,8 +13,8 @@ SRCS		:=			main.c \
 						srcs/tools/tools.c \
 						srcs/tools/zprint.c \
 						srcs/cleanup/cleaners.c \
-						srcs/parsing/parser.c \
-						srcs/parsing/split.c \
+						srcs/parsing/split_by_pipes.c \
+						srcs/parsing/split_into_words.c \
 						srcs/parsing/cmd_builder.c \
 
 

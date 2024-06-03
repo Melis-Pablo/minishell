@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 22:42:38 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/03 13:30:43 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/03 18:18:11 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -293,7 +293,7 @@ t_cmd	*cmd_builder(char *input)
 	int		i;
 
 	head = NULL;
-	str_blocks_array = str_blocks(input);
+	str_blocks_array = split_by_pipes(input);
 	i = 0;
 	while (str_blocks_array[i] != NULL)
 	{

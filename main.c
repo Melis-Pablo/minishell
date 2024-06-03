@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 23:12:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/03 12:18:24 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/03 17:45:30 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 int		signal_status = 0;
 
 /*
-#sigint_handler():	handles the SIGINT signal (ctrl-c)
+sigint_handler():	the signal handler for SIGINT
 
-#Parameters:		int sig
+Parameters:			int sig - the signal number
 
-#Return value:		void
+Return:				void
 
-#How it works:		
+How it works:
 	1. If the signal is SIGINT, set signal_status to 1
-	2. Write "minishell> " to stdout
+	2. Write "minishell> " to the standard output
 */
 void	sigint_handler(int sig)
 {
@@ -35,21 +35,25 @@ void	sigint_handler(int sig)
 }
 
 /*
-#main minishell():	creates a simple shell program
+main():		the main function of the minishell program
 
-#Parameters:		int argc, char **argv	
+Parameters:	int argc - the number of arguments
+			char **argv - the array of arguments
 
-#Return value:		int
+Return:		int - the exit status of the program
 
-#How it works:	
-	1. Set signal handlers for SIGINT and SIGQUIT
-	2. If argc is not 1 or argv[1] is not NULL, print an error message
-	3. While 1, read input from the user
-	4. If input is NULL, break
-	5. Add input to history
-	6. Print the input
-	7. Free the input
-	8. Return 0
+How it works:
+	1. Set the signal handler for SIGINT to sigint_handler
+	2. Ignore the signal for SIGQUIT
+	3. Check if the program was run without arguments
+	4. Loop forever
+		5. Read a line from the user
+		6. If the input is NULL, break the loop
+		7. Add the input to the history
+		8. Build the linked list of commands from the input
+		9. Print the linked list of commands
+		10. Free the linked list of commands
+	11. Return signal_status
 */
 int	main(int argc, char **argv)
 {
@@ -71,13 +75,10 @@ int	main(int argc, char **argv)
 
 		t_cmd *head = cmd_builder(input);
 		print_cmds_list(head);
-		clean_cmd_list(head);
-		// char **strings = str_blocks(input);
-		// print_all(strings);
-		// clean_blocks(strings);
+		free_cmds(head);
 
 
 		free(input);
 	}
-	return (0);
+	return (signal_status);
 }
