@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:53:26 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/03 12:17:21 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/03 13:13:44 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,10 @@ void	clean_cmd_list(t_cmd *cmd_list)
 	{
 		next = current->next;
 		free(current->cmd);
+		clean_blocks(current->flags);
+		clean_blocks(current->infile);
+		clean_blocks(current->outfile);
+		clean_blocks(current->append);
 		free(current);
 		current = next;
 	}

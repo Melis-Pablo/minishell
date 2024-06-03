@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 22:26:27 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/03 12:24:04 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/03 13:29:42 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct s_cmd
 	char			**flags;
 	char			**infile;
 	char			**outfile;
-	char			*delimiter;
+	char			**delimiter;
 	struct s_cmd	*prev;
 	struct s_cmd	*next;
 	char			**append;
@@ -84,6 +84,8 @@ char			*ft_strndup(const char *s, size_t n);
 
 //zprint.c
 void			print_all(char **strings);
+void			print_str_array(char **arr);
+void			print_cmds_list(t_cmd *head);
 
 //Cmd_builder.c
 t_cmd			*cmd_builder(char *input);
