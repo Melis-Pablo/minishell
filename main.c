@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 23:12:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/04 14:26:15 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/04 15:17:53 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,42 @@ void	sigint_handler(int sig)
 }
 
 /*
+print_strings_and_words():	splits the input into strings and words
+
+Parameters:					char *input - the input string
+
+return:						void
+
+How it works:
+	1. Split the input by pipes
+	2. Loop through the strings
+		3. print the string
+		4. Split the string into words
+		5. Loop through the words
+			6. Print the word
+	free the strings and words using free_array
+*/
+void	print_strings_and_words(char *input)
+{
+	char	**strings;
+	char	**words;
+	int		i;
+
+	strings = split_by_pipes(input);
+	i = 0;
+	while (strings[i] != NULL)
+	{
+		printf("string: %s\n", strings[i]);
+		words = split_into_words(strings[i]);
+		print_str_array(words);
+		free_array(words);
+		i++;
+	}
+	free_array(strings);
+}
+
+
+/*
 main():		the main function of the minishell program
 
 Parameters:	int argc - the number of arguments
@@ -58,7 +94,6 @@ How it works:
 int	main(int argc, char **argv)
 {
 	char	*input;
-	t_cmd	*head;
 
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
@@ -75,10 +110,7 @@ int	main(int argc, char **argv)
 		add_history(input);
 
 
-		head = build_cmd_list(input);
-		print_cmds_list(head);
-		free_cmds(head);
-
+		print_strings_and_words(input);
 
 		free(input);
 	}

@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 22:26:27 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/04 14:16:12 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/04 15:36:57 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ typedef struct s_cmd
 	char			**infile;
 	char			**outfile;
 	char			**delimiter;
+	char			**append;
 	struct s_cmd	*prev;
 	struct s_cmd	*next;
-	char			**append;
 }					t_cmd;
 
 /////////////////////////
