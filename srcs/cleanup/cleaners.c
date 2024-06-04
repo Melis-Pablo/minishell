@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:53:26 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/03 17:37:08 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/04 14:27:01 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,5 @@ void	free_cmds(t_cmd *cmds)
 		free_array(current->append);
 		free(current);
 		current = next;
-	}	
+	}
 }

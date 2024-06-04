@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 23:29:09 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/03 19:16:35 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/04 14:47:50 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ void	print_cmds_list(t_cmd *head)
 	{
 		printf("--------------------\n");
 		printf("cmd: %s\n", current->cmd);
-		// printf("args: ");
-		// print_str_array(current->args);
+		printf("args: ");
+		print_str_array(current->args);
 		printf("flags: ");
 		print_str_array(current->flags);
 		printf("infile: ");

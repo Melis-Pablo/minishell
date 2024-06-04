@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:12:22 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/03 18:20:53 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/04 14:47:29 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,15 @@ parameters:					char *input: The string to be checked.
 							int *in_quote: Pointer to the in_quote flag.
 							char *quote: Pointer to the quote character.
 
-return value:				int: 1 if the current character is a pipe and not in a quote, 0 otherwise.
+return value:				int: 1 if the current character is a pipe and
+									not in a quote, 0 otherwise.
 
 How it works:
 	1. If the current character is a quote
-		2. If in a quote and the current character is the same as the quote character, set in_quote to 0.
-		3. If not in a quote, set the quote character to the current character and set in_quote to 1.
+		2. If in a quote and the current character is the same as the quote
+			character, set in_quote to 0.
+		3. If not in a quote, set the quote character to the current character
+			and set in_quote to 1.
 	4. If the current character is a pipe and not in a quote, return 1.
 	5. Return 0.
 */
@@ -152,7 +155,6 @@ char	*copy_until_pipe(char *start)
 	}
 	str[i] = '\0';
 	return (str);
-
 }
 
 /*

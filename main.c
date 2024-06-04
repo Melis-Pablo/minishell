@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 23:12:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/03 17:45:30 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/04 14:26:15 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ How it works:
 int	main(int argc, char **argv)
 {
 	char	*input;
+	t_cmd	*head;
 
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
@@ -73,7 +74,8 @@ int	main(int argc, char **argv)
 			break ;
 		add_history(input);
 
-		t_cmd *head = cmd_builder(input);
+
+		head = build_cmd_list(input);
 		print_cmds_list(head);
 		free_cmds(head);
 

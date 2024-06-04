@@ -5,215 +5,19 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/29 22:42:38 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/03 19:17:24 by pmelis           ###   ########.fr       */
+/*   Created: 2024/06/03 19:23:59 by pmelis            #+#    #+#             */
+/*   Updated: 2024/06/04 14:44:57 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/*
-#get_infile():	Extracts the infile from the words array
-
-#Parameters:	char **words - the words array
-
-#Return value:	char ** - the infile array
-
-#How it works:	
-
-*/
-char **get_infile(char **words)
+int	count_flags(char **words)
 {
-	int i = 0, j = 0, count = 0;
-	char **outfile;
+	int	i;
+	int	count;
 
-	// Count the number of outfile words
-	while (words[i] != NULL) {
-		if (words[i][0] == '<' && words[i][1] != '<') {
-			count++;
-			if (strcmp(words[i], "<") == 0 && words[i+1] != NULL) {
-				i++; // Skip the next word as it's part of the outfile
-			}
-		}
-		i++;
-	}
-
-	// Allocate memory for the outfile array
-	outfile = (char **)malloc(sizeof(char *) * (count + 1));
-
-	// Copy the outfile words into the outfile array
-	i = 0;
-	while (words[i] != NULL) {
-		if (words[i][0] == '<' && words[i][1] != '<') {
-			if (strcmp(words[i], "<") == 0 && words[i+1] != NULL) {
-				outfile[j] = strdup(words[i+1]); // Copy the next word as it's part of the outfile
-				i++; // Skip the next word
-			} else {
-				outfile[j] = strdup(words[i] + 1); // Copy the word, ignoring the '>' character
-			}
-			j++;
-		}
-		i++;
-	}
-
-	// Null terminate the outfile array
-	outfile[j] = NULL;
-
-	return outfile;
-}
-
-char **get_outfile(char **words)
-{
-	int i = 0, j = 0, count = 0;
-	char **outfile;
-
-	// Count the number of outfile words
-	while (words[i] != NULL) {
-		if (words[i][0] == '>' && words[i][1] != '>') {
-			count++;
-			if (strcmp(words[i], ">") == 0 && words[i+1] != NULL) {
-				i++; // Skip the next word as it's part of the outfile
-			}
-		}
-		i++;
-	}
-
-	// Allocate memory for the outfile array
-	outfile = (char **)malloc(sizeof(char *) * (count + 1));
-
-	// Copy the outfile words into the outfile array
-	i = 0;
-	while (words[i] != NULL) {
-		if (words[i][0] == '>' && words[i][1] != '>') {
-			if (strcmp(words[i], ">") == 0 && words[i+1] != NULL) {
-				outfile[j] = strdup(words[i+1]); // Copy the next word as it's part of the outfile
-				i++; // Skip the next word
-			} else {
-				outfile[j] = strdup(words[i] + 1); // Copy the word, ignoring the '>' character
-			}
-			j++;
-		}
-		i++;
-	}
-
-	// Null terminate the outfile array
-	outfile[j] = NULL;
-
-	return outfile;
-}
-
-/*
-#get_append():	Extracts the append from the words array
-
-#Parameters:	char **words - the words array
-
-#Return value:	char ** - the append array
-
-#How it works:	
-*/
-char **get_append(char **words)
-{
-	int i = 0, j = 0, count = 0;
-	char **append;
-
-	// Count the number of append words
-	while (words[i] != NULL) {
-		if (words[i][0] == '>' && words[i][1] == '>') {
-			count++;
-			if (strcmp(words[i], ">>") == 0 && words[i+1] != NULL) {
-				i++; // Skip the next word as it's part of the append
-			}
-		}
-		i++;
-	}
-
-	// Allocate memory for the append array
-	append = (char **)malloc(sizeof(char *) * (count + 1));
-
-	// Copy the append words into the append array
-	i = 0;
-	while (words[i] != NULL) {
-		if (words[i][0] == '>' && words[i][1] == '>') {
-			if (strcmp(words[i], ">>") == 0 && words[i+1] != NULL) {
-				append[j] = strdup(words[i+1]); // Copy the next word as it's part of the append
-				i++; // Skip the next word
-			} else {
-				append[j] = strdup(words[i] + 2); // Copy the word, ignoring the '>>' characters
-			}
-			j++;
-		}
-		i++;
-	}
-
-	// Null terminate the append array
-	append[j] = NULL;
-
-	return append;
-
-}
-
-char **get_heredoc(char **words)
-{
-	int i = 0, j = 0, count = 0;
-	char **append;
-
-	// Count the number of append words
-	while (words[i] != NULL) {
-		if (words[i][0] == '<' && words[i][1] == '<') {
-			count++;
-			if (strcmp(words[i], "<<") == 0 && words[i+1] != NULL) {
-				i++; // Skip the next word as it's part of the append
-			}
-		}
-		i++;
-	}
-
-	// Allocate memory for the append array
-	append = (char **)malloc(sizeof(char *) * (count + 1));
-
-	// Copy the append words into the append array
-	i = 0;
-	while (words[i] != NULL) {
-		if (words[i][0] == '<' && words[i][1] == '<') {
-			if (strcmp(words[i], "<<") == 0 && words[i+1] != NULL) {
-				append[j] = strdup(words[i+1]); // Copy the next word as it's part of the append
-				i++; // Skip the next word
-			} else {
-				append[j] = strdup(words[i] + 2); // Copy the word, ignoring the '>>' characters
-			}
-			j++;
-		}
-		i++;
-	}
-
-	// Null terminate the append array
-	append[j] = NULL;
-
-	return append;
-
-}
-
-/*
-#get_flags():	Extracts the flags from the words array
-
-#Parameters:	char **words - the words array
-
-#Return value:	char ** - the flags array
-
-#How it works:	
-	1. Count the number of flags
-	2. Allocate memory for the flags array
-	3. Copy the flags into the flags array
-	4. Return the flags array
-*/
-char	**get_flags(char **words)
-{
-	char	**flags;
-	int		i;
-	int		j;
-	int		count;
-
-	i = 1; // Start from the second word
+	i = 1;
 	count = 0;
 	while (words[i] != NULL)
 	{
@@ -221,8 +25,19 @@ char	**get_flags(char **words)
 			count++;
 		i++;
 	}
+	return (count);
+}
+
+char	**get_flags(char **words)
+{
+	int		count;
+	char	**flags;
+	int		i;
+	int		j;
+
+	count = count_flags(words);
 	flags = (char **)malloc(sizeof(char *) * (count + 1));
-	i = 1; // Start from the second word
+	i = 1;
 	j = 0;
 	while (words[i] != NULL)
 	{
@@ -237,30 +52,252 @@ char	**get_flags(char **words)
 	return (flags);
 }
 
-//char	**get_args(char **words)
-// {
-// 	// iterate through the words array
-// 	// if the word is not a flag, infile, outfile, append or delimiter, add it to the args array
-// 	// return the args array
-// }
+int	count_infile(char **words)
+{
+	int	i;
+	int	count;
 
-/*
-add_to_lst():	Adds a node to the end of the list
+	i = 0;
+	count = 0;
+	while (words[i] != NULL)
+	{
+		if (words[i][0] == '<' && words[i][1] != '<')
+		{
+			count++;
+			if (strcmp(words[i], "<") == 0 && words[i + 1] != NULL)
+				i++;
+		}
+		i++;
+	}
+	return (count);
+}
 
-Parameters:		t_cmd *head - the head of the list
-				t_cmd *node - the node to be added
+char	**get_infile(char **words)
+{
+	int		count;
+	char	**infile;
+	int		i;
+	int		j;
 
-Return value:	t_cmd * - the head of the list
+	count = count_infile(words);
+	infile = (char **)malloc(sizeof(char *) * (count + 1));
+	i = 0;
+	j = 0;
+	while (words[i] != NULL)
+	{
+		if (words[i][0] == '<' && words[i][1] != '<')
+		{
+			if (strcmp(words[i], "<") == 0 && words[i + 1] != NULL)
+			{
+				infile[j] = strdup(words[i + 1]);
+				i++;
+			}
+			else
+				infile[j] = strdup(words[i] + 1);
+			j++;
+		}
+		i++;
+	}
+	infile[j] = NULL;
+	return (infile);
+}
 
-How it works:	
-	1. If the list is empty, the head is set to the node
-	2. Otherwise, the node is added to the end of the list
-	3. The head of the list is returned
-*/
+int	count_outfile(char **words)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (words[i] != NULL)
+	{
+		if (words[i][0] == '>' && words[i][1] != '>')
+		{
+			count++;
+			if (strcmp(words[i], ">") == 0 && words[i + 1] != NULL)
+				i++;
+		}
+		i++;
+	}
+	return (count);
+}
+
+char **get_outfile(char **words)
+{
+	int		count;
+	char	**outfile;
+	int		i;
+	int		j;
+
+	count = count_outfile(words);
+	outfile = (char **)malloc(sizeof(char *) * (count + 1));
+	i = 0;
+	j = 0;
+	while (words[i] != NULL)
+	{
+		if (words[i][0] == '>' && words[i][1] != '>')
+		{
+			if (strcmp(words[i], ">") == 0 && words[i + 1] != NULL)
+			{
+				outfile[j] = strdup(words[i + 1]);
+				i++;
+			}
+			else
+				outfile[j] = strdup(words[i] + 1);
+			j++;
+		}
+		i++;
+	}
+	outfile[j] = NULL;
+	return (outfile);
+}
+
+int	count_args(char **words)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (words[i] != NULL)
+	{
+		if (words[i][0] != '-' && words[i][0] != '<' && words[i][0] != '>')
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+char **get_args(char **words)
+{
+	int		count;
+	char	**args;
+	int		i;
+	int		j;
+
+	count = count_args(words);
+	args = (char **)malloc(sizeof(char *) * (count + 1));
+	i = 0;
+	j = 0;
+	while (words[i] != NULL)
+	{
+		if (words[i][0] != '-' && words[i][0] != '<' && words[i][0] != '>')
+		{
+			args[j] = words[i];
+			j++;
+		}
+		i++;
+	}
+	args[j] = NULL;
+	return (args);
+}
+
+int	count_appendfile(char **words)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (words[i] != NULL)
+	{
+		if (words[i][0] == '>' && words[i][1] == '>')
+		{
+			count++;
+			if (strcmp(words[i], ">>") == 0 && words[i + 1] != NULL)
+				i++;
+		}
+		i++;
+	}
+	return (count);
+}
+
+char **get_appendfile(char **words)
+{
+	int		count;
+	char	**appendfile;
+	int		i;
+	int		j;
+
+	count = count_appendfile(words);
+	appendfile = (char **)malloc(sizeof(char *) * (count + 1));
+	i = 0;
+	j = 0;
+	while (words[i] != NULL)
+	{
+		if (words[i][0] == '>' && words[i][1] == '>')
+		{
+			if (strcmp(words[i], ">>") == 0 && words[i + 1] != NULL)
+			{
+				appendfile[j] = strdup(words[i + 1]);
+				i++;
+			}
+			else
+				appendfile[j] = strdup(words[i] + 2);
+			j++;
+		}
+		i++;
+	}
+	appendfile[j] = NULL;
+	return (appendfile);
+}
+
+int	count_heredoc(char **words)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (words[i] != NULL)
+	{
+		if (words[i][0] == '<' && words[i][1] == '<')
+		{
+			count++;
+			if (strcmp(words[i], "<<") == 0 && words[i + 1] != NULL)
+				i++;
+		}
+		i++;
+	}
+	return (count);
+}
+
+char **get_heredoc(char **words)
+{
+	int		count;
+	char	**heredoc;
+	int		i;
+	int		j;
+
+	count = count_heredoc(words);
+	heredoc = (char **)malloc(sizeof(char *) * (count + 1));
+	i = 0;
+	j = 0;
+	while (words[i] != NULL)
+	{
+		if (words[i][0] == '<' && words[i][1] == '<')
+		{
+			if (strcmp(words[i], "<<") == 0 && words[i + 1] != NULL)
+			{
+				heredoc[j] = strdup(words[i + 1]);
+				i++;
+			}
+			else
+				heredoc[j] = strdup(words[i] + 2);
+			j++;
+		}
+		i++;
+	}
+	heredoc[j] = NULL;
+	return (heredoc);
+}
+
+
 t_cmd	*add_to_lst(t_cmd *head, t_cmd *node)
 {
 	t_cmd	*current;
 
+	current = NULL;
 	if (head == NULL)
 		head = node;
 	else
@@ -274,47 +311,61 @@ t_cmd	*add_to_lst(t_cmd *head, t_cmd *node)
 	return (head);
 }
 
-/*
-#build_cmd_list():	Buils a list of commands from the input string
-
-#Parameters:		char *input - the input string
-
-#Return value:		struct s_cmd * - the head of the list of commands
-
-#How it works:		
-	1. Split the input string into blocks
-	2. For each block, split it into words
-	3. Create a new command node
-	4. Add the node to the command table
-	5. Return the head of the list
-*/
 t_cmd	*cmd_builder(char *input)
 {
-	t_cmd	*head;
-	char	**str_blocks_array;
-	char	**words;
 	t_cmd	*node;
+	char	**words;
 	int		i;
 
-	head = NULL;
-	str_blocks_array = split_by_pipes(input);
+	node = (t_cmd *)malloc(sizeof(t_cmd));
+	node->cmd = NULL;
+	node->flags = NULL;
+	node->infile = NULL;
+	node->outfile = NULL;
+	node->append = NULL;
+	node->delimiter = NULL;
+	node->args = NULL;
+	node->next = NULL;
+	node->prev = NULL;
+	words = split_into_words(input);
+	node->cmd = words[0];
+	node->flags = get_flags(words);
+	node->infile = get_infile(words);
+	node->outfile = get_outfile(words);
+	node->append = get_appendfile(words);
+	node->delimiter = get_heredoc(words);
+	node->args = get_args(words);
+	free(words);
+	return (node);
+}
+
+t_cmd *build_cmd_list(char *input)
+{
+	char		**inputs;
+	int			i;
+	t_cmd		*head;
+	t_cmd		*current;
+	t_cmd		*node;
+
 	i = 0;
-	while (str_blocks_array[i] != NULL)
+	head = NULL;
+	current = NULL;
+	inputs = split_by_pipes(input);
+	while (inputs[i] != NULL)
 	{
-		words = split_into_words(str_blocks_array[i]);
-		node = (t_cmd *)malloc(sizeof(t_cmd));
-		node->cmd = words[0];
-		// node->args = get_arguments(words);
-		node->flags = get_flags(words);
-		node->infile = get_infile(words);
-		node->outfile = get_outfile(words);
-		node->delimiter = get_heredoc(words);
-		node->append = get_append(words);
-		node->prev = NULL;
-		node->next = NULL;
-		head = add_to_lst(head, node);
+		node = cmd_builder(inputs[i]);
+		if (head == NULL)
+		{
+			head = node;
+			current = node;
+		}
+		else
+		{
+			current->next = node;
+			current = node;
+		}
 		i++;
-		free(words);
 	}
+	free_array(inputs);
 	return (head);
 }

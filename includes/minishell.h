@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 22:26:27 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/03 18:08:06 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/04 14:16:12 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,6 @@ char			**split_by_pipes(char *input);
 //Cmd_builder.c
 t_cmd			*cmd_builder(char *input);
 void			print_cmds_list(t_cmd *head);
+t_cmd			*build_cmd_list(char *input);
 
 #endif
