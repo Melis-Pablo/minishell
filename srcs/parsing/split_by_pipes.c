@@ -6,30 +6,30 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:12:22 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/04 14:47:29 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/05 17:56:54 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 /*
-check_quotes_and_pipes():	Checks if the current character is a quote or a pipe.
+check_quotes_and_pipes():	Check if the character is a quote or a pipe
+							and toggle the in_quote flag
 
-parameters:					char *input: The string to be checked.
-							int *in_quote: Pointer to the in_quote flag.
-							char *quote: Pointer to the quote character.
+Parameters:					char *input - the character to check
 
-return value:				int: 1 if the current character is a pipe and
-									not in a quote, 0 otherwise.
+Return:						int - 1 if the character is a pipe, 0 otherwise
 
 How it works:
-	1. If the current character is a quote
-		2. If in a quote and the current character is the same as the quote
-			character, set in_quote to 0.
-		3. If not in a quote, set the quote character to the current character
-			and set in_quote to 1.
-	4. If the current character is a pipe and not in a quote, return 1.
-	5. Return 0.
+	1. If the character is a quote
+		2. If in quotes and the character is the same as the quote
+			3. Toggle the in_quote flag
+		4. If not in quotes
+			5. Set the quote to the character
+			6. Toggle the in_quote flag
+	7. If the character is a pipe and not in quotes
+		8. Return 1
+	9. Return 0
 */
 int	check_quotes_and_pipes(char *input, int *in_quote, char *quote)
 {
@@ -49,21 +49,27 @@ int	check_quotes_and_pipes(char *input, int *in_quote, char *quote)
 }
 
 /*
-count_pipes():	Takes a string as input and returns the number of pipes.
+count_pipes():	Count the number of pipes in the string
 
-parameters:		char *input: The string to be counted.
+Parameters:		char *input - the string to count pipes in
 
-return value:	int count: The number of pipes.
+Return:			int - the number of pipes
 
 How it works:
-	1. Loop through the characters in the string.
-		2. If the current character is a quote
-			3. If in a quote and the current character is the same as the quote
-				character, set in_quote to 0.
-			4. If not in a quote, set the quote character to the current
-				character and set in_quote to 1.
-		5. If the current character is a pipe, increment the count.
-	6. Return the count.
+	1. Initialize the count to 0
+	2. Initialize the in_quote flag to 0
+	3. Initialize the quote to '\0'
+	4. Loop through the string
+		5. If the character is a quote
+			6. If in quotes and the character is the same as the quote
+				7. Toggle the in_quote flag
+			8. If not in quotes
+				9. Set the quote to the character
+				10. Toggle the in_quote flag
+		11. If the character is a pipe and not in quotes
+			12. Increment the count
+		13. Move to the next character
+	14. Return the count
 */
 int	count_pipes(char *input)
 {
@@ -84,23 +90,28 @@ int	count_pipes(char *input)
 }
 
 /*
-count_until_pipe():	Takes a string as input and returns the number of
-					characters until the pipe.
+count_until_pipe():	Count the number of characters until the next pipe
 
-parameters:			char *input: The string to be counted.
+Parameters:			char *input - the string to count characters in
 
-return value:		int count: The number of characters until the pipe.
+Return:				int - the number of characters until the next pipe
 
 How it works:
-	1. Loop through the characters in the string.
-		2. If the current character is a quote
-			3. If in a quote and the current character is the same as
-				the quote character, set in_quote to 0.
-			4. If not in a quote, set the quote character to the
-				current character and set in_quote to 1.
-		5. If the current character is a pipe, break the loop.
-		6. Increment the count.
-	7. Return the count.
+	1. Initialize the count to 0
+	2. Initialize the in_quote flag to 0
+	3. Initialize the quote to '\0'
+	4. Loop through the string
+		5. If the character is a quote
+			6. If in quotes and the character is the same as the quote
+				7. Toggle the in_quote flag
+			8. If not in quotes
+				9. Set the quote to the character
+				10. Toggle the in_quote flag
+		11. If the character is a pipe and not in quotes
+			12. Break the loop
+		13. Increment the count
+		14. Move to the next character
+	15. Return the count
 */
 int	count_until_pipe(char *input)
 {
@@ -122,20 +133,19 @@ int	count_until_pipe(char *input)
 }
 
 /*
-copy_until_pipe():	Takes a string as input and returns a string.
+copy_until_pipe():	Copy characters from the string until the next pipe
 
-parameters:			char *start: The string to be copied.
+Parameters:			char *start - the string to copy characters from
 
-return value:		char *str: The copied string.
+Return:				char * - the copied string
 
 How it works:
-	1. Count the number of characters until the pipe.
-	2. Allocate memory for the new string.
-	3. Loop through the characters until the pipe.
-		4. Copy the character.
-		5. Increment the index.
-	6. Set the last element of the string to NULL.
-	7. Return the string.
+	1. Count the number of characters until the next pipe
+	2. Allocate memory for the new string
+	3. Loop through the string up to the count
+		4. Copy each character to the new string
+	5. Add the null terminator
+	6. Return the new string
 */
 char	*copy_until_pipe(char *start)
 {
@@ -158,20 +168,19 @@ char	*copy_until_pipe(char *start)
 }
 
 /*
-split_by_pipes():	Takes a string as input and returns an array of strings.
+split_by_pipes():	Split the string by pipes
 
-parameters:			char *input: The string to be split.
+Parameters:			char *input - the string to split
 
-return value:		char **strings: An array of strings.
+Return:				char ** - the array of strings
 
 How it works:
-	1. Count the number of pipes in the input string.
-	2. Allocate memory for the array of strings.
+	1. Count the number of pipes
+	2. Allocate memory for the array of strings
 	3. Loop through the pipes
-		4. Copy the string until the pipe.
-		5. Increment the index.
-	6. Set the last element of the array to NULL.
-	7. Return the array.
+		4. Copy the string until the next pipe
+		5. Move the input pointer to the next string
+	6. Return the array of strings
 */
 char	**split_by_pipes(char *input)
 {

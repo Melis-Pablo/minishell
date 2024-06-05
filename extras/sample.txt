@@ -19,7 +19,7 @@ str[] = 0.	= "Cmd1 -flag1 arg1 "arg""'|'""2" < infile.txt "
 ########################################################################################################### cmd_builder()
 .	Split words [DONE]
 .	Clean redirection without spaces [DONE]
-.	Clean quotes & Expand variables
+.	Clean quotes & Expand variables [to be done]
 ########################################################################################################### final result! (list of cmds)
 typedef struct s_cmd
 {

@@ -6,53 +6,61 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:53:26 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/04 14:27:01 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/05 17:43:29 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 /*
-free_array:	free the array of strings
+free_array():	Free the array of strings
 
-Parameters:	char **array - the array of strings to free
+Parameters:		char **arr - the array of strings to free
 
-Return:		void
+Return:			void
 
 How it works:
-	1. Loop through the array and free each string
-	2. Free the array itself
+	1. Loop through the array of strings
+	2. Free each string
+	3. Free the array
 */
-void	free_array(char **array)
+void	free_array(char **arr)
 {
 	int	i;
 
 	i = 0;
-	while (array[i])
+	while (arr[i])
 	{
-		free(array[i]);
+		free(arr[i]);
 		i++;
 	}
-	free(array);
+	free(arr);
 }
 
 /*
-free_cmds:	free the linked list of commands
+free_cmd_lst():	Free the linked list of commands
 
-Parameters:	t_cmd *cmds - the linked list of commands to free
+Parameters:		t_cmd *head - the head of the linked list
 
-Return:		void
+Return:			void
 
 How it works:
-	1. Loop through the linked list and free each command
-	2. Free the linked list itself
+	1. Loop through the linked list
+	2. Free the command string
+	3. Free the flags array
+	4. Free the infile array
+	5. Free the outfile array
+	6. Free the append array
+	7. Free the current node
+	8. Move to the next node
+	9. Free the head
 */
-void	free_cmds(t_cmd *cmds)
+void	free_cmd_lst(t_cmd *head)
 {
 	t_cmd	*current;
 	t_cmd	*next;
 
-	current = cmds;
+	current = head;
 	while (current)
 	{
 		next = current->next;

@@ -6,13 +6,17 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 22:26:27 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/04 15:36:57 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/05 17:47:06 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+//////////////////////////
+// Include dependencies //
+//////////////////////////
+// Comments define which functions are allowed to be used in the project
 # include <readline/readline.h> // readline, rl_clear_history, rl_on_new_line,
 								// rl_replace_line, rl_redisplay
 # include <curses.h>            // tgetent, tgetflag, tgetnum, tgetstr, tgoto,
@@ -34,7 +38,9 @@
 # include <unistd.h>            // write, getcwd, chdir, unlink, execve, dup,
 								//dup2, pipe
 
-// Data structures
+//////////////////////////
+// Data structure types //
+//////////////////////////
 typedef struct s_cmd
 {
 	char			*cmd;
@@ -54,26 +60,19 @@ typedef struct s_cmd
 
 //Cleaners.c
 void			free_array(char **array);
-void			free_cmds(t_cmd *cmds);
+void			free_cmd_lst(t_cmd *cmds);
 
 //Tools.c
 char			*ft_strndup(const char *s, size_t n);
 
-//zprint.c
+//print.c
 void			print_str_array(char **arr);
 void			print_cmds_list(t_cmd *head);
 
 //Split_into_words.c
 char			**split_into_words(char *str_block);
 
-/////////////////////////Need Cleaning
-
 //Split_by_pipes.c
 char			**split_by_pipes(char *input);
-
-//Cmd_builder.c
-t_cmd			*cmd_builder(char *input);
-void			print_cmds_list(t_cmd *head);
-t_cmd			*build_cmd_list(char *input);
 
 #endif

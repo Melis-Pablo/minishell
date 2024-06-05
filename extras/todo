@@ -1,4 +1,4 @@
-Fix to work exactrly like bash
+Fix to work exactly like bash
 ----------------------------------------------------------------------------
 1.  Display a command prompt
   a.  input = readline("minishell> ");
@@ -14,7 +14,7 @@ Fix to work exactrly like bash
   b.  ctrl-D exits the shell.
   c.  ctrl-\ does nothing.
 ----------------------------------------------------------------------------
-Tokenize input -> Parse -> Execute
+Parse -> Execute
 ----------------------------------------------------------------------------
 4.  Search and launch the right executable (based on the PATH variable or using a relative or an absolute path).
 5.  Do Not interpret

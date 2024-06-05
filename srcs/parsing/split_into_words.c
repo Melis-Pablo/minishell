@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split.c                                            :+:      :+:    :+:   */
+/*   split_into_words.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:21:32 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/03 18:01:22 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/05 17:53:58 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 /*
-is_space:	check if the character is a space character
+is_space():	Checks if the character is a space
 
 Parameters:	char c - the character to check
 
-Return:		int - 1 if the character is a space character, 0 otherwise
+Return:		int - 1 if the character is a space, 0 otherwise
 
 How it works:
-	1. Check if the character is a space character
+	1. Check if the character is a space
 	2. Return 1 if it is, 0 otherwise
 */
 int	is_space(char c)
@@ -32,11 +32,11 @@ int	is_space(char c)
 }
 
 /*
-count_words:	count the number of words in the string block
+count_words():	Counts the number of words in the string
 
 Parameters:		char *str - the string to count words in
 
-Return:			int - the number of words in the string
+Return:			int - the number of words
 
 How it works:
 	1. Initialize the count to 0
@@ -48,7 +48,7 @@ How it works:
 			7. If the next character is not a space or the end of the string
 				8. Increment the count
 		9. Move to the next character
-	10. Return the count plus 1
+	10. Return the count + 1
 */
 static int	count_words(char *str)
 {
@@ -73,21 +73,21 @@ static int	count_words(char *str)
 }
 
 /*
-get_word:	get the next word from the string block
+get_word():	Extracts a word from the string
 
-Parameters:		char **str - the pointer to the word start
+Parameters:	char **str - the address of the string to extract the word from
 
-Return:			char * - the word
+Return:			char * - the extracted word
 
 How it works:
-	1. Initialize the word_start to the pointer to the word start
+	1. Initialize the word_start to the address of the string
 	2. Initialize the in_quotes flag to 0
 	3. Loop through the string
 		4. If the character is a quote, toggle the in_quotes flag
 		5. If not in quotes and the character is a space
 			6. Break the loop
 		7. Move to the next character
-	8. Return the word from the word_start to the current pointer
+	8. Return a copy of the word
 */
 static char	*get_word(char **str)
 {
@@ -106,22 +106,22 @@ static char	*get_word(char **str)
 }
 
 /*
-split_into_words:	split the string into words
+split_into_words():	Splits the string into words
 
 Parameters:			char *str - the string to split
 
 Return:				char ** - the array of words
 
 How it works:
-	1. Initialize the word_count to the number of words in the string
-	2. Allocate memory for the array of words
-	3. Loop through the words
-		4. Skip leading spaces
-		5. Get the word
-		6. Skip trailing spaces
-		7. Increment the index
-	8. Set the last element of the array to NULL
-	9. Return the array
+	1. Skip leading spaces
+	2. Count the number of words
+	3. Allocate memory for the array of words
+	4. Loop through the words
+		5. Skip leading spaces
+		6. Extract the word
+		7. Skip trailing spaces
+	8. Return the array of words
+
 */
 char	**split_into_words(char *str)
 {

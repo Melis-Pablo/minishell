@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   zprint.c                                           :+:      :+:    :+:   */
+/*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 23:29:09 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/04 15:20:10 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/05 17:46:43 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 /*
-print_str_array:	print the array of strings
+print_str_array():	Prints an array of strings
 
 Parameters:			char **arr - the array of strings to print
 
 Return:				void
 
 How it works:
-	1. Loop through the array and print each string
-	2. Print a newline at the end
+	1. Loop through the array of strings
+	2. Print each string
 */
 void	print_str_array(char **arr)
 {
@@ -36,15 +36,20 @@ void	print_str_array(char **arr)
 }
 
 /*
-print_cmds_list:	print the linked list of commands
+print_cmds_list():	Prints the linked list of commands
 
-Parameters:			t_cmd *head - the head of the linked list of commands
+Parameters:			t_cmd *head - the head of the linked list
 
 Return:				void
 
 How it works:
-	1. Loop through the linked list and print each command
-	2. Print a newline at the end
+	1. Loop through the linked list
+	2. Print the command string
+	3. Print the flags array
+	4. Print the infile array
+	5. Print the outfile array
+	6. Print the append array
+	7. Move to the next node
 */
 void	print_cmds_list(t_cmd *head)
 {
