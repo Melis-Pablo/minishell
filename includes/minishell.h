@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 22:26:27 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/05 17:47:06 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/06 18:55:13 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,7 @@ char			**split_into_words(char *str_block);
 
 //Split_by_pipes.c
 char			**split_by_pipes(char *input);
+
+t_cmd			*create_lst(char *input);
 
 #endif

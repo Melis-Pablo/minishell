@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 23:29:09 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/05 17:46:43 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/06 19:07:04 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@ void	print_str_array(char **arr)
 	i = 0;
 	while (arr[i] != NULL)
 	{
-		printf("word %i: %s \n", i, arr[i]);
+		printf("%s, ", arr[i]);
 		i++;
 	}
+	printf("\n");
 }
 
 /*
@@ -58,7 +59,6 @@ void	print_cmds_list(t_cmd *head)
 	current = head;
 	while (current != NULL)
 	{
-		printf("--------------------\n");
 		printf("cmd: %s\n", current->cmd);
 		printf("args: ");
 		print_str_array(current->args);
@@ -73,6 +73,6 @@ void	print_cmds_list(t_cmd *head)
 		printf("append: ");
 		print_str_array(current->append);
 		current = current->next;
+		printf("--------------------\n");
 	}
-	printf("--------------------\n");
 }

@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 23:12:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/05 17:58:17 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/06 19:09:07 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	print_strings_and_words(char *input)
 int	main(int argc, char **argv)
 {
 	char	*input;
+	t_cmd	*cmd_lst;
 
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
@@ -61,7 +62,9 @@ int	main(int argc, char **argv)
 		add_history(input);
 
 
-		print_strings_and_words(input);
+		cmd_lst = create_lst(input);
+		print_cmds_list(cmd_lst);
+		free_cmd_lst(cmd_lst);
 
 
 		free(input);
