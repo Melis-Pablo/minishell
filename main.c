@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 23:12:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/07 13:43:59 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/07 22:35:34 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ void	print_strings_and_words(char *input)
 	{
 		printf("string: %s\n", strings[i]);
 		words = split_into_words(strings[i]);
+		if (!words)
+		{
+			free_array(strings);
+			return ;
+		}
 		print_str_array(words);
 		free_array(words);
 		i++;

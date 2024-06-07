@@ -6,9 +6,8 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:25:31 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/07 14:25:58 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/07 22:40:51 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-

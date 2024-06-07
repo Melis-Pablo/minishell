@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:21:32 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/07 17:34:01 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/07 22:42:03 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,86 +74,65 @@ static int	count_words(char *str)
 	return (count + 1);
 }
 
-///////////////////////////////////////////////////////////////////////////////
-
-static char	*get_env_value(const char *var)
+static char	*get_var_name(char *start, char *end)
 {
-	char	*value;
+	size_t	var_name_len;
+	char	*var_name;
 
-	value = getenv(var);
-	if (!value)
-		return (strdup(""));
-	return (strdup(value));
+	var_name_len = end - start - 1;
+	var_name = (char *)malloc(var_name_len + 1);
+	if (!var_name)
+	{
+		perror("malloc");
+		exit(EXIT_FAILURE);
+	}
+	strncpy(var_name, start + 1, var_name_len);
+	var_name[var_name_len] = '\0';
+	return (var_name);
 }
 
-static int	calculate_new_length(char *word)
+static char	*var_to_value(char *word, char *start, char *end, char *var_value)
 {
-	int		len;
-	int		i;
-	int		start;
-	char	*env_value;
+	size_t	new_word_len;
+	char	*new_word;
 
-	len = 0;
-	i = 0;
-	while (word[i])
+	new_word_len = strlen(word) - (end - start - 1) + strlen(var_value);
+	new_word = (char *)malloc(new_word_len + 1);
+	if (!new_word)
 	{
-		if (word[i] == '$' && word[i + 1] && (isalpha(word[i + 1]) || word[i + 1] == '_'))
-		{
-			i++;
-			start = i;
-			while (word[i] && (isalnum(word[i]) || word[i] == '_'))
-				i++;
-			env_value = get_env_value(strndup(word + start, i - start));
-			len += strlen(env_value);
-			free(env_value);
-		}
-		else
-		{
-			len++;
-			i++;
-		}
+		perror("malloc");
+		exit(EXIT_FAILURE);
 	}
-	return (len);
+	strncpy(new_word, word, start - word);
+	new_word[start - word] = '\0';
+	strcat(new_word, var_value);
+	strcat(new_word, end);
+	return (new_word);
 }
 
 char	*expand_env_variables(char *word)
 {
-	int		i;
-	int		j;
-	int		start;
-	char	*expanded_str;
-	char	*env_value;
+	char	*start;
+	char	*end;
+	char	*var_name;
+	char	*var_value;
+	char	*new_word;
 
-	if (!word)
-		return (NULL);
-	expanded_str = (char *)malloc(calculate_new_length(word) + 1);
-	if (!expanded_str)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (word[i])
-	{
-		if (word[i] == '$' && word[i + 1] && (isalpha(word[i + 1]) || word[i + 1] == '_'))
-		{
-			i++;
-			start = i;
-			while (word[i] && (isalnum(word[i]) || word[i] == '_'))
-				i++;
-			env_value = get_env_value(strndup(word + start, i - start));
-			strcpy(expanded_str + j, env_value);
-			j += strlen(env_value);
-			free(env_value);
-		}
-		else
-			expanded_str[j++] = word[i++];
-	}
-	expanded_str[j] = '\0';
+	start = strchr(word, '$');
+	if (!start)
+		return (word);
+	end = start + 1;
+	while (*end && ((*end == '_') || isalnum(*end)))
+		end++;
+	var_name = get_var_name(start, end);
+	var_value = getenv(var_name);
+	if (!var_value)
+		var_value = "";
+	new_word = var_to_value(word, start, end, var_value);
+	free(var_name);
 	free(word);
-	return (expanded_str);
+	return (new_word);
 }
-
-
-///////////////////////////////////////////////////////////////////////////////
 
 char	*ft_clean_quotes(char *word)
 {
@@ -176,6 +155,23 @@ char	*ft_clean_quotes(char *word)
 		return (word);
 }
 
+int	check_semicolon(char *word)
+{
+	size_t	len;
+
+	len = strlen(word);
+	if (strcmp(word, ";") == 0)
+		return (1);
+	if (len > 0)
+	{
+		if (word[0] == ';')
+			return (1);
+		if (word[len - 1] == ';')
+			return (1);
+	}
+	return (0);
+}
+
 static char	*get_word(char **str)
 {
 	char	*word;
@@ -193,6 +189,13 @@ static char	*get_word(char **str)
 		i++;
 	}
 	word = ft_strndup(*str, i);
+	if (check_semicolon(word))
+	{
+		free(word);
+		perror("Error: Invalid character detected ';'");
+		exit(EXIT_FAILURE);
+		return (NULL);
+	}
 	word = ft_clean_quotes(word);
 	*str += i;
 	return (word);
@@ -214,6 +217,11 @@ char	**split_into_words(char *str)
 		while (*str && is_space(*str))
 			str++;
 		words[i] = get_word(&str);
+		if (!words[i])
+		{
+			free_array(words);
+			return (NULL);
+		}
 		while (*str && is_space(*str))
 			str++;
 		i++;
