@@ -6,23 +6,12 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:21:32 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/05 17:53:58 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/07 17:34:01 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/*
-is_space():	Checks if the character is a space
-
-Parameters:	char c - the character to check
-
-Return:		int - 1 if the character is a space, 0 otherwise
-
-How it works:
-	1. Check if the character is a space
-	2. Return 1 if it is, 0 otherwise
-*/
 int	is_space(char c)
 {
 	if (c == ' ' || c == '\t' || c == '\n'
@@ -31,30 +20,43 @@ int	is_space(char c)
 	return (0);
 }
 
-/*
-count_words():	Counts the number of words in the string
+int	check_unclosed_quote(char *str)
+{
+	int	single_quotes;
+	int	double_quotes;
 
-Parameters:		char *str - the string to count words in
+	single_quotes = 0;
+	double_quotes = 0;
+	while (*str)
+	{
+		if (*str == '\'')
+		{
+			if (!double_quotes)
+				single_quotes = !single_quotes;
+		}
+		else if (*str == '"')
+		{
+			if (!single_quotes)
+				double_quotes = !double_quotes;
+		}
+		str++;
+	}
+	if (single_quotes || double_quotes)
+		return (1);
+	else
+		return (0);
+}
 
-Return:			int - the number of words
-
-How it works:
-	1. Initialize the count to 0
-	2. Initialize the in_quotes flag to 0
-	3. Skip leading spaces
-	4. Loop through the string
-		5. If the character is a quote, toggle the in_quotes flag
-		6. If not in quotes and the character is a space
-			7. If the next character is not a space or the end of the string
-				8. Increment the count
-		9. Move to the next character
-	10. Return the count + 1
-*/
 static int	count_words(char *str)
 {
 	int	count;
 	int	in_quotes;
 
+	if (check_unclosed_quote(str))
+	{
+		printf("Error: Unclosed quote detected\n");
+		exit(1);
+	}
 	count = 0;
 	in_quotes = 0;
 	while (*str && is_space(*str))
@@ -72,57 +74,130 @@ static int	count_words(char *str)
 	return (count + 1);
 }
 
-/*
-get_word():	Extracts a word from the string
+///////////////////////////////////////////////////////////////////////////////
 
-Parameters:	char **str - the address of the string to extract the word from
-
-Return:			char * - the extracted word
-
-How it works:
-	1. Initialize the word_start to the address of the string
-	2. Initialize the in_quotes flag to 0
-	3. Loop through the string
-		4. If the character is a quote, toggle the in_quotes flag
-		5. If not in quotes and the character is a space
-			6. Break the loop
-		7. Move to the next character
-	8. Return a copy of the word
-*/
-static char	*get_word(char **str)
+static char	*get_env_value(const char *var)
 {
-	char	*word_start;
-	int		in_quotes;
+	char	*value;
 
-	word_start = *str;
-	in_quotes = 0;
-	while (**str && (in_quotes || **str != ' '))
-	{
-		if (**str == '"' || **str == '\'')
-			in_quotes = !in_quotes;
-		(*str)++;
-	}
-	return (ft_strndup(word_start, *str - word_start));
+	value = getenv(var);
+	if (!value)
+		return (strdup(""));
+	return (strdup(value));
 }
 
-/*
-split_into_words():	Splits the string into words
+static int	calculate_new_length(char *word)
+{
+	int		len;
+	int		i;
+	int		start;
+	char	*env_value;
 
-Parameters:			char *str - the string to split
+	len = 0;
+	i = 0;
+	while (word[i])
+	{
+		if (word[i] == '$' && word[i + 1] && (isalpha(word[i + 1]) || word[i + 1] == '_'))
+		{
+			i++;
+			start = i;
+			while (word[i] && (isalnum(word[i]) || word[i] == '_'))
+				i++;
+			env_value = get_env_value(strndup(word + start, i - start));
+			len += strlen(env_value);
+			free(env_value);
+		}
+		else
+		{
+			len++;
+			i++;
+		}
+	}
+	return (len);
+}
 
-Return:				char ** - the array of words
+char	*expand_env_variables(char *word)
+{
+	int		i;
+	int		j;
+	int		start;
+	char	*expanded_str;
+	char	*env_value;
 
-How it works:
-	1. Skip leading spaces
-	2. Count the number of words
-	3. Allocate memory for the array of words
-	4. Loop through the words
-		5. Skip leading spaces
-		6. Extract the word
-		7. Skip trailing spaces
-	8. Return the array of words
+	if (!word)
+		return (NULL);
+	expanded_str = (char *)malloc(calculate_new_length(word) + 1);
+	if (!expanded_str)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (word[i])
+	{
+		if (word[i] == '$' && word[i + 1] && (isalpha(word[i + 1]) || word[i + 1] == '_'))
+		{
+			i++;
+			start = i;
+			while (word[i] && (isalnum(word[i]) || word[i] == '_'))
+				i++;
+			env_value = get_env_value(strndup(word + start, i - start));
+			strcpy(expanded_str + j, env_value);
+			j += strlen(env_value);
+			free(env_value);
+		}
+		else
+			expanded_str[j++] = word[i++];
+	}
+	expanded_str[j] = '\0';
+	free(word);
+	return (expanded_str);
+}
 
-*/
+
+///////////////////////////////////////////////////////////////////////////////
+
+char	*ft_clean_quotes(char *word)
+{
+	char	*new_word;
+
+	if (word[0] == '"' && word[strlen(word) - 1] == '"')
+	{
+		new_word = ft_strndup(word + 1, strlen(word) - 2);
+		new_word = expand_env_variables(new_word);
+		free(word);
+		return (new_word);
+	}
+	else if (word[0] == '\'' && word[strlen(word) - 1] == '\'')
+	{
+		new_word = ft_strndup(word + 1, strlen(word) - 2);
+		free(word);
+		return (new_word);
+	}
+	else
+		return (word);
+}
+
+static char	*get_word(char **str)
+{
+	char	*word;
+	int		i;
+
+	i = 0;
+	while ((*str)[i] && !is_space((*str)[i]))
+	{
+		if ((*str)[i] == '"' || (*str)[i] == '\'')
+		{
+			i++;
+			while ((*str)[i] && (*str)[i] != '"' && (*str)[i] != '\'')
+				i++;
+		}
+		i++;
+	}
+	word = ft_strndup(*str, i);
+	word = ft_clean_quotes(word);
+	*str += i;
+	return (word);
+}
+
 char	**split_into_words(char *str)
 {
 	int		word_count;

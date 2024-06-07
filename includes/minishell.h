@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 22:26:27 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/06 18:55:13 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/07 14:43:27 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,27 @@
 //////////////////////////
 // Data structure types //
 //////////////////////////
+typedef enum e_redirection_type
+{
+	REDIR_INPUT = 1,	// <
+	REDIR_OUTPUT = 2,	// >
+	REDIR_HEREDOC = 3,	// <<
+	REDIR_APPEND = 4,	// >>
+}	t_redirection_type;
+
+typedef struct s_redirection
+{
+	t_redirection_type	type;	// Type of redirection
+	char				*file;	// File associated with redirection
+}						t_redirection;
+
 typedef struct s_cmd
 {
-	char			*cmd;
-	char			**args;
-	char			**flags;
-	char			**infile;
-	char			**outfile;
-	char			**delimiter;
-	char			**append;
-	struct s_cmd	*prev;
-	struct s_cmd	*next;
+	char			*cmd;		// Command name
+	char			**args;		// Arguments for the command
+	char			**flags;	// Flags for the command
+	t_redirection	*redirs;	// Array of redirections
+	struct s_cmd	*next;		// Pointer to the next command in the pipeline
 }					t_cmd;
 
 /////////////////////////
