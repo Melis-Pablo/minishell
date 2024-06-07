@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 23:29:09 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/06 19:07:04 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/07 13:42:00 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	print_str_array(char **arr)
 	i = 0;
 	while (arr[i] != NULL)
 	{
-		printf("%s, ", arr[i]);
+		printf("Word[%i] %s\n", i, arr[i]);
 		i++;
 	}
 	printf("\n");

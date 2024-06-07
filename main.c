@@ -6,19 +6,19 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 23:12:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/06 19:09:07 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/07 13:43:59 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-int		signal_status = 0;
+int		g_signal_status = 0;
 
 void	sigint_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
-		signal_status = 1;
+		g_signal_status = 1;
 		write(1, "\nminishell> ", 12);
 	}
 }
@@ -45,7 +45,6 @@ void	print_strings_and_words(char *input)
 int	main(int argc, char **argv)
 {
 	char	*input;
-	t_cmd	*cmd_lst;
 
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
@@ -60,14 +59,8 @@ int	main(int argc, char **argv)
 		if (!input)
 			break ;
 		add_history(input);
-
-
-		cmd_lst = create_lst(input);
-		print_cmds_list(cmd_lst);
-		free_cmd_lst(cmd_lst);
-
-
+		print_strings_and_words(input);
 		free(input);
 	}
-	return (signal_status);
+	return (g_signal_status);
 }
