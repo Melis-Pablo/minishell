@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 23:12:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/08 17:13:56 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/08 18:06:11 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	print_strings_and_words(char *input)
 int	main(int argc, char **argv)
 {
 	char	*input;
+	t_cmd	*head;
 
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
@@ -65,7 +66,13 @@ int	main(int argc, char **argv)
 		if (!input)
 			break ;
 		add_history(input);
-		print_strings_and_words(input);
+		head = build_cmd_lst(input);
+		if (head != NULL)
+		{
+			print_nodes(head);
+			free_cmd_lst(head);
+		}
+		//print_strings_and_words(input);
 		free(input);
 	}
 	return (g_signal_status);

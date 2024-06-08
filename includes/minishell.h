@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 22:26:27 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/08 16:20:28 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/08 17:50:01 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,9 @@ char			**split_by_pipes(char *input);
 
 char			*ft_clean_quotes(char *word);
 void			clean_quotes_in_array(char **array);
+
+t_cmd			*build_cmd_lst(char *input);
+void			print_nodes(t_cmd *head);
+void			free_cmd_lst(t_cmd *cmds);
 
 #endif

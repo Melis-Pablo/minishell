@@ -15,6 +15,7 @@ SRCS		:=			main.c \
 						srcs/parsing/split_into_words.c \
 						srcs/utils/utils.c \
 						srcs/utils/print.c \
+						srcs/parsing/cmd_lst.c \
 
 OBJS        := $(SRCS:.c=.o)
 
