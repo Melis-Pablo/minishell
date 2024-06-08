@@ -6,13 +6,13 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 23:12:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/07 22:35:34 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/08 17:13:56 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-int		g_signal_status = 0;
+int	g_signal_status = 340;
 
 void	sigint_handler(int sig)
 {
@@ -40,6 +40,7 @@ void	print_strings_and_words(char *input)
 			free_array(strings);
 			return ;
 		}
+		clean_quotes_in_array(words);
 		print_str_array(words);
 		free_array(words);
 		i++;

@@ -17,3 +17,48 @@ Cmd1 -flag0 --flag1 arg1 "arg '"$PWD"' | 2" <infile.txt < infile1.txt <<heredoc1
 1.	Clean quotes & Expand variables [to be done]
 2.	redir in/out (pipes) / heredoc / append
 3.	execve
+
+/////////////////////////////////////////////////////////////////////////////////
+Builds a list of commands from the input string.
+					Each command is separated by a pipe character '|'.
+					Each command can have multiple redirections.
+					Each redirection is separated by a redirection character
+					'<' or '>'.
+					Each redirection can have a file associated with it.
+					Each redirection file is separated by a space character ' '.
+					Each redirection file can be a path to a file.
+					Each redirection file can be a heredoc redirection.
+					Each redirection file can be a number.
+					Each redirection file can be a file descriptor.
+					Each redirection file can be a file descriptor with a number.
+					Each redirection file can be a file descriptor with a number
+					and a space character.
+					Each redirection file can be a file descriptor with a number
+					and a space character and a path to a file.
+					Each redirection file can be a file descriptor with a number
+					and a space character and a heredoc redirection.
+					Each redirection file can be a file descriptor with a number
+					and a space character and a number.
+					Each redirection file can be a file descriptor with a number
+					and a space character and a file descriptor.
+					Each redirection file can be a file descriptor with a number
+					and a space character and a file descriptor with a number.
+					Each redirection file can be a file descriptor with a number
+					and a space character and a file descriptor with a number
+					and a space character.
+					Each redirection file can be a file descriptor with a number
+					and a space character and a file descriptor with a number
+					and a space character and a path to a file.
+					Each redirection file can be a file descriptor with a number
+					and a space character and a file descriptor with a number
+					and a space character and a heredoc redirection.
+					Each redirection file can be a file descriptor with a number
+					and a space character and a file descriptor with a number
+					and a space character and a number.
+					Each redirection file can be a file descriptor with a number
+					and a space character and a file descriptor with a number
+					and a space character and a file descriptor.
+					Each redirection file can be a file descriptor with a number
+					and a space character and a file descriptor with a number
+					and a space
+/////////////////////////////////////////////////////////////////////////////////

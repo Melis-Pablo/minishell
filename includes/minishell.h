@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 22:26:27 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/07 14:43:27 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/08 16:20:28 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,11 @@
 								//tcgetattr
 # include <unistd.h>            // write, getcwd, chdir, unlink, execve, dup,
 								//dup2, pipe
+
+//////////////////////////
+//   Global Variables   //
+//////////////////////////
+extern int	g_signal_status;
 
 //////////////////////////
 // Data structure types //
@@ -85,6 +90,7 @@ char			**split_into_words(char *str_block);
 //Split_by_pipes.c
 char			**split_by_pipes(char *input);
 
-t_cmd			*create_lst(char *input);
+char			*ft_clean_quotes(char *word);
+void			clean_quotes_in_array(char **array);
 
 #endif
