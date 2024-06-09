@@ -11,11 +11,15 @@ FLAGS    := -Wall -Wextra -Werror
 
 SRCS		:=			main.c \
 						srcs/cleanup/cleaners.c \
+						srcs/parsing/env_var.c \
 						srcs/parsing/split_by_pipes.c \
 						srcs/parsing/split_into_words.c \
-						srcs/utils/utils.c \
+						srcs/parsing/str_error.c \
+						srcs/parsing/word_error.c \
+						srcs/parsing/word_error_checks.c \
 						srcs/utils/print.c \
-						srcs/parsing/cmd_lst.c \
+						srcs/utils/utils.c \
+						srcs/utils/utils_2.c \
 
 OBJS        := $(SRCS:.c=.o)
 

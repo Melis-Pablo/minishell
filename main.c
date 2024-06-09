@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 23:12:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/08 18:06:11 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/09 19:39:49 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,35 +23,9 @@ void	sigint_handler(int sig)
 	}
 }
 
-void	print_strings_and_words(char *input)
-{
-	char	**strings;
-	char	**words;
-	int		i;
-
-	strings = split_by_pipes(input);
-	i = 0;
-	while (strings[i] != NULL)
-	{
-		printf("string: %s\n", strings[i]);
-		words = split_into_words(strings[i]);
-		if (!words)
-		{
-			free_array(strings);
-			return ;
-		}
-		clean_quotes_in_array(words);
-		print_str_array(words);
-		free_array(words);
-		i++;
-	}
-	free_array(strings);
-}
-
 int	main(int argc, char **argv)
 {
 	char	*input;
-	t_cmd	*head;
 
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
@@ -66,13 +40,7 @@ int	main(int argc, char **argv)
 		if (!input)
 			break ;
 		add_history(input);
-		head = build_cmd_lst(input);
-		if (head != NULL)
-		{
-			print_nodes(head);
-			free_cmd_lst(head);
-		}
-		//print_strings_and_words(input);
+		print_strings_and_words(input);
 		free(input);
 	}
 	return (g_signal_status);

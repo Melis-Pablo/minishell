@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:12:22 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/05 17:56:54 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/09 16:16:37 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,7 @@ char	**split_by_pipes(char *input)
 	while (i <= pipe_count)
 	{
 		strings[i] = copy_until_pipe(input);
-		input += strlen(strings[i]) + 1;
+		input += ft_strlen(strings[i]) + 1;
 		i++;
 	}
 	strings[i] = NULL;
