@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 23:22:11 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/09 16:18:23 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/10 20:10:11 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,4 +155,22 @@ void	clean_quotes_in_array(char **array)
 		array[i] = ft_clean_quotes(array[i]);
 		i++;
 	}
+}
+
+char	*ft_strdup(const char *s)
+{
+	char	*str;
+	int		i;
+
+	str = (char *)malloc(strlen(s) + 1);
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (s[i])
+	{
+		str[i] = s[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
 }

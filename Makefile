@@ -20,6 +20,7 @@ SRCS		:=			main.c \
 						srcs/utils/print.c \
 						srcs/utils/utils.c \
 						srcs/utils/utils_2.c \
+						srcs/parsing/cmd_lst.c \
 
 OBJS        := $(SRCS:.c=.o)
 

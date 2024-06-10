@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 23:12:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/09 19:39:49 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/10 17:41:06 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,25 @@ void	sigint_handler(int sig)
 	}
 }
 
-int	main(int argc, char **argv)
+int	minishell_loop(void)
 {
 	char	*input;
 
+	while (1)
+	{
+		input = readline("minishell> ");
+		if (!input)
+			return (1);
+		add_history(input);
+		print_lexed(input);
+		//print_strings_and_words(input);
+		free(input);
+	}
+	return (0);
+}
+
+int	main(int argc, char **argv)
+{
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 	if (argc != 1 || argv[1] != NULL)
@@ -34,14 +49,6 @@ int	main(int argc, char **argv)
 		printf("Minishell program does not take arguments. run ./minishell\n");
 		return (0);
 	}
-	while (1)
-	{
-		input = readline("minishell> ");
-		if (!input)
-			break ;
-		add_history(input);
-		print_strings_and_words(input);
-		free(input);
-	}
+	g_signal_status = minishell_loop();
 	return (g_signal_status);
 }

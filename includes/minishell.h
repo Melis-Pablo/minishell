@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 22:26:27 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/09 19:45:40 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/10 21:06:33 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ extern int	g_signal_status;
 //////////////////////////
 typedef enum e_redirection_type
 {
+	NO_REDIRECTION = 0,
 	REDIR_INPUT = 1,	// <
 	REDIR_OUTPUT = 2,	// >
 	REDIR_HEREDOC = 3,	// <<
@@ -59,6 +60,15 @@ typedef struct s_redirection
 	char					*file;	// File associated with redirection
 	struct s_redirection	*next;	// Pointer to next redirection in the list
 }						t_redirection;
+
+typedef struct s_lexer
+{
+	char			*word;
+	int				type;
+	struct s_lexer	*prev;
+	struct s_lexer	*next;
+
+}	t_lexer;
 
 typedef struct s_cmd
 {
@@ -139,5 +149,14 @@ char	*ft_strncpy(char *dst, const char *src, size_t n);
 size_t	ft_strlen(const char *s);
 char	*ft_strcat(char *dst, const char *src);
 int		ft_strcmp(const char *s1, const char *s2);
+
+
+
+
+/////
+
+char	**build_array(char *input);
+void	print_lexed(char *input);
+char	*ft_strdup(const char *s);
 
 #endif
