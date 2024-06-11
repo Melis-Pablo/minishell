@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 23:12:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/10 17:41:06 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/11 17:08:36 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	sigint_handler(int sig)
 int	minishell_loop(void)
 {
 	char	*input;
+	t_cmd	*head_cmd;
 
 	while (1)
 	{
@@ -33,8 +34,9 @@ int	minishell_loop(void)
 		if (!input)
 			return (1);
 		add_history(input);
-		print_lexed(input);
-		//print_strings_and_words(input);
+		head_cmd = build_struct(input);
+		print_cmd_lst(head_cmd);
+		free_cmd_lst(head_cmd);
 		free(input);
 	}
 	return (0);
