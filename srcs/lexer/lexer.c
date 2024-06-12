@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 14:07:50 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/11 14:45:22 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/12 13:24:01 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,11 +108,42 @@ void	empty_redir_words(t_lexer *head)
 			|| (tmp->type == REDIR_APPEND && ft_strcmp(tmp->word, ">>") == 0))
 		{
 			free(tmp->word);
-			tmp->word = NULL;
+			if (tmp->next->type == NO_REDIRECTION)
+			{
+				tmp->word = ft_strdup(tmp->next->word);
+				free(tmp->next->word);
+				tmp->next->word = NULL;
+			}
+			else
+				perror("Syntax error near unexpected redirection");
+			break;
 		}
 		if (tmp->type == NO_REDIRECTION)
 			tmp->word = ft_clean_quotes(tmp->word);
 		tmp = tmp->next;
+	}
+}
+
+void free_and_delete_empty_nodes(t_lexer *head)
+{
+	t_lexer	*tmp;
+	t_lexer	*tmp2;
+
+	tmp = head;
+	while (tmp)
+	{
+		if (tmp->word == NULL)
+		{
+			if (tmp->prev)
+				tmp->prev->next = tmp->next;
+			if (tmp->next)
+				tmp->next->prev = tmp->prev;
+			tmp2 = tmp->next;
+			free(tmp);
+			tmp = tmp2;
+		}
+		else
+			tmp = tmp->next;
 	}
 }
 
@@ -154,5 +185,6 @@ t_lexer	*lexer(char **words)
 	fill_types(head);
 	empty_redir_words(head);
 	clean_redir_symbols(head);
+	free_and_delete_empty_nodes(head);
 	return (head);
 }

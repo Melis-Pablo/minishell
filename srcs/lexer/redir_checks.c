@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 14:24:03 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/11 14:47:16 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/12 13:13:46 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,15 @@ void	clean_redir_symbols(t_lexer *head)
 	chars_to_remove = 0;
 	while (tmp)
 	{
-		if ((tmp->type == REDIR_INPUT && tmp->word != NULL)
+		if (((tmp->type == REDIR_INPUT && tmp->word != NULL)
 			|| (tmp->type == REDIR_OUTPUT && tmp->word != NULL))
+			&& ((tmp->word && strncmp(tmp->word, "<", 1) == 0)
+			|| (tmp->word && strncmp(tmp->word, ">", 1) == 0)))
 			chars_to_remove = 1;
-		else if ((tmp->type == REDIR_HEREDOC && tmp->word != NULL)
+		else if (((tmp->type == REDIR_HEREDOC && tmp->word != NULL)
 			|| (tmp->type == REDIR_APPEND && tmp->word != NULL))
+			&& ((tmp->word && strncmp(tmp->word, "<<", 2) == 0)
+			|| (tmp->word && strncmp(tmp->word, ">>", 2) == 0)))
 			chars_to_remove = 2;
 		if (chars_to_remove != 0)
 		{
