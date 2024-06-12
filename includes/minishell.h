@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 22:26:27 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/12 16:33:16 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/12 19:01:33 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ void	free_lexer_list(t_lexer *head);
 void	fill_types(t_lexer *head);
 t_lexer	*add_to_list_lexer(t_lexer *head, t_lexer *new_node);
 void	empty_redir_words(t_lexer *head);
+t_lexer	*take_out_node(t_lexer *node);
+void	remove_emptys(t_lexer *head);
 t_lexer	*lexer(char **words);
 
 //lexer/redir_checks.c
@@ -156,5 +158,7 @@ int		ft_strcmp(const char *s1, const char *s2);
 //utils/utils_3.c
 char	*ft_strdup(const char *s);
 int		ft_isalnum(int c);
+
+void	my_execution(t_cmd *head);
 
 #endif

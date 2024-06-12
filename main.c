@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 23:12:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/12 15:12:29 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/12 20:00:49 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	minishell_loop(void)
 		add_history(input);
 		head_cmd = build_struct(input);
 		print_cmd_lst(head_cmd);
+		my_execution(head_cmd);
 		free_cmd_lst(head_cmd);
 		free(input);
 	}

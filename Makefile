@@ -24,6 +24,7 @@ SRCS		:=			main.c \
 						srcs/utils/utils_1.c \
 						srcs/utils/utils_2.c \
 						srcs/utils/utils_3.c \
+						srcs/redirects/redirects.c \
 
 OBJS        := $(SRCS:.c=.o)
 
