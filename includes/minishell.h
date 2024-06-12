@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 22:26:27 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/11 17:50:43 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/12 16:33:16 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,10 @@ typedef enum e_redirection_type
 
 typedef struct s_lexer
 {
-	char			*word;
-	int				type;
-	struct s_lexer	*prev;
-	struct s_lexer	*next;
-
+	char				*word;
+	t_redirection_type	type;
+	struct s_lexer		*prev;
+	struct s_lexer		*next;
 }	t_lexer;
 
 typedef struct s_cmd
@@ -156,5 +155,6 @@ int		ft_strcmp(const char *s1, const char *s2);
 
 //utils/utils_3.c
 char	*ft_strdup(const char *s);
+int		ft_isalnum(int c);
 
 #endif

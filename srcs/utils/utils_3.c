@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 14:17:22 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/11 14:18:01 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/12 17:24:15 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,23 @@ char	*ft_strdup(const char *s)
 	}
 	str[i] = '\0';
 	return (str);
+}
+
+/*
+ft_isalnum():	Checks if a character is an alphanumeric character
+
+Parameters:		int c - the character to check
+
+Return:			int - 1 if the character is alphanumeric, 0 otherwise
+
+How it works:
+	1. Check if the character is a digit
+	2. Check if the character is an uppercase letter
+	3. Check if the character is a lowercase letter
+	4. Return 1 if any of the above checks are true, 0 otherwise
+*/
+int	ft_isalnum(int c)
+{
+	return ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z')
+		|| (c >= 'a' && c <= 'z'));
 }

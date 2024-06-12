@@ -6,28 +6,12 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 14:24:03 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/12 13:13:46 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/12 17:32:24 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 // ADD ERROR HANDLING FOR <<<, ><<, >><<, etc and checks for <file<file, etc
-/*
-clean_redir_symbols:	cleans the redirection symbols from the words
-						in the list
-
-Parameters:			t_lexer *head - the head of the list
-
-Return:				void
-
-How it works:
-	1. Loop through the list
-	2. If the word is an input redirection or output redirection
-	3. Remove the first character
-	4. If the word is a heredoc redirection or append redirection
-	5. Remove the first two characters
-	6. Set the word to the new word
-*/
 void	clean_redir_symbols(t_lexer *head)
 {
 	t_lexer	*tmp;
@@ -40,14 +24,14 @@ void	clean_redir_symbols(t_lexer *head)
 	while (tmp)
 	{
 		if (((tmp->type == REDIR_INPUT && tmp->word != NULL)
-			|| (tmp->type == REDIR_OUTPUT && tmp->word != NULL))
+				|| (tmp->type == REDIR_OUTPUT && tmp->word != NULL))
 			&& ((tmp->word && strncmp(tmp->word, "<", 1) == 0)
-			|| (tmp->word && strncmp(tmp->word, ">", 1) == 0)))
+				|| (tmp->word && strncmp(tmp->word, ">", 1) == 0)))
 			chars_to_remove = 1;
 		else if (((tmp->type == REDIR_HEREDOC && tmp->word != NULL)
-			|| (tmp->type == REDIR_APPEND && tmp->word != NULL))
+				|| (tmp->type == REDIR_APPEND && tmp->word != NULL))
 			&& ((tmp->word && strncmp(tmp->word, "<<", 2) == 0)
-			|| (tmp->word && strncmp(tmp->word, ">>", 2) == 0)))
+				|| (tmp->word && strncmp(tmp->word, ">>", 2) == 0)))
 			chars_to_remove = 2;
 		if (chars_to_remove != 0)
 		{

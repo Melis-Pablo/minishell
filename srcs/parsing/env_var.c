@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 15:28:46 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/09 16:40:58 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/12 13:39:44 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ char	*expand_env_variables(char *word)
 	end = start + 1;
 	if (*end == '?')
 		return (expand_exit_status(word, start, end));
-	while (*end && ((*end == '_') || isalnum(*end)))
+	while (*end && ((*end == '_') || ft_isalnum(*end)))
 		end++;
 	var_name = get_var_name(start, end);
 	var_value = getenv(var_name);
