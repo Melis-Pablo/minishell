@@ -1,32 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split_into_words.c                                 :+:      :+:    :+:   */
+/*   split_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/30 15:21:32 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/11 15:14:10 by pmelis           ###   ########.fr       */
+/*   Created: 2024/06/13 11:18:47 by pmelis            #+#    #+#             */
+/*   Updated: 2024/06/13 13:35:10 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
-/*
-count_words:	count the number of words in a string
-
-Parameters:		char *str - the string to count words in
-
-Return:			int - the number of words in the string
-
-How it works:	
-	1. Check for string errors
-	2. Skip leading spaces
-	3. Loop through the string
-	4. If a space is found and the next character is not a space or null,
-		increment the word count
-	5. Return the word count
-*/
 int	count_words(char *str)
 {
 	int	count;
@@ -51,22 +36,6 @@ int	count_words(char *str)
 	return (count + 1);
 }
 
-/*
-get_word:	get a word from a string
-
-Parameters:		char **str - the string to get the word from
-
-Return:			char * - the word
-
-How it works:	
-	1. Loop through the string
-	2. If a quote is found, skip to the end of the quote
-	3. Allocate memory for the word
-	4. Copy the word to the new string
-	5. Check for invalid characters
-	6. Increment the string pointer
-	7. Return the word
-*/
 char	*get_word(char **str)
 {
 	char	*word;
@@ -90,25 +59,6 @@ char	*get_word(char **str)
 	return (word);
 }
 
-/*
-split_into_words:	split a string into words
-
-Parameters:		char *str - the string to split
-
-Return:			char ** - an array of words
-
-How it works:	
-	1. Skip leading spaces
-	2. Count the number of words
-	3. Allocate memory for the words array
-	4. Loop through the string
-	5. Skip leading spaces
-	6. Get a word
-	7. If the word is null, free the array and return null
-	8. Skip leading spaces
-	9. Increment the word count
-	10. Return the words array
-*/
 char	**split_into_words(char *str)
 {
 	int		word_count;

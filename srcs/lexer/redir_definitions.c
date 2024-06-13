@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redir_checks.c                                     :+:      :+:    :+:   */
+/*   redir_definitions.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/11 14:24:03 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/12 17:32:24 by pmelis           ###   ########.fr       */
+/*   Created: 2024/06/13 12:50:53 by pmelis            #+#    #+#             */
+/*   Updated: 2024/06/13 13:30:50 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
 // ADD ERROR HANDLING FOR <<<, ><<, >><<, etc and checks for <file<file, etc
 void	clean_redir_symbols(t_lexer *head)
 {
@@ -44,19 +45,6 @@ void	clean_redir_symbols(t_lexer *head)
 	}
 }
 
-/*
-is_input_redirection:	checks if a word is an input redirection
-
-Parameters:				char *word - the word to check
-
-Return:					int - 1 if the word is an input redirection, 0 otherwise
-
-How it works:
-	1. If the word is "<", return 1
-	2. If the word is longer than 1 character and the first character is "<"
-	3. If the second character is not "<", return 1
-	4. Return 0
-*/
 int	is_input_redirection(char *word)
 {
 	if (word && ft_strcmp(word, "<") == 0)
@@ -70,19 +58,6 @@ int	is_input_redirection(char *word)
 	return (0);
 }
 
-/*
-is_output_redirection:	checks if a word is an output redirection
-
-Parameters:				char *word - the word to check
-
-Return:					int - 1 if the word is an output redirection, 0 otherwise
-
-How it works:
-	1. If the word is ">", return 1
-	2. If the word is longer than 1 character and the first character is ">"
-	3. If the second character is not ">", return 1
-	4. Return 0
-*/
 int	is_output_redirection(char *word)
 {
 	if (word && ft_strcmp(word, ">") == 0)
@@ -96,20 +71,6 @@ int	is_output_redirection(char *word)
 	return (0);
 }
 
-/*
-is_heredoc_redirection:	checks if a word is a heredoc redirection
-
-Parameters:				char *word - the word to check
-
-Return:					int - 1 if the word is a heredoc redirection, 0 otherwise
-
-How it works:
-	1. If the word is "<<", return 1
-	2. If the word is longer than 2 characters
-		and the first two characters are "<<"
-	3. Return 1
-	4. Return 0
-*/
 int	is_heredoc_redirection(char *word)
 {
 	if (word && ft_strcmp(word, "<<") == 0)
@@ -119,20 +80,6 @@ int	is_heredoc_redirection(char *word)
 	return (0);
 }
 
-/*
-is_append_redirection:	checks if a word is an append redirection
-
-Parameters:				char *word - the word to check
-
-Return:					int - 1 if the word is an append redirection, 0 otherwise
-
-How it works:
-	1. If the word is ">>", return 1
-	2. If the word is longer than 2 characters
-		and the first two characters are ">>"
-	3. Return 1
-	4. Return 0
-*/
 int	is_append_redirection(char *word)
 {
 	if (word && ft_strcmp(word, ">>") == 0)

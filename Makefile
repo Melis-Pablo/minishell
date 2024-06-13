@@ -1,30 +1,34 @@
+#  |  |  ___ \    \  |         |
+#  |  |     ) |  |\/ |   _  |  |  /   _ 
+# ___ __|  __/   |   |  (   |    <    __/ 
+#    _|  _____| _|  _| \__,_| _|\_\ \___|
+#                              by jcluzet
 ################################################################################
 #                                     CONFIG                                   #
 ################################################################################
 
 NAME        := minishell
 CC        := gcc
-FLAGS    := -Wall -Wextra -Werror
+FLAGS    := -Wall -Wextra -Werror 
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
 
-SRCS		:=			main.c \
-						srcs/cleanup/cleaners.c \
+SRCS        :=      srcs/lexer/splits/split_pipeline.c \
+						srcs/lexer/splits/split_tokens.c \
 						srcs/lexer/lexer.c \
-						srcs/lexer/redir_checks.c \
-						srcs/parsing/cmd_lst.c \
-						srcs/parsing/env_var.c \
-						srcs/parsing/split_by_pipes.c \
-						srcs/parsing/split_into_words.c \
-						srcs/parsing/str_error.c \
-						srcs/parsing/word_error_checks.c \
-						srcs/parsing/word_error.c \
+						srcs/lexer/redir_definitions.c \
+						srcs/lexer/quote_errors/unclosed_quotes.c \
+						srcs/parser/expand_env.c \
+						srcs/parser/build_cmd_lst.c \
+						srcs/parser/token_errors/invalid_tokens.c \
+						srcs/parser/token_errors/token_error.c \
+						srcs/redirects/test_area.c \
+						srcs/utils/str_utils.c \
+						srcs/utils/utils.c \
 						srcs/utils/print.c \
-						srcs/utils/utils_1.c \
-						srcs/utils/utils_2.c \
-						srcs/utils/utils_3.c \
-						srcs/redirects/redirects.c \
+						srcs/cleaners/cleaners.c \
+						main.c \
 
 OBJS        := $(SRCS:.c=.o)
 
@@ -51,8 +55,10 @@ ${NAME}:	${OBJS}
 
 all:		${NAME}
 
+bonus:		all
+
 clean:
-			@ ${RM} *.o */*.o */*/*.o
+			@ ${RM} *.o */*.o */*/*.o */*/*/*.o
 			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)objs ✔️"
 
 fclean:		clean
@@ -63,4 +69,4 @@ re:			fclean all
 
 cleanly:	all clean
 
-.PHONY:		all clean fclean re cleanly
+.PHONY:		all clean fclean re cleanly bonus

@@ -5,24 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/30 23:29:09 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/11 17:09:42 by pmelis           ###   ########.fr       */
+/*   Created: 2024/06/13 11:58:13 by pmelis            #+#    #+#             */
+/*   Updated: 2024/06/13 13:11:03 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/*
-print_str_array():	Prints an array of strings
-
-Parameters:			char **arr - the array of strings to print
-
-Return:				void
-
-How it works:
-	1. Loop through the array of strings
-	2. Print each string with an index
-*/
 void	print_str_array(char **arr)
 {
 	int	i;
@@ -36,21 +25,6 @@ void	print_str_array(char **arr)
 	printf("\n");
 }
 
-/*
-print_strings_and_words():	Prints the strings and words from the input
-
-Parameters:					char *input - the input string
-
-Return:						void
-
-How it works:
-	1. Split the input by pipes
-	2. Loop through the strings
-		3. Print the string
-		4. Split the string into words
-		5. Print the words
-	6. Free the strings
-*/
 void	print_strings_and_words(char *input)
 {
 	char	**strings;
@@ -75,18 +49,6 @@ void	print_strings_and_words(char *input)
 	free_array(strings);
 }
 
-/*
-print_lexer_list():	Prints the lexer list
-
-Parameters:			t_lexer *head - the head of the lexer list
-
-Return:				void
-
-How it works:
-	1. Loop through the lexer list
-		2. Print the word and the type
-	3. Free the lexer list
-*/
 void	print_lexer_list(t_lexer *head)
 {
 	t_lexer	*tmp;
@@ -110,18 +72,6 @@ void	print_lexer_list(t_lexer *head)
 	}
 }
 
-/*
-print_cmd_lst():	Prints the command list
-
-Parameters:			t_cmd *head - the head of the command list
-
-Return:				void
-
-How it works:
-	1. Loop through the command list
-		2. Print the lexer list
-	3. Free the command list
-*/
 void	print_cmd_lst(t_cmd *head)
 {
 	t_cmd	*tmp;
@@ -138,24 +88,6 @@ void	print_cmd_lst(t_cmd *head)
 	}
 }
 
-/*
-print_lexed():	Prints the lexed input
-
-Parameters:		char *input - the input string
-
-Return:			void
-
-How it works:
-	1. Split the input by pipes
-	2. Loop through the strings
-		3. Print the string
-		4. Split the string into words
-		5. Lex the words
-		6. Print the lexed list
-		7. Free the lexed list
-	8. Free the strings
-
-*/
 void	print_lexed(char *input)
 {
 	char	**strings;
