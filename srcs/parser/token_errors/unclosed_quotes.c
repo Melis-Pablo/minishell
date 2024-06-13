@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:42:39 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/13 13:21:37 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/13 17:24:43 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,12 @@ int	check_backslash(char *str)
 	return (0);
 }
 
-int	string_error(char *str)
+int	unclosed_quotes(char *str)
 {
 	if (check_unclosed_quote(str))
 	{
 		if (check_backslash(str))
-		{
-			perror("Error: Backslash not suported\n");
 			return (1);
-		}
-		perror("Error: Unclosed quote detected\n");
 		return (1);
 	}
 	return (0);

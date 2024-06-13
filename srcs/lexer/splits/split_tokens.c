@@ -6,84 +6,120 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:18:47 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/13 13:35:10 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/13 17:40:30 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
+//Split tokens by < and >
+/*
+count_tokens():	Count the number of tokens in the input string.
 
-int	count_words(char *str)
+Arguments:		char *pipe - the input string.
+
+Return:			int count - The number of tokens.
+
+How it works:
+	1. Loop through the input string.
+	2. If the character is a quote, toggle the in_quote flag.
+	3. If the character is a space and not in quote, increment the count.
+	4. Return the count.
+*/
+int	count_tokens(char *pipe)
 {
 	int	count;
 	int	in_quotes;
 
-	if (string_error(str))
-		return (0);
 	count = 0;
 	in_quotes = 0;
-	while (*str && is_space(*str))
-		str++;
-	while (*str)
+	// if (unclosed_quotes(pipe))
+	// 	return (0);
+	while (*pipe && ft_is_space(*pipe))
+		pipe++;
+	while (*pipe)
 	{
-		if (*str == '"' || *str == '\'')
+		if (*pipe == '"' || *pipe == '\'')
 			in_quotes = !in_quotes;
-		if (!in_quotes && *str == ' '
-			&& *(str + 1) != ' '
-			&& *(str + 1) != '\0')
+		if (!in_quotes && *pipe == ' '
+			&& *(pipe + 1) != ' '
+			&& *(pipe + 1) != '\0')
 			count++;
-		str++;
+		pipe++;
 	}
 	return (count + 1);
 }
 
-char	*get_word(char **str)
+/*
+get_token():	Get the next token from the input string.
+
+Arguments:		char **pipe - the input string.
+
+Return:			char *token - The token.
+
+How it works:
+	1. Loop through the input string.
+	2. If the character is a quote, skip until the closing quote.
+	3. Return the token.
+*/
+char	*get_token(char **pipe)
 {
-	char	*word;
+	char	*token;
 	int		i;
 
 	i = 0;
-	while ((*str)[i] && !is_space((*str)[i]))
+	while ((*pipe)[i] && !ft_is_space((*pipe)[i]))
 	{
-		if ((*str)[i] == '"' || (*str)[i] == '\'')
+		if ((*pipe)[i] == '"' || (*pipe)[i] == '\'')
 		{
 			i++;
-			while ((*str)[i] && (*str)[i] != '"' && (*str)[i] != '\'')
+			while ((*pipe)[i] && (*pipe)[i] != '"' && (*pipe)[i] != '\'')
 				i++;
 		}
 		i++;
 	}
-	word = ft_strndup(*str, i);
-	if (check_invalid_char(word))
-		return (NULL);
-	*str += i;
-	return (word);
+	token = ft_strndup(*pipe, i);
+	*pipe += i;
+	return (token);
 }
 
-char	**split_into_words(char *str)
+/*
+split_tokens():	Split the input string into tokens.
+
+Arguments:		char *pipe - the input string.
+
+Return:			char **tokens - The array of tokens.
+
+How it works:
+	1. Count the number of tokens in the input string.
+	2. Allocate memory for the array of tokens.
+	3. Loop through the input string and get each token.
+	4. Return the array of tokens.
+*/
+char	**split_tokens(char *pipe)
 {
-	int		word_count;
-	char	**words;
+	int		token_count;
+	char	**tokens;
 	int		i;
 
 	i = 0;
-	while (*str && is_space(*str))
-		str++;
-	word_count = count_words(str);
-	words = malloc(sizeof(char *) * (word_count + 1));
-	while (i < word_count)
+	while (*pipe && ft_is_space(*pipe))
+		pipe++;
+	token_count = count_tokens(pipe);
+	tokens = malloc(sizeof(char *) * (token_count + 1));
+	while (i < token_count)
 	{
-		while (*str && is_space(*str))
-			str++;
-		words[i] = get_word(&str);
-		if (!words[i])
+		while (*pipe && ft_is_space(*pipe))
+			pipe++;
+		tokens[i] = get_token(&pipe);
+		if (!tokens[i])
 		{
-			free_array(words);
+			free_array(tokens);
 			return (NULL);
 		}
-		while (*str && is_space(*str))
-			str++;
+		while (*pipe && ft_is_space(*pipe))
+			pipe++;
 		i++;
 	}
-	words[word_count] = NULL;
-	return (words);
+	tokens[token_count] = NULL;
+	return (tokens);
 }

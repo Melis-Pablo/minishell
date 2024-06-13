@@ -6,12 +6,27 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:05:08 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/13 13:33:50 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/13 17:40:37 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
+/*
+check_quotes_and_pipes():	Check for pipe outside of quotes.
+
+Arguments:		char *input - the input string.
+				int *in_quote - the flag for being in quote.
+				char *quote - the quote character.
+
+Return:			int - 1 if the pipe is found, 0 otherwise.
+
+How it works:
+	1. If the character is a quote, toggle the in_quote flag.
+	2. If the character is a pipe and not in quote, return 1.
+	3. Otherwise, return 0.
+
+*/
 int	check_quotes_and_pipes(char *input, int *in_quote, char *quote)
 {
 	if (*input == '\'' || *input == '\"')
@@ -29,6 +44,19 @@ int	check_quotes_and_pipes(char *input, int *in_quote, char *quote)
 	return (0);
 }
 
+/*
+count_pipes():	Count the number of pipes in the input string.
+
+Arguments:		char *input - the input string.
+
+Return:			int count - The number of pipes.
+
+How it works:
+	1. Loop through the input string.
+	2. If the character is a quote, toggle the in_quote flag.
+	3. If the character is a pipe and not in quote, increment the count.
+	4. Return the count.
+*/
 int	count_pipes(char *input)
 {
 	int		count;
@@ -38,6 +66,8 @@ int	count_pipes(char *input)
 	count = 0;
 	in_quote = 0;
 	quote = '\0';
+	// if (unclosed_quotes(input))
+	// 	return (0);
 	while (*input)
 	{
 		if (check_quotes_and_pipes(input, &in_quote, &quote))
@@ -47,7 +77,20 @@ int	count_pipes(char *input)
 	return (count);
 }
 
-int	count_until_pipe(char *input)
+/*
+count_pipe_chars():	Count the number of characters in a pipe.
+
+Arguments:		char *pipe - the pipe string.
+
+Return:			int count - The number of characters.
+
+How it works:
+	1. Loop through the pipe string.
+	2. If the character is a quote, toggle the in_quote flag.
+	3. Increment the count.
+	4. Return the count.
+*/
+int	count_pipe_chars(char *pipe)
 {
 	int		count;
 	int		in_quote;
@@ -56,53 +99,86 @@ int	count_until_pipe(char *input)
 	count = 0;
 	in_quote = 0;
 	quote = '\0';
-	while (*input)
+	while (*pipe)
 	{
-		if (check_quotes_and_pipes(input, &in_quote, &quote))
+		if (check_quotes_and_pipes(pipe, &in_quote, &quote))
 			break ;
 		count++;
-		input++;
+		pipe++;
 	}
 	return (count);
 }
 
-char	*copy_until_pipe(char *start)
+/*
+copy_pipe():	Copy the pipe string.
+
+Arguments:		char *start - the start of the pipe string.
+
+Return:			char *pipe - The copied pipe string.
+
+How it works:
+	1. Count the number of characters in the pipe.
+	2. Allocate memory for the pipe string.
+	3. Loop through the pipe string and copy each character.
+	4. Return the pipe string.
+
+*/
+char	*copy_pipe(char *start)
 {
 	int		count;
-	char	*str;
+	char	*pipe;
 	int		i;
 
 	i = 0;
-	count = count_until_pipe(start);
-	str = malloc((count + 1) * sizeof(char));
-	if (!str)
+	count = count_pipe_chars(start);
+	pipe = malloc((count + 1) * sizeof(char));
+	if (!pipe)
 		return (NULL);
 	while (i < count)
 	{
-		str[i] = start[i];
+		pipe[i] = start[i];
 		i++;
 	}
-	str[i] = '\0';
-	return (str);
+	pipe[i] = '\0';
+	return (pipe);
 }
 
-char	**split_by_pipes(char *input)
+/*
+split_pipeline():	Split the input string into pipes.
+
+Arguments:		char *input - the input string.
+
+Return:			char **pipes - The array of pipes.
+
+How it works:
+	1. Count the number of pipes in the input string.
+	2. Allocate memory for the array of pipes.
+	3. Loop through the input string and copy each pipe.
+	4. Return the array of pipes.
+*/
+char	**split_pipeline(char *input)
 {
 	int		pipe_count;
 	int		i;
-	char	**strings;
+	char	**pipes;
 
 	i = 0;
 	pipe_count = count_pipes(input);
-	strings = malloc((pipe_count + 2) * sizeof(char *));
-	if (!strings)
+	pipes = malloc((pipe_count + 2) * sizeof(char *));
+	if (!pipes)
 		return (NULL);
 	while (i <= pipe_count)
 	{
-		strings[i] = copy_until_pipe(input);
-		input += ft_strlen(strings[i]) + 1;
+		pipes[i] = copy_pipe(input);
+		if (!pipes[i])
+		{
+			free_array(pipes);
+			free(pipes);
+			return (NULL);
+		}
+		input += ft_strlen(pipes[i]) + 1;
 		i++;
 	}
-	strings[i] = NULL;
-	return (strings);
+	pipes[i] = NULL;
+	return (pipes);
 }

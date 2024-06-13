@@ -17,12 +17,13 @@ FLAGS    := -Wall -Wextra -Werror
 SRCS        :=      srcs/lexer/splits/split_pipeline.c \
 						srcs/lexer/splits/split_tokens.c \
 						srcs/lexer/lexer.c \
-						srcs/lexer/redir_definitions.c \
-						srcs/lexer/quote_errors/unclosed_quotes.c \
+						srcs/lexer/lexer_types.c \
 						srcs/parser/expand_env.c \
 						srcs/parser/build_cmd_lst.c \
 						srcs/parser/token_errors/invalid_tokens.c \
 						srcs/parser/token_errors/token_error.c \
+						srcs/parser/token_errors/unclosed_quotes.c \
+						srcs/parser/token_errors/error_check.c \
 						srcs/redirects/test_area.c \
 						srcs/utils/str_utils.c \
 						srcs/utils/utils.c \

@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 12:39:05 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/13 13:29:14 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/13 16:52:10 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,19 @@ void	word_error(char *word, int error_code)
 	perror(error_msg);
 }
 
+int	check_redir(char *word)
+{
+	size_t	len;
+
+	len = ft_strlen(word);
+	if (len > 0)
+	{
+		if (word[0] == '>' || word[0] == '<')
+			return (1);
+	}
+	return (0);
+}
+
 int	check_invalid_char(char *word)
 {
 	int	i;
@@ -68,7 +81,7 @@ int	check_invalid_char(char *word)
 		i = 5;
 	if (check_backslash_word(word))
 		i = 6;
-	if (i)
-		word_error(word, i);
+	if (check_redir(word))
+		i = 7;
 	return (i);
 }
