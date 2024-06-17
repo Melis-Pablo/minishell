@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 13:15:11 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/17 13:16:05 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/17 14:27:56 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,61 @@ void	signal_handler(int signo)
 	}
 }
 
+int	bob_the_builder(char *input)
+{
+	char	**token_array;
+	t_token	*token_list;
+	t_cmd	*cmd_list;
+
+	//split tokens
+	token_array = split_tokens(input);
+	if (!token_array)
+		return (1);
+	printf("After split:\n");
+	print_str_array(token_array);
+	//lexer / tokenization
+	token_list = lexer(token_array);
+	if (!token_list)
+	{
+		free_array(token_array);
+		return (1);
+	}
+	printf("After lexing:\n");
+	print_tokens(token_list);
+	//syntax error check
+	if (syntax_error(token_list))
+	{
+		free_array_and_tokens(token_array, token_list);
+		return (1);
+	}
+	free_array(token_array);
+	//parser
+	token_list = env_expand(token_list);
+	if (!token_list)
+		return (1);
+	printf("After env expand:\n");
+	print_tokens(token_list);
+	cmd_list = parser(token_list);
+	if (!cmd_list)
+	{
+		free_tokens(token_list);
+		return (1);
+	}
+	printf("After parsing:\n");
+	print_cmds(cmd_list);
+	free_tokens(token_list);
+	//execute cmd_list
+	free_cmd(cmd_list);
+	//free / clean up
+	return (0);
+}
+
 int	minishell_loop(void)
 {
 	char	*input;
-	int		i;
+	int		exit_status;
 
-	i = 0;
+	exit_status = 0;
 	while (1)
 	{
 		signal(SIGINT, signal_handler);
@@ -49,32 +98,11 @@ int	minishell_loop(void)
 		if (*input)
 		{
 			add_history(input);
-			//split tokens
-			char **token_array = split_tokens(input);
-			//lexer / tokenization
-			t_token *token_list = lexer(token_array);
-			//syntax error check
-			if (syntax_error(token_list))
-			{
-				free_array_and_tokens(token_array, token_list);
-				continue ;
-			}
-			free_array(token_array);
-			// print_tokens(token_list);
-			// free_array_and_tokens(token_array, token_list);
-			//parser
-			token_list = env_expand(token_list);
-			t_cmd *cmd_list = parser(token_list);
-			//print_cmds(cmd_list);
-			i = exec_cmds(cmd_list);
-			free_tokens(token_list);
-			free_cmd(cmd_list);
-			//execute
-			//free / clean up
+			exit_status = bob_the_builder(input);
 		}
 		free(input);
 	}
-	return (i);
+	return (exit_status);
 }
 
 //int argc, char **argv
