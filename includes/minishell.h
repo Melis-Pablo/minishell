@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 13:12:15 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/17 15:10:12 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/17 14:16:04 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINISHELL_H
 
 # define PROMPT "\033[32mminishell> \033[0m"
-# define PATH_MAX 1024;
 
 //////////////////////////
 // Include dependencies //
@@ -40,7 +39,6 @@
 								//tcgetattr
 # include <unistd.h>            // write, getcwd, chdir, unlink, execve, dup,
 								//dup2, pipe
-# include <limits.h>            // PATH_MAX
 
 //////////////////////////
 //   Global Variables   //
@@ -93,28 +91,9 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
-typedef struct s_data
-{
-	char	*cmd;
-	int		exit;
-	int		*state;
-	char	*flag;
-	char	**env;
-
-}		t_data;
-
 //////////////////////////////////
 //		Function prototypes		//
 //////////////////////////////////
-//////////////////////////
-//		builtins		//
-//////////////////////////
-int		m_echo(char *cmd, t_data *data);
-int		m_cd(char *cmd, t_data *data);
-int		m_env(char *cmd, t_data *data);
-int		m_pwd(char *cmd, t_data *data);
-int		m_exit(char *cmd, t_data *data);
-int		m_export(char *cmd, t_data *data);
 
 //////////////////////////
 //		cleaners		//
