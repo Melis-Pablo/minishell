@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 13:38:21 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/16 20:01:55 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/17 14:15:35 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,20 @@ void	free_tokens(t_token *head)
 	}
 }
 
+void	free_redirs(t_redir *head)
+{
+	t_redir	*tmp;
+
+	while (head)
+	{
+		tmp = head;
+		head = head->next;
+		if (tmp->file)
+			free(tmp->file);
+		free(tmp);
+	}
+}
+
 void	free_cmd(t_cmd *head)
 {
 	t_cmd	*tmp;
@@ -51,10 +65,8 @@ void	free_cmd(t_cmd *head)
 			free(tmp->cmd);
 		free_array(tmp->args);
 		free_array(tmp->flags);
-		free_array(tmp->infiles);
-		free_array(tmp->outfiles);
-		free_array(tmp->heredocs);
-		free_array(tmp->appendfiles);
+		free_redirs(tmp->infiles);
+		free_redirs(tmp->outfiles);
 		free(tmp);
 	}
 }
