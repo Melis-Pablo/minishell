@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 13:48:46 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/17 13:38:43 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/17 14:14:32 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,29 @@ void	print_tokens(t_token *head)
 	}
 }
 
+void	print_redirs(t_redir *head)
+{
+	t_redir	*tmp;
+	char	*type_str;
+
+	tmp = head;
+	while (tmp)
+	{
+		if (tmp->type == INPUT)
+			type_str = "INPUT";
+		else if (tmp->type == OUTPUT)
+			type_str = "OUTPUT";
+		else if (tmp->type == HEREDOC)
+			type_str = "HEREDOC";
+		else if (tmp->type == APPEND)
+			type_str = "APPEND";
+		else
+			type_str = "NO_TYPE";
+		printf("File: %s, Type: %s\n", tmp->file, type_str);
+		tmp = tmp->next;
+	}
+}
+
 void	print_cmds(t_cmd *head)
 {
 	t_cmd	*tmp;
@@ -68,13 +91,9 @@ void	print_cmds(t_cmd *head)
 		printf("FLAGS:\n");
 		print_str_array(tmp->flags);
 		printf("INFILES:\n");
-		print_str_array(tmp->infiles);
+		print_redirs(tmp->infiles);
 		printf("OUTFILES:\n");
-		print_str_array(tmp->outfiles);
-		printf("HEREFILES:\n");
-		print_str_array(tmp->heredocs);
-		printf("APPENDFILES:\n");
-		print_str_array(tmp->appendfiles);
+		print_redirs(tmp->outfiles);
 		tmp = tmp->next;
 	}
 }
