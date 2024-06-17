@@ -5,13 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/13 10:59:33 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/13 17:23:10 by pmelis           ###   ########.fr       */
+/*   Created: 2024/06/15 13:12:15 by pmelis            #+#    #+#             */
+/*   Updated: 2024/06/17 12:02:20 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# define PROMPT "\033[32mminishell> \033[0m"
 
 //////////////////////////
 // Include dependencies //
@@ -45,98 +47,95 @@ extern int	g_signal_status;
 //////////////////////////
 // Data structure types //
 //////////////////////////
-typedef enum e_redirection_type
+typedef enum e_token_type
 {
-	NO_REDIRECTION = 0, // cmd, args, flags
-	REDIR_INPUT = 1,	// <
-	REDIR_OUTPUT = 2,	// >
-	REDIR_HEREDOC = 3,	// <<
-	REDIR_APPEND = 4,	// >>
-}	t_redirection_type;
+	WORD = 0,
+	INPUT = 1,
+	OUTPUT = 2,
+	HEREDOC = 3,
+	APPEND = 4,
+	PIPE = 5,
+}	t_token_type;
 
-typedef struct s_lexer
+typedef struct s_token
 {
-	char				*word;
-	t_redirection_type	type;
-	struct s_lexer		*prev;
-	struct s_lexer		*next;
-}	t_lexer;
+	char			*word;
+	t_token_type	type;
+	struct s_token	*prev;
+	struct s_token	*next;
+}	t_token;
 
 typedef struct s_cmd
 {
-	t_lexer			*lexer;		// List of words and redirections
-	struct s_cmd	*next;		// Pointer to next command in the pipeline
-}					t_cmd;
+	char			*cmd;
+	char			**args;
+	char			**flags;
+	char			**infiles;
+	char			**outfiles;
+	char			**heredocs;
+	char			**appendfiles;
+	struct s_cmd	*prev;
+	struct s_cmd	*next;
+}	t_cmd;
 
-/////////////////////////
-// Function prototypes //
-/////////////////////////
+//////////////////////////////////
+//		Function prototypes		//
+//////////////////////////////////
 
 //////////////////////////
 //		cleaners		//
 //////////////////////////
-// srcs/cleaners/cleaners.c
+// cleaners.c
 void	free_array(char **arr);
-void	free_lexer_list(t_lexer *head);
-void	free_cmd_lst(t_cmd *cmds);
+void	free_tokens(t_token *head);
+void	free_array_and_tokens(char **arr, t_token *head);
+void	free_cmd(t_cmd *head);
 
 //////////////////////
 //		lexer		//
 //////////////////////
-// srcs/lexer/splits/split_pipeline.c
-char	**split_pipeline(char *input);
-// srcs/lexer/splits/split_tokens.c
+// syntax_error.c
+int		check_inner_chars(char *word, char c);
+int		syntax_error(t_token *head);
+
+// unclosed_quotes.c
+int		unclosed_quotes(char *str);
+
+// lexer.c
+t_token	*lexer(char **tokens);
+
+// split_tokens.c
 char	**split_tokens(char *pipe);
-// srcs/lexer/lexer_types.c
-void	fill_types(t_lexer *head);
-// srcs/lexer/lexer.c
-t_lexer	*lexer(char **tokens);
+
+// token_types.c
+void	set_types(t_token *head);
 
 //////////////////////
 //		parser		//
 //////////////////////
-// srcs/parser/token_errors/invalid_tokens.c
-int		check_parentheses(char *word);
-int		check_and(char *word);
-int		check_wildcard(char *word);
-int		check_backslash_word(char *word);
-int		check_semicolon(char *word);
+// cmds.c
+t_cmd	*parser(t_token *head);
 
-int		check_invalid_char(char *word);
-int		expand_all(t_cmd *head_cmd);
-int		unclosed_quotes(char *str);
-
-// srcs/parser/token_errors/error_check.c
-int		error_check(t_cmd *head_cmd);
-
-// srcs/parser/expand_env.c
+// env_expand.c
 char	*ft_clean_quotes(char *word);
-
-// srcs/parser/build_cmd_lst.c
-t_cmd	*build_cmds(char *input);
+t_token	*env_expand(t_token *head);
 
 //////////////////////
-//	   redirects  	//
+//		uitls		//
 //////////////////////
-
-//////////////////////
-//		utils		//
-//////////////////////
-// srcs/utils/print.c
+// print.c
 void	print_str_array(char **arr);
-void	print_pipes_and_tokens(char *input);
-void	print_lexer_list(t_lexer *head);
-void	print_cmd_lst(t_cmd *head);
-void	print_lexed(char *input);
+void	print_tokens(t_token *head);
+void	print_cmds(t_cmd *head);
 
-// srcs/utils/str_utils.c
+// str_utils.c
 char	*ft_strndup(const char *s1, size_t n);
 char	*ft_strdup(const char *s);
 char	*ft_strncpy(char *dst, const char *src, size_t n);
 char	*ft_strcat(char *dst, const char *src);
 int		ft_strcmp(const char *s1, const char *s2);
 
-// srcs/utils/utils.c
+// utils.c
 int		ft_isalnum(int c);
 size_t	ft_strlen(const char *s);
 int		ft_is_space(char c);

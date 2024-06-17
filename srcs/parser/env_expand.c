@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_env.c                                       :+:      :+:    :+:   */
+/*   env_expand.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/13 12:52:31 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/13 13:24:11 by pmelis           ###   ########.fr       */
+/*   Created: 2024/06/16 17:07:37 by pmelis            #+#    #+#             */
+/*   Updated: 2024/06/17 12:01:04 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,13 @@ char	*expand_env_variables(char *word)
 	return (expand_env_variables(new_word));
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 char	*ft_clean_quotes(char *word)
 {
 	char	*new_word;
 
+	new_word = NULL;
 	if (word[0] == '"' && word[ft_strlen(word) - 1] == '"')
 	{
 		new_word = ft_strndup(word + 1, ft_strlen(word) - 2);
@@ -111,4 +114,17 @@ char	*ft_clean_quotes(char *word)
 	}
 	else
 		return (word);
+}
+
+t_token	*env_expand(t_token *head)
+{
+	t_token	*current;
+
+	current = head;
+	while (current)
+	{
+		current->word = ft_clean_quotes(current->word);
+		current = current->next;
+	}
+	return (head);
 }

@@ -5,73 +5,107 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/13 10:58:12 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/13 17:57:49 by pmelis           ###   ########.fr       */
+/*   Created: 2024/06/15 13:15:11 by pmelis            #+#    #+#             */
+/*   Updated: 2024/06/17 12:03:02 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-int	g_signal_status = 340;
+int	g_signal_status = 420;
 
-void	sigint_handler(int sig)
+void	signal_handler(int signo)
 {
-	if (sig == SIGINT)
+	if (signo == SIGINT)
 	{
-		g_signal_status = 1;
-		write(1, "\nminishell> ", 12);
+		g_signal_status = signo;
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+	if (signo == SIGQUIT)
+	{
+		g_signal_status = signo;
 	}
 }
 
 int	minishell_loop(void)
 {
 	char	*input;
-	t_cmd	*head_cmd;
 
 	while (1)
 	{
-		input = readline("minishell> ");
+		signal(SIGINT, signal_handler);
+		signal(SIGQUIT, signal_handler);
+		input = readline(PROMPT);
 		if (!input)
-			return (1);
-		add_history(input);
-
-		head_cmd = build_cmds(input);
-		if (!head_cmd)
-			continue ;
-		if (error_check(head_cmd) == 0)
 		{
-			expand_all(head_cmd);
-			print_cmd_lst(head_cmd);
+			write(1, "exit\n", 5);
+			return (0);
 		}
-		free_cmd_lst(head_cmd);
+		if (*input)
+		{
+			add_history(input);
+			//split tokens
+			char **token_array = split_tokens(input);
+			//lexer / tokenization
+			t_token *token_list = lexer(token_array);
+			//syntax error check
+			if (syntax_error(token_list))
+			{
+				free_array_and_tokens(token_array, token_list);
+				continue ;
+			}
+			free_array(token_array);
+			// print_tokens(token_list);
+			// free_array_and_tokens(token_array, token_list);
+			//parser
+			token_list = env_expand(token_list);
+			t_cmd *cmd_list = parser(token_list);
+			print_cmds(cmd_list);
+			free_tokens(token_list);
+			free_cmd(cmd_list);
+			//execute
+			//free / clean up
+		}
 		free(input);
 	}
 	return (0);
 }
 
-/*
-main():		main function of the minishell program.
-
-Arguments:	argc - the number of command-line arguments
-			argv - an array of strings containing the command-line arguments
-
-Returns:	0 if the program exits successfully
-
-How it works:
-	1. Set up signal handlers for SIGINT and SIGQUIT.
-	2. Check if the program was run with any arguments.
-	3. Call minishell_loop() to start the main loop of the program.
-	4. Return the status of the signal handler.
-*/
-int	main(int argc, char **argv)
+//int argc, char **argv
+int	main(void)
 {
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_IGN);
-	if (argc != 1 || argv[1] != NULL)
-	{
-		printf("Minishell program does not take arguments. run ./minishell\n");
-		return (0);
-	}
-	g_signal_status = minishell_loop();
-	return (g_signal_status);
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, signal_handler);
+	return (minishell_loop());
 }
+
+/*
+Sample execute:
+int execute_command(char *input)
+{
+	pid_t pid = fork();
+	if (pid == 0)
+	{
+		// Child process
+		char *argv[] = {"/bin/sh", "-c", input, NULL};
+		execve("/bin/sh", argv, NULL);
+		exit(127); // If execve fails
+	}
+	else if (pid < 0)
+	{
+		// Fork failed
+		perror("fork");
+		return 1;
+	}
+	else
+	{
+		// Parent process
+		int status;
+		waitpid(pid, &status, 0);
+		return WEXITSTATUS(status);
+	}
+}
+*/

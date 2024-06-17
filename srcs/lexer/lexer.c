@@ -5,104 +5,30 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/13 12:48:49 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/13 17:21:50 by pmelis           ###   ########.fr       */
+/*   Created: 2024/06/15 19:48:00 by pmelis            #+#    #+#             */
+/*   Updated: 2024/06/16 18:38:59 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/*
-remove_redir_sym():	Removes redirection symbols from the tokens.
-
-Parameters:		t_lexer *head	-	Pointer to the head of the linked list.
-
-Return:			void
-
-How it works:
-	1. Iterates through the linked list.
-	2. If the token is a redirection symbol and the word starts with the symbol,
-		the symbol is removed from the word.
-*/
-void	remove_redir_sym(t_lexer *head)
+t_token	*add_token(t_token *head, t_token *new_node)
 {
-	t_lexer	*tmp;
-	char	*tmp_word;
-	int		chars_to_remove;
-
-	tmp = head;
-	tmp_word = NULL;
-	chars_to_remove = 0;
-	while (tmp)
-	{
-		if (((tmp->type == REDIR_INPUT && tmp->word != NULL)
-				|| (tmp->type == REDIR_OUTPUT && tmp->word != NULL))
-			&& ((tmp->word && strncmp(tmp->word, "<", 1) == 0)
-				|| (tmp->word && strncmp(tmp->word, ">", 1) == 0)))
-			chars_to_remove = 1;
-		else if (((tmp->type == REDIR_HEREDOC && tmp->word != NULL)
-				|| (tmp->type == REDIR_APPEND && tmp->word != NULL))
-			&& ((tmp->word && strncmp(tmp->word, "<<", 2) == 0)
-				|| (tmp->word && strncmp(tmp->word, ">>", 2) == 0)))
-			chars_to_remove = 2;
-		if (chars_to_remove != 0)
-		{
-			tmp_word = ft_strdup(tmp->word + chars_to_remove);
-			free(tmp->word);
-			tmp->word = tmp_word;
-		}
-		tmp = tmp->next;
-		chars_to_remove = 0;
-	}
-}
-
-/*
-add_token():	Adds a new node to the end of the linked list.
-
-Parameters:		t_lexer *head	-	Pointer to the head of the linked list.
-				t_lexer *new_node	-	Pointer to the new node to be added.
-
-Return:			t_lexer *	-	Pointer to the head of the linked list.
-
-How it works:
-	1. If the head is NULL, the new node is the only node in the list.
-	2. If the head is not NULL, the new node is added to the end of the list.
-	3. The new node is added to the end of the list.
-	4. The new node is returned.
-*/
-t_lexer	*add_token(t_lexer *head, t_lexer *new_node)
-{
-	t_lexer	*tmp;
+	t_token	*tmp;
 
 	if (!head)
-	{
-		new_node->next = NULL;
-		new_node->prev = NULL;
 		return (new_node);
-	}
 	tmp = head;
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new_node;
 	new_node->prev = tmp;
-	new_node->next = NULL;
 	return (head);
 }
 
-/*
-take_out_node():	Removes a node from the linked list.
-
-Parameters:		t_lexer *node	-	Pointer to the node to be removed.
-
-Return:			t_lexer *	-	Pointer to the next node in the list.
-
-How it works:
-	1. The node is removed from the list.
-	2. The next node is returned.
-*/
-t_lexer	*take_out_node(t_lexer *node)
+t_token	*remove_token(t_token *node)
 {
-	t_lexer	*tmp;
+	t_token	*tmp;
 
 	tmp = node->next;
 	if (node->prev)
@@ -114,72 +40,42 @@ t_lexer	*take_out_node(t_lexer *node)
 	return (tmp);
 }
 
-/*
-remove_empty_tokens():	Removes empty tokens from the linked list.
-
-Parameters:		t_lexer *head	-	Pointer to the head of the linked list.
-
-Return:			void
-
-How it works:
-	1. Iterates through the linked list.
-	2. If the token is empty and the next token is not NULL,
-		the token is removed.
-*/
-void	remove_empty_tokens(t_lexer *head)
+void	remove_empty_words(t_token *head)
 {
-	t_lexer	*tmp;
+	t_token	*tmp;
 
 	tmp = head;
 	while (tmp)
 	{
-		if (tmp->type == NO_REDIRECTION && tmp->word[0] == '\0'
-			&& tmp->next != NULL)
-		{
-			tmp = take_out_node(tmp);
-		}
-		tmp = tmp->next;
+		if (tmp->type == WORD && tmp->word[0] == '\0')
+			tmp = remove_token(tmp);
+		else
+			tmp = tmp->next;
 	}
+
 }
 
-/*
-merge_and_clean():	Merges redirection symbols with the next token and cleans
-					quotes from tokens.
-
-Parameters:		t_lexer *head	-	Pointer to the head of the linked list.
-
-Return:			void
-
-How it works:
-	1. Iterates through the linked list.
-	2. If the token is a redirection symbol, the next token is merged with it.
-		1. If the next token is a redirection symbol, the token is cleaned.
-		2. If the next token is not a redirection symbol, the token is merged.
-	3. If the token is not a redirection symbol, quotes are cleaned from it.
-	4. The next token is checked.
-	5. The process continues until the end of the list.
-*/
-void	merge_and_clean(t_lexer *head)
+void	merge_redirects(t_token *head)
 {
-	t_lexer	*tmp;
+	t_token	*tmp;
 
 	tmp = head;
 	while (tmp)
 	{
-		if ((tmp->type == REDIR_INPUT && ft_strcmp(tmp->word, "<") == 0)
-			|| (tmp->type == REDIR_OUTPUT && ft_strcmp(tmp->word, ">") == 0)
-			|| (tmp->type == REDIR_HEREDOC && ft_strcmp(tmp->word, "<<") == 0)
-			|| (tmp->type == REDIR_APPEND && ft_strcmp(tmp->word, ">>") == 0))
+		if (tmp->type != WORD && tmp->type != PIPE && tmp->next)
 		{
 			free(tmp->word);
-			if (tmp->next->type == NO_REDIRECTION)
+			if (tmp->next->type == WORD
+				&& !check_inner_chars(tmp->next->word, '|')
+				&& !check_inner_chars(tmp->next->word, '>')
+				&& !check_inner_chars(tmp->next->word, '<'))
 			{
 				tmp->word = ft_strdup(tmp->next->word);
 				free(tmp->next->word);
 				tmp->next->word = malloc(1 * sizeof(char));
 				tmp->next->word[0] = '\0';
 			}
-			else if (tmp->next->type != NO_REDIRECTION)
+			else
 			{
 				tmp->word = malloc(1 * sizeof(char));
 				tmp->word[0] = '\0';
@@ -189,46 +85,91 @@ void	merge_and_clean(t_lexer *head)
 	}
 }
 
-/*
-lexer():	Converts an array of tokens into a linked list of tokens.
+t_token	*inject_token(t_token *prev, t_token *new_node, t_token *next)
+{
+	new_node->next = next;
+	new_node->prev = prev;
+	prev->next = new_node;
+	next->prev = new_node;
+	return (next);
+}
 
-Parameters:		char **tokens	-	Array of tokens.
+t_token	*create_token(char *word, t_token_type type)
+{
+	t_token	*new_node;
 
-Return:			t_lexer *	-	Pointer to the head of the linked list.
+	new_node = (t_token *)malloc(sizeof(t_token));
+	if (!new_node)
+		return (NULL);
+	new_node->word = ft_strdup(word);
+	new_node->type = type;
+	new_node->next = NULL;
+	new_node->prev = NULL;
+	return (new_node);
+}
 
-How it works:
-	1. Iterates through the array of tokens.
-	2. Creates a new node for each token.
-	3. Adds the new node to the linked list.
-	4. Fills the types of the tokens.
-	5. Merges redirection symbols with the next token and cleans quotes.
-	6. Removes redirection symbols from the tokens.
-	7. Removes empty tokens from the list.
-	8. Returns the head of the linked list.
-*/
-t_lexer	*lexer(char **tokens)
+void	split_piperedir(t_token *head)
+{
+	t_token	*tmp;
+
+	tmp = head;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->word, "|<") == 0)
+		{
+			free(tmp->word);
+			tmp->word = ft_strdup("|");
+			tmp->type = PIPE;
+			tmp = inject_token(tmp, create_token("<", INPUT), tmp->next);
+		}
+		else if (ft_strcmp(tmp->word, "|>") == 0)
+		{
+			free(tmp->word);
+			tmp->word = ft_strdup("|");
+			tmp->type = PIPE;
+			tmp = inject_token(tmp, create_token(">", OUTPUT), tmp->next);
+		}
+		else if (ft_strcmp(tmp->word, "|>>") == 0)
+		{
+			free(tmp->word);
+			tmp->word = ft_strdup("|");
+			tmp->type = PIPE;
+			tmp = inject_token(tmp, create_token(">>", APPEND), tmp->next);
+		}
+		else if (ft_strcmp(tmp->word, "|<<") == 0)
+		{
+			free(tmp->word);
+			tmp->word = ft_strdup("|");
+			tmp->type = PIPE;
+			tmp = inject_token(tmp, create_token("<<", HEREDOC), tmp->next);
+		}
+		tmp = tmp->next;
+	}
+}
+
+t_token	*lexer(char **tokens)
 {
 	int		i;
-	t_lexer	*head;
-	t_lexer	*new_node;
+	t_token	*head;
+	t_token	*new_node;
 
 	i = 0;
 	head = NULL;
+	new_node = NULL;
 	while (tokens[i])
 	{
-		new_node = malloc(sizeof(t_lexer));
+		new_node = create_token(tokens[i], WORD);
 		if (!new_node)
+		{
+			free_tokens(head);
 			return (NULL);
-		new_node->word = ft_strdup(tokens[i]);
-		new_node->type = NO_REDIRECTION;
-		new_node->prev = NULL;
-		new_node->next = NULL;
+		}
 		head = add_token(head, new_node);
 		i++;
 	}
-	fill_types(head);
-	merge_and_clean(head);
-	remove_redir_sym(head);
-	remove_empty_tokens(head);
+	set_types(head);
+	split_piperedir(head);
+	merge_redirects(head);
+	remove_empty_words(head);
 	return (head);
 }
