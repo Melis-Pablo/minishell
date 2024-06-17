@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 13:12:15 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/17 13:38:02 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/17 14:16:04 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,27 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
+
+typedef struct s_redir
+{
+	char			*file;
+	t_token_type	type;
+	struct s_redir	*next;
+}	t_redir;
+
 typedef struct s_cmd
 {
 	char			*cmd;
 	char			**args;
 	char			**flags;
-	char			**infiles;
-	char			**outfiles;
-	char			**heredocs;
-	char			**appendfiles;
+	t_redir			*infiles;
+	t_redir			*outfiles;
 	struct s_cmd	*prev;
 	struct s_cmd	*next;
 }	t_cmd;
