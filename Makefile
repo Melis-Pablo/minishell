@@ -18,6 +18,8 @@ SRCS		:=	main.c \
 				srcs/lexer/token_types.c \
 				srcs/parser/cmds.c \
 				srcs/parser/env_expand.c \
+				srcs/redirects/redirects.c \
+				srcs/utils/ft_split.c \
 				srcs/utils/print.c \
 				srcs/utils/str_utils.c \
 				srcs/utils/utils.c

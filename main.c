@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 13:15:11 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/17 12:03:02 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/17 13:16:05 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ void	signal_handler(int signo)
 int	minishell_loop(void)
 {
 	char	*input;
+	int		i;
 
+	i = 0;
 	while (1)
 	{
 		signal(SIGINT, signal_handler);
@@ -63,7 +65,8 @@ int	minishell_loop(void)
 			//parser
 			token_list = env_expand(token_list);
 			t_cmd *cmd_list = parser(token_list);
-			print_cmds(cmd_list);
+			//print_cmds(cmd_list);
+			i = exec_cmds(cmd_list);
 			free_tokens(token_list);
 			free_cmd(cmd_list);
 			//execute
@@ -71,7 +74,7 @@ int	minishell_loop(void)
 		}
 		free(input);
 	}
-	return (0);
+	return (i);
 }
 
 //int argc, char **argv

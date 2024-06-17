@@ -6,12 +6,13 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 14:18:31 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/16 17:01:46 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/17 13:04:32 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+//add for "token"token cases
 int	check_delimiter(char *input, int *in_quote, char *quote)
 {
 	if (*input == '\'' || *input == '\"')

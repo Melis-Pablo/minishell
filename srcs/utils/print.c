@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 13:48:46 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/17 12:23:18 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/17 13:38:43 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	print_str_array(char **arr)
 	i = 0;
 	while (arr[i] != NULL)
 	{
-		printf("[%i] %s\n", i, arr[i]);
+		printf("[%i] {%s}\n", i, arr[i]);
 		i++;
 	}
 	printf("\n");

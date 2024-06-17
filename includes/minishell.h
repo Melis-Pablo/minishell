@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 13:12:15 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/17 12:02:20 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/06/17 13:38:02 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # include <sys/ioctl.h>         // ioctl
 # include <sys/stat.h>          // stat, lstat, fstat
 # include <sys/types.h>         // fork, wait, waitpid, wait3, wait4
+# include <sys/wait.h>          // wait, waitpid, wait3, wait4
 # include <termios.h>           // isatty, ttyname, ttyslot, tcsetattr,
 								//tcgetattr
 # include <unistd.h>            // write, getcwd, chdir, unlink, execve, dup,
@@ -141,5 +142,11 @@ size_t	ft_strlen(const char *s);
 int		ft_is_space(char c);
 void	ft_reverse_str(char *str, int len);
 void	ft_itoa(int n, char *str);
+
+//////////////////////////////////////////
+//			Under Construction			//
+//////////////////////////////////////////
+int		exec_cmds(t_cmd *cmd_list);
+char	**ft_split(const char *s, char c);
 
 #endif
