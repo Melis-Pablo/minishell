@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_expand.c                                       :+:      :+:    :+:   */
+/*   OLD_envexpand.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/16 17:07:37 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/17 12:01:04 by pmelis           ###   ########.fr       */
+/*   Created: 2024/07/23 05:51:15 by pmelis            #+#    #+#             */
+/*   Updated: 2024/07/23 05:51:56 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*expand_exit_status(char *word, char *start, char *end)
 		perror("malloc");
 		exit(EXIT_FAILURE);
 	}
-	ft_itoa(g_signal_status, var_value);
+	//ft_itoa(g_signal_status, var_value);
 	new_word = var_to_value(word, start, end + 1, var_value);
 	free(var_value);
 	free(word);

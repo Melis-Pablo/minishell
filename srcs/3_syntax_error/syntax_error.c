@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/16 13:59:11 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/16 17:38:03 by pmelis           ###   ########.fr       */
+/*   Created: 2024/07/23 05:38:02 by pmelis            #+#    #+#             */
+/*   Updated: 2024/07/23 05:40:43 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	check_inner_chars(char *word, char c)
 {

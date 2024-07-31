@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/13 11:42:39 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/16 15:46:37 by pmelis           ###   ########.fr       */
+/*   Created: 2024/07/23 05:38:24 by pmelis            #+#    #+#             */
+/*   Updated: 2024/07/23 05:38:52 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	check_unclosed_quote(char *str)
 {

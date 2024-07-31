@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cleaners.c                                         :+:      :+:    :+:   */
+/*   cleaner.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/15 13:38:21 by pmelis            #+#    #+#             */
-/*   Updated: 2024/06/17 14:15:35 by pmelis           ###   ########.fr       */
+/*   Created: 2024/07/23 04:49:49 by pmelis            #+#    #+#             */
+/*   Updated: 2024/07/29 19:25:07 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../includes/minishell.h"
 
 void	free_array(char **arr)
 {
@@ -53,7 +53,7 @@ void	free_redirs(t_redir *head)
 	}
 }
 
-void	free_cmd(t_cmd *head)
+void	free_cmds(t_cmd *head)
 {
 	t_cmd	*tmp;
 
@@ -71,8 +71,16 @@ void	free_cmd(t_cmd *head)
 	}
 }
 
-void	free_array_and_tokens(char **arr, t_token *head)
+void	free_env(t_env *env)
 {
-	free_array(arr);
-	free_tokens(head);
+	t_env	*tmp;
+
+	while (env)
+	{
+		tmp = env;
+		env = env->next;
+		free(tmp->key);
+		free(tmp->value);
+		free(tmp);
+	}
 }
