@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:04:27 by pmelis            #+#    #+#             */
-/*   Updated: 2024/07/29 18:05:01 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/01 20:03:44 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,9 @@ char	*get_cmd(t_token *head);
 // srcs/5_parser/parser.c
 t_cmd	*parser(t_token *head);
 t_redir	*add_redir(t_redir *head, t_redir *new_node);
+
+
+void	load_env(t_shell *shell, char **envp);
+t_cmd	*builder(t_shell *shell, char *input);
 
 #endif

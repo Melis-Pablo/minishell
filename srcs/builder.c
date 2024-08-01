@@ -6,32 +6,31 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 05:06:53 by pmelis            #+#    #+#             */
-/*   Updated: 2024/07/24 20:00:01 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/01 20:03:54 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	build_exec(char *input)
+t_cmd	*builder(t_shell *shell, char *input)
 {
 	char	**token_arr;
 	t_token	*token_lst;
 	t_cmd	*cmd_lst;
-	int		exit_status;
+	(void)shell;
 
-	exit_status = 0;
 /////////////////////////////////////////////////////////////////
 	//Split Tokens [String Array]////////////////////////////////
 	token_arr = split_tokens(input);
 	if (!token_arr)
-		return (1);
+		return (NULL);
 	// print_str_array(token_arr);
 /////////////////////////////////////////////////////////////////
 	//Lexer [Token Linked List]
 	token_lst = lexer(token_arr);
 	free_array(token_arr);
 	if (!token_lst)
-		return (1);
+		return (NULL);
 	// printf("Lexer Output:\n");
 	// print_tokens(token_lst);
 /////////////////////////////////////////////////////////////////
@@ -39,7 +38,7 @@ int	build_exec(char *input)
 	if (syntax_error(token_lst))
 	{
 		free_tokens(token_lst);
-		return (2);
+		return (NULL);
 	}
 	// printf("Syntax Error Check Passed\n");
 	// print_tokens(token_lst);
@@ -47,7 +46,7 @@ int	build_exec(char *input)
 	//Env Expansion [IMPLEMENT BUILTIN ENV]
 	token_lst = env_expand(token_lst);
 	if (!token_lst)
-		return (1);
+		return (NULL);
 	// printf("Env Expansion Output:\n");
 	// print_tokens(token_lst);
 /////////////////////////////////////////////////////////////////
@@ -57,9 +56,6 @@ int	build_exec(char *input)
 	print_cmds(cmd_lst);
 	free_tokens(token_lst);
 	if (!cmd_lst)
-		return (1);
-	//Execute Commands
-	exit_status = exec_cmds(cmd_lst);
-	free_cmds(cmd_lst);
-	return (exit_status);
+		return (NULL);
+	return (cmd_lst);
 }

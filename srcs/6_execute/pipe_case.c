@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 19:28:22 by pmelis            #+#    #+#             */
-/*   Updated: 2024/07/31 18:15:16 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/01 22:00:47 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,43 +22,21 @@ int	exec_child(t_cmd *cmd, t_env *env)
 	pid = fork();
 	if (pid == 0)
 	{
-		result = execve(cmd->name, cmd->args, envp);
+		result = execve(cmd->cmd, cmd->args, envp);
 		exit(result);
 	}
 	else
 		waitpid(pid, &result, 0);
 	result = WEXITSTATUS(result);
-	//ft_free_split(envp);
+	free_array(envp);
 	return (result);
 }
 
-int	execute_internal(t_cmd *cmd, int *status)
-{
-	char	*path;
-
-	if (builtins_caller(cmd)) //check_builtins
-		return (0);
-	path = get_path(cmd->name);
-	if (path)
-	{
-		free(cmd->name);
-		cmd->name = path;
-		//combine argsflags
-		*status = execute_command_child(cmd);
-		return (0);
-	}
-	ft_putstr_fd("minishell: command not found: ", 2);
-	ft_putstr_fd(cmd->name, 2);
-	ft_putstr_fd("\n", 2);
-	*status = 127;
-	return (1);
-}
-
-int	handle_pipe_case(t_cmd *cmd, int *status, t_pl *pl)
+int	handle_pipe_case(t_shell *shell, t_cmd *cmd, int *status, t_pl *pl)
 {
 	pid_t	pid;
 
-	if (pipe(pl->pipefd) == -1)
+	if (pipe(pl->pipe_fd) == -1)
 	{
 		perror("pipe");
 		return (1);
@@ -66,20 +44,60 @@ int	handle_pipe_case(t_cmd *cmd, int *status, t_pl *pl)
 	pid = fork();
 	if (pid == 0)
 	{
-		close(pl->pipefd[0]);
+		close(pl->pipe_fd[0]);
 		dup2(pl->fd_in, STDIN_FILENO);
-		dup2(pl->pipefd[1], STDOUT_FILENO);
+		dup2(pl->pipe_fd[1], STDOUT_FILENO);
 		if (pl->fd_in != STDIN_FILENO)
 			close(pl->fd_in);
-		close(pl->pipefd[1]);
-		execute_internal(cmd, status);
+		close(pl->pipe_fd[1]);
+		execute_internal(shell, cmd, status);
 		exit(*status);
 	}
 	else
 	{
-		close(pl->pipefd[1]);
-		pl->fd_in = pl->pipefd[0];
+		close(pl->pipe_fd[1]);
+		pl->fd_in = pl->pipe_fd[0];
 	}
 	return (pl->fd_in);
 }
 
+int	handle_final_case(t_shell *shell, t_cmd *cmd, int *status, t_pl *pl)
+{
+	if (cmd->outfiles)
+	{
+		pl->fd_out = redirect_outputs(cmd);
+		if (pl->fd_out == -1)
+			return (pl->fd_out);
+		dup2(pl->fd_out, STDOUT_FILENO);
+		close(pl->fd_out);
+	}
+	if (cmd->cmd)
+	{
+		dup2(pl->fd_in, STDIN_FILENO);
+		if (pl->fd_in != STDIN_FILENO)
+			close(pl->fd_in);
+		close(pl->fd_out);
+		execute_internal(shell, cmd, status);
+	}
+	while (waitpid(-1, NULL, 0) != -1)
+		;
+	return (*status);
+}
+
+int	exec_pipe_cmd(t_shell *shell, t_cmd *cmd, t_pl *pl, int *status)
+{
+	if (cmd->next)
+	{
+		pl->fd_in = handle_pipe_case(shell, cmd, status, pl);
+		if (pl->fd_in == 1)
+			return (*status);
+	}
+	else
+	{
+		*status = handle_final_case(shell, cmd, status, pl);
+		return (*status);
+	}
+	//check for heredoc iterate over it
+	//else ++
+	return (-1);
+}

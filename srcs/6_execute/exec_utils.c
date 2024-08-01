@@ -6,12 +6,13 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 06:10:08 by pmelis            #+#    #+#             */
-/*   Updated: 2024/07/23 06:10:32 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/01 17:07:23 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+//change to put flags in to args array
 char	**merge_args(t_cmd *cmd)
 {
 	int		i;

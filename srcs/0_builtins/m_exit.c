@@ -6,11 +6,37 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:15:25 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/07/29 19:17:16 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/01 21:52:48 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	ft_atoi(const char *str)
+{
+	int	sign;
+	int	result;
+
+	if (!str)
+		return (0);
+	while (*str == ' ' || (*str >= 9 && *str <= 13))
+		str++;
+	sign = 1;
+	if (*str == '-' || *str == '+')
+	{
+		if (*str == '-')
+			sign = -1;
+		str++;
+	}
+	result = 0;
+	while (*str >= '0' && *str <= '9')
+	{
+		result = result * 10 + *str - '0';
+		str++;
+	}
+	return (result * sign);
+}
+
 
 int	m_exit(t_cmd *cmd)
 {

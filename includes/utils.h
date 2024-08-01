@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:46:31 by pmelis            #+#    #+#             */
-/*   Updated: 2024/07/29 17:56:17 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/01 17:55:18 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,10 @@ int		ft_isalnum(int c);
 size_t	ft_strlen(const char *s);
 int		ft_is_space(char c);
 void	ft_itoa(int n, char *str);
+
+void	ft_bzero(void *s, size_t n);
+void	ft_putchar_fd(char c, int fd);
+void	ft_putstr_fd(char *s, int fd);
+void	ft_putendl_fd(char *s, int fd);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   m_export.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 15:18:55 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/07/12 14:56:46 by grbuchne         ###   ########.fr       */
+/*   Updated: 2024/08/01 22:03:36 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,81 +14,80 @@
 //ascii order!!!
 #include "../../includes/minishell.h"
 
-void add_env_node_back(t_env **envp, char *key, char *value)
-{
-	t_env *node;
-	t_env *i;
+// void add_env_node_back(t_env **envp, char *key, char *value)
+// {
+// 	t_env *node;
+// 	t_env *i;
 
-	if (!key || !envp || !value)
-	{
-		return;
-	}
+// 	if (!key || !envp || !value)
+// 	{
+// 		return;
+// 	}
 
-	node = malloc(sizeof(t_env));
-	if (node == NULL)
-	{
-		perror("d;s");
-		exit(1);
-	}
-	node->key = strdup(key);
-	node->value = strdup(value);
-	node->next = NULL;
+// 	node = malloc(sizeof(t_env));
+// 	if (node == NULL)
+// 	{
+// 		perror("d;s");
+// 		exit(1);
+// 	}
+// 	node->key = strdup(key);
+// 	node->value = strdup(value);
+// 	node->next = NULL;
 
-	if (*envp == NULL)
-	{
-		*envp = node;
-	}
-	else
-	{
-		i = *envp;
-		while (i && i->next != NULL)
-		{
-			i = i->next;
-		}
-		if (i)
-		{
-			i->next = node;
-		}
-	}
-}
+// 	if (*envp == NULL)
+// 	{
+// 		*envp = node;
+// 	}
+// 	else
+// 	{
+// 		i = *envp;
+// 		while (i && i->next != NULL)
+// 		{
+// 			i = i->next;
+// 		}
+// 		if (i)
+// 		{
+// 			i->next = node;
+// 		}
+// 	}
+// }
 
-int parse_env(char **envp, t_env **env)
-{
-	int i;
-	char *entry;
-	char *key;
-	char *value;
-	char *equal_sign;
+// int parse_env(char **envp, t_env **env)
+// {
+// 	int i;
+// 	char *entry;
+// 	char *key;
+// 	char *value;
+// 	char *equal_sign;
 
-	if (!env || !envp)
-	{
-		return (1);
-	}
+// 	if (!env || !envp)
+// 	{
+// 		return (1);
+// 	}
 
-	i = 0;
-	key = NULL;
-	equal_sign = NULL;
-	value = NULL;
-	while (envp[i] != NULL)
-	{
-		entry = strdup(envp[i]);
-		equal_sign = strchr(entry, '=');
-		if (!equal_sign)
-		{
-			return (1);
-		}
-		else
-		{
-			*equal_sign = '\0';
-		}
-		key = entry;
-		value = equal_sign + 1;
-		add_env_node_back(env, key, value);
-		i++;
-	}
-	return (0);
-}
-
+// 	i = 0;
+// 	key = NULL;
+// 	equal_sign = NULL;
+// 	value = NULL;
+// 	while (envp[i] != NULL)
+// 	{
+// 		entry = strdup(envp[i]);
+// 		equal_sign = strchr(entry, '=');
+// 		if (!equal_sign)
+// 		{
+// 			return (1);
+// 		}
+// 		else
+// 		{
+// 			*equal_sign = '\0';
+// 		}
+// 		key = entry;
+// 		value = equal_sign + 1;
+// 		add_env_node_back(env, key, value);
+// 		i++;
+// 	}
+// 	return (0);
+// }
 
 int parse_arg(t_env *env, const char *str)
 {
@@ -160,38 +159,58 @@ void sort(t_env **env)
     }
 }
 
+// int main(int ac, char **av, char **envp)
+// {
+// 	t_env *env_list;
+// 	t_env *node;
+// 	char *str;
+
+// 	(void) ac;
+// 	(void) av;
+
+// 	str = "hello=hallo";
+
+// 	env_list = NULL;
+// 	node = (t_env *) malloc(sizeof(t_env));
+// 	if (node == NULL)
+// 	{
+// 		perror("malloc der Hurensohn wieder :(");
+// 		return (1);
+// 	}
+// 	parse_env(envp, &env_list);
+
+// 	int result = 0;
+// 	if (parse_arg(node, str) != 0)
+// 	{
+// 		printf("parsing der Hurensohn wieder :(");
+// 		result = 1;
+// 	}
+// 	//printf("key=%s | value=%s", node->key, node->value);
+// 	free(node);
+// 	//print_env_list(env_list);
+// 	sort(&env_list);
+// 	print_env_list_export(env_list);
+// 	return (result);
+// }
+
+
+////////////////////////////////////////////////////////////////////////////////
+//	Kevins /////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 /*
-int main(int ac, char **av, char **envp)
+
+int	export_builtin(t_shell *shell, const t_cmd *cmd)
 {
-	t_env *env_list;
-	t_env *node;
-	char *str;
+	char	*name;
+	char	*value;
 
-	(void) ac;
-	(void) av;
-
-	str = "hello=hallo";
-
-	env_list = NULL;
-	node = (t_env *) malloc(sizeof(t_env));
-	if (node == NULL)
-	{
-		perror("malloc der Hurensohn wieder :(");
-		return (1);
-	}
-	parse_env(envp, &env_list);
-
-	int result = 0;
-	if (parse_arg(node, str) != 0)
-	{
-		printf("parsing der Hurensohn wieder :(");
-		result = 1;
-	}
-	//printf("key=%s | value=%s", node->key, node->value);
-	free(node);
-	//print_env_list(env_list);
-	sort(&env_list);
-	print_env_list_export(env_list);
-	return (result);
+	if (!cmd->args[0])
+		return (env_builtin(shell, cmd));
+	if (parse_env_var(cmd->args[0], &name, &value))
+		return (0);
+	set_env(shell, name, value);
+	free(name);
+	return (0);
 }
+
 */

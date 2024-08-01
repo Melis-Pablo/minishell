@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 06:13:29 by pmelis            #+#    #+#             */
-/*   Updated: 2024/07/31 17:01:37 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/01 18:12:07 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,11 @@ static int	check_builtin(t_shell *shell, t_cmd *cmd, int *status)
 }
 */
 
-int	builtins_caller(t_cmd *cmd)
+int	builtins_caller(t_shell *shell, t_cmd *cmd, int *status)
 {
 	printf("command: <%s>\n\n", cmd->cmd);
+	(void)shell;
+	(void)status;
 
 	// if (strcmp(cmd->cmd, "echo") == 0)
 	// {
@@ -52,7 +54,7 @@ int	builtins_caller(t_cmd *cmd)
 	// }
 	if (strcmp(cmd->cmd, "pwd") == 0)
 	{
-		m_pwd();
+		m_pwd(cmd);
 		return (1);
 	}
 	// else if (strcmp(cmd->cmd, "export") == 0)

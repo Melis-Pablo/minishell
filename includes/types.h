@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:39:59 by pmelis            #+#    #+#             */
-/*   Updated: 2024/07/31 18:13:07 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/01 21:44:50 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,18 @@ typedef struct s_doc
 	char	*delimiter;
 }	t_doc;
 
+// typedef struct s_here
+// {
+// 	char	name[19];
+// 	int		fd;
+// }	t_here;
+
+typedef struct s_list
+{
+	void			*content;
+	struct s_list	*next;
+}	t_list;
+
 typedef struct s_cmd
 {
 	char			*cmd;
@@ -88,11 +100,7 @@ typedef struct s_pl
 	int		fd_in;
 }	t_pl;
 
-typedef struct s_here
-{
-	char	name[19];
-	int		fd;
-}	t_here;
+
 
 /*
 static const struct {

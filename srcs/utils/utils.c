@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 05:14:17 by pmelis            #+#    #+#             */
-/*   Updated: 2024/07/23 05:14:49 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/01 17:54:43 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,29 @@ void	ft_itoa(int n, char *str)
 		str[i++] = '-';
 	str[i] = '\0';
 	ft_reverse_str(str, i);
+}
+
+void	ft_bzero(void *s, size_t n)
+{
+	while (n--)
+		((unsigned char *)s)[n] = 0;
+}
+
+void	ft_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
+}
+
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	while (*s)
+		ft_putchar_fd(*(s++), fd);
+}
+
+
+void	ft_putendl_fd(char *s, int fd)
+{
+	ft_putstr_fd(s, fd);
+	ft_putchar_fd('\n', fd);
 }

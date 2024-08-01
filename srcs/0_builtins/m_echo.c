@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   m_echo.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:49:46 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/07/09 11:46:17 by grbuchne         ###   ########.fr       */
+/*   Updated: 2024/08/01 15:17:21 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,3 +83,33 @@ void	m_echo(t_cmd *cmd)
 	if (newline)
 		printf("\n");
 }
+
+////////////////////////////////////////////////////////////////////////////////
+//	Kevins /////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+/*
+int	echo_builtin(t_shell *shell, const t_cmd *cmd)
+{
+	int	i;
+	int	n_flag;
+
+	(void)shell;
+	i = 0;
+	n_flag = 0;
+	if (cmd->args[0] && ft_strncmp(cmd->args[0], "-n", 2) == 0)
+	{
+		n_flag = 1;
+		i++;
+	}
+	while (cmd->args[i])
+	{
+		printf("%s", cmd->args[i]);
+		if (cmd->args[i + 1])
+			printf(" ");
+		i++;
+	}
+	if (!n_flag)
+		printf("\n");
+	return (0);
+}
+*/

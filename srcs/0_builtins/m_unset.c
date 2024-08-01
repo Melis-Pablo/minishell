@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   m_unset.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:26:04 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/07/09 13:54:23 by grbuchne         ###   ########.fr       */
+/*   Updated: 2024/08/01 15:18:46 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,3 +132,34 @@ int m_unset(t_cmd *cmd, char *str)
 // 	print_env_list(cmd.env);
 // 	return (0);
 // }
+
+////////////////////////////////////////////////////////////////////////////////
+//	Kevins /////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+/*
+int	unset_builtin(t_shell *shell, const t_cmd *cmd)
+{
+	int	i;
+
+	if (cmd->argc == 0)
+	{
+		ft_putstr_fd("unset: not enough arguments\n", STDERR_FILENO);
+		return (1);
+	}
+	i = 0;
+	while (cmd->args[i])
+	{
+		if (ft_strchr(cmd->args[i], '='))
+		{
+			ft_putstr_fd("unset: ", STDERR_FILENO);
+			ft_putstr_fd(cmd->args[i], STDERR_FILENO);
+			ft_putstr_fd(": invalid parameter name\n", STDERR_FILENO);
+			return (1);
+		}
+		remove_env(shell, cmd->args[i]);
+		i++;
+	}
+	return (0);
+}
+
+*/

@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 16:07:20 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/07/23 04:31:25 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/01 15:17:53 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,3 +59,26 @@ int	set_env_lst(t_cmd *cmd_list,t_env *env)
 	}
 	return (0);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+//	Kevins /////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+/*
+int	env_builtin(t_shell *shell, const t_cmd *cmd)
+{
+	t_env	*env;
+
+	if (cmd->argc)
+	{
+		ft_putendl_fd("env: too many arguments", STDERR_FILENO);
+		return (1);
+	}
+	env = shell->env;
+	while (env)
+	{
+		printf("%s=%s\n", env->name, env->value);
+		env = env->next;
+	}
+	return (0);
+}
+*/
