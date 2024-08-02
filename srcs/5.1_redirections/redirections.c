@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 06:06:19 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/02 14:24:57 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/02 22:28:13 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	redirect_inputs(t_cmd *cmd)
 		if (tmp->type == HEREDOC)
 		{
 			//process_heredoc(tmp->file);
-			//process_all_heredocs(t_doc *heredocs, int heredoc_count);
+			process_all_heredocs(cmd->heredocs, cmd->heredoc_count);
 		}
 		tmp = tmp->next;
 	}

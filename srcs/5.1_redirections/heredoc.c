@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 06:55:41 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/01 21:31:09 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/02 23:40:55 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ void	cleanup_heredocs(t_cmd *cmd)
 	i = 0;
 	while (i < cmd->heredoc_count)
 	{
+		unlink(cmd->heredocs[i].filename);
 		free(cmd->heredocs[i].filename);
 		free(cmd->heredocs[i].delimiter);
-		unlink(cmd->heredocs[i].filename);
 		i++;
 	}
 	free(cmd->heredocs);
@@ -134,6 +134,9 @@ int	process_all_heredocs(t_doc *heredocs, int heredoc_count)
 	int		i;
 
 	i = 0;
+	len = 0;
+	tmp_fd = 0;
+	//printf("heredoc_count: %d\n", heredoc_count);
 	while (i < heredoc_count)
 	{
 		if (process_single_heredoc(heredocs[i].delimiter, heredocs[i].filename) != 0)
@@ -166,38 +169,36 @@ int	check_heredoc(t_cmd *cmd)
 {
 	t_redir	*tmp;
 	t_doc	heredocs[100];
-	int		heredoc_count;
-	char	filename[20];
+	// int		heredoc_count;
+	char	filename[15];
 
 	tmp = cmd->infiles;
-	heredoc_count = 0;
+	cmd->heredoc_count = 0;
 	while (tmp)
 	{
 		if (tmp->type == HEREDOC)
 		{
-			if (heredoc_count >= 100)
+			if (cmd->heredoc_count >= 100)
 			{
 				printf("minishell: too many heredocs\n");
 				return (-1);
 			}
-			//snprintf(filename, sizeof(filename), "/tmp/heredoc_%d", heredoc_count);
-			heredocs[heredoc_count].filename = ft_strdup(filename);
-			heredocs[heredoc_count].delimiter = ft_strdup(tmp->file);
-			heredoc_count++;
+			snprintf(filename, sizeof(filename), "heredoc_%d", cmd->heredoc_count); ///tmp/
+			heredocs[cmd->heredoc_count].filename = ft_strdup(filename);
+			heredocs[cmd->heredoc_count].delimiter = ft_strdup(tmp->file);
+			cmd->heredoc_count++;
 		}
 		tmp = tmp->next;
 	}
-	cmd->heredocs = (t_doc *)malloc(sizeof(t_doc) * heredoc_count);
+	cmd->heredocs = (t_doc *)malloc(sizeof(t_doc) * cmd->heredoc_count + 1);
 	if (!cmd->heredocs)
 	{
 		perror("malloc heredoc error");
 		return (-1);
 	}
-	ft_memcpy(cmd->heredocs, heredocs, sizeof(t_doc) * heredoc_count);
-	cmd->heredoc_count = heredoc_count;
+	ft_memcpy(cmd->heredocs, heredocs, sizeof(t_doc) * cmd->heredoc_count);
 	return (0);
 }
-
 
 
 // int main() {
@@ -212,6 +213,8 @@ int	check_heredoc(t_cmd *cmd)
 // 	token_list->next->next->next->next->prev = token_list->next->next->next;
 
 // 	 t_cmd *cmd;
+// 	ft_bzero(&cmd, sizeof(t_cmd));
+// 	// builder()
 
 
 
@@ -231,16 +234,15 @@ int	check_heredoc(t_cmd *cmd)
 // 	if (process_all_heredocs(cmd->heredocs, cmd->heredoc_count) != 0)
 // 	{
 // 	fprintf(stderr, "Failed to process heredocs\n");        //->putstrfd()
-// 	cleanup_heredocs(&cmd);
+// 	cleanup_heredocs(cmd);
 // 	return (1);
 // 	}
 
 	
-// 	cleanup_heredocs(&cmd);
+// 	cleanup_heredocs(cmd);
 // 	// Free token list
 // 	return 0;
 // }
-
 
 /*
 int	check_heredoc(t_cmd *cmd)

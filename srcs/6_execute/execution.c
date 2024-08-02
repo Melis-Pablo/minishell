@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 06:53:30 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/02 15:18:00 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/02 22:44:14 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	exec_pipeline(t_shell *shell, t_cmd *cmd, int *status, int len)
 			break ;
 	}
 	restore_std_fds(og_stdin, og_stdout);
-	//clear_heredocs(&here)
+	cleanup_heredocs(cmd);
 	return (*status);
 }
 
@@ -112,6 +112,12 @@ int	execute(t_shell *shell, char *line, int *status)
 	if (!line || !*line)
 		return (0);
 	cmd = builder(line);
+	if (check_heredoc(cmd) != 0)
+	{
+		free_cmds(cmd);
+		*status = 1;
+		return (1);
+	}
 	if (!cmd)
 	{
 		*status = 1;

@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:57:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/02 15:10:25 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/02 22:37:00 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ char	**export_env(t_env *env);
 int	handle_final_case(t_shell *shell, t_cmd *cmd, int *status, t_pl *pl);
 
 int	execute_internal(t_shell *shell, t_cmd *cmd, int *status);
+
+
+int	check_heredoc(t_cmd *cmd);
+void	cleanup_heredocs(t_cmd *cmd);
 
 
 #endif

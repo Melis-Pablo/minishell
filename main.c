@@ -6,13 +6,13 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 04:14:28 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/02 20:34:33 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/02 23:43:34 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-static void	next_run(t_shell *shell)
+void	next_run(t_shell *shell)
 {
 	char	*input;
 
@@ -28,7 +28,7 @@ static void	next_run(t_shell *shell)
 	free(input);
 }
 
-static int	miniloop(char **env)
+int	miniloop(char **env)
 {
 	t_shell	shell;
 
@@ -50,3 +50,26 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	return (miniloop(env));
 }
+
+
+
+// int main(void) {
+// 	char *input = "echo <<EOF";
+// 	t_cmd *cmd = builder(input);
+
+// 	if (check_heredoc(cmd) != 0) {
+// 		fprintf(stderr, "Failed to handle heredocs\n");     //->putstrfd()
+	
+// 		return 1;
+// 	}
+
+// 	if (process_all_heredocs(cmd->heredocs, cmd->heredoc_count) != 0)
+// 	{
+// 		fprintf(stderr, "Failed to process heredocs\n");        //->putstrfd()
+// 		cleanup_heredocs(cmd);
+// 		return (1);
+// 	}
+// 	cleanup_heredocs(cmd);
+// 	free_cmds(cmd);
+// 	return 0;
+// }
