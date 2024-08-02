@@ -6,44 +6,36 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:49:46 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/08/01 15:17:21 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/02 19:01:50 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/*
-new_line_check():	checks for newline flag (-n)
-
-Arguments:			char **args
-
-Return:				int 1 or 0
-
-How it works:
-				1. if no args return 1
-				2. if first char of first arg is not '-' return 1
-				3. while first arg from first char equal 'n' skip char
-				4. if not all chars of fist arg are 'n' return 1
-				5. return 0
-*/
 int	new_line_check(char **flags)
 {
 	int	i;
+	int	j;
 
-	i = 0;
-	if(flags[i] == NULL || flags == NULL)
+	i = 1;
+	j = 0;
+	if (flags[j] == NULL || flags == NULL)
+		return (0);
+	while (flags[j][i])
 	{
-		return (1);
+		if (flags[j][0] != '-')
+			return (0);
+		if (flags[j][i] == '-')
+		{
+			return (j);
+		}
+		if (flags[j][i] != 'n')
+			return (0);
+		i++;
 	}
-	if(flags[0][0] != '-')
-		return (1);
-	while (flags[0][i] == 'n')
-	{
-	i++;
-	}
-	if(flags[0][i] != 'n')
-		return (1);
-	return (0);
+	// if (flags[0][i] == '\0')
+	// 	return (0);
+	return (j);
 }
 
 /*
@@ -59,16 +51,20 @@ How it works:
 			3. if first flag exist and newlinecheck 0(std case)
 				4. newline = 0
 */
-void	m_echo(t_cmd *cmd)
+int	m_echo(t_cmd *cmd)
 {
 	int	start;
 	int	newline;
+	int	nl_flag;
 
 	start = 0;
 	newline = 1;
-	if (cmd->flags[0] != NULL && new_line_check(cmd->flags) == 0)
+	nl_flag = new_line_check(cmd->flags);
+	if (cmd->flags[0] != NULL && nl_flag != 0)
 	{
 		newline = 0;
+		//print_str_array(cmd->flags + nl_flag);
+		// merge_args(cmd);
 	}
 	if (cmd->args[start] != NULL)
 	{
@@ -82,6 +78,7 @@ void	m_echo(t_cmd *cmd)
 	}
 	if (newline)
 		printf("\n");
+	return (0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

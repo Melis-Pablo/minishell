@@ -6,13 +6,11 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 06:06:19 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/01 21:09:52 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/02 14:24:57 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-
 
 int	redirect_inputs(t_cmd *cmd)
 {
@@ -40,55 +38,6 @@ int	redirect_inputs(t_cmd *cmd)
 	return (0);
 }
 
-// int	redirect_input(t_cmd **cmd)
-// {
-// 	int	open_ret;
-
-// 	(*cmd)++;
-// 	open_ret = open((*cmd)->name, O_RDONLY);
-// 	if (open_ret == -1)
-// 	{
-// 		perror((*cmd)->name);
-// 		return (open_ret);
-// 	}
-// 	if ((*cmd)->argc > 1)
-// 	{
-// 		if (rearrange_cmd(*cmd) != 0)
-// 			return (1);
-// 	}
-// 	else
-// 		(*cmd)++;
-// 	return (open_ret);
-// }
-
-/*
-int	rearrange_cmd(t_cmd *cmd)
-{
-	char	**new_args;
-	int		i;
-
-	i = 1;
-	free(cmd->name);
-	cmd->name = ft_strdup(cmd->args[1]);
-	if (!cmd->name)
-		return (1);
-	new_args = malloc(sizeof(char *) * cmd->argc);
-	if (!new_args)
-		return (1);
-	while (cmd->args[i])
-	{
-		new_args[i - 1] = ft_strdup(cmd->args[i]);
-		if (!new_args[i - 1])
-			ft_free_split(new_args);
-		i++;
-	}
-	new_args[i - 1] = NULL;
-	ft_free_split(cmd->args);
-	cmd->args = new_args;
-	return (0);
-}
-*/
-
 int	redirect_outputs(t_cmd *cmd)
 {
 	int		open_flags;
@@ -111,4 +60,3 @@ int	redirect_outputs(t_cmd *cmd)
 	}
 	return (open(tmp_out->file, open_flags, 0644));
 }
-

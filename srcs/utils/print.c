@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 05:41:51 by pmelis            #+#    #+#             */
-/*   Updated: 2024/07/23 05:43:27 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/02 21:47:15 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,10 +122,17 @@ void	print_env_list(t_env *env)
 
 void	print_env_list_export(t_env *env)
 {
-	while (env)
+	t_env	*tmp;
+
+	tmp = env;
+	while (tmp)
 	{
-		printf("declare -x %s=\"%s\"\n", env->key, env->value);
-		env = env->next;
+		printf("declare -x %s", tmp->key);
+		if (tmp->value != NULL)
+			printf("=\"%s\"\n", tmp->value);
+		else
+			printf("\n");
+		tmp = tmp->next;
 	}
 }
 

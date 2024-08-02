@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 06:53:30 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/01 21:33:07 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/02 15:18:00 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	check_input_redir(t_cmd *cmd, t_pl *pl)
 		if (process_all_heredocs(cmd->heredocs, cmd->heredoc_count) != 0)
 			return (1);
 	}
-	else if (cmd->infiles)
+	if (cmd->infiles)
 	{
 		pl->fd_in = redirect_inputs(cmd);
 		if (pl->fd_out == -1)
@@ -86,6 +86,7 @@ int	execute_internal(t_shell *shell, t_cmd *cmd, int *status)
 	}
 	ft_putstr_fd("minishell: command not found: ", 2);
 	ft_putstr_fd(cmd->cmd, 2);
+	ft_putstr_fd("\n", 2);
 	*status = 127;
 	return (1);
 }
@@ -110,7 +111,7 @@ int	execute(t_shell *shell, char *line, int *status)
 
 	if (!line || !*line)
 		return (0);
-	cmd = builder(shell, line);
+	cmd = builder(line);
 	if (!cmd)
 	{
 		*status = 1;

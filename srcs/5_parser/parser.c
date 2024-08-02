@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 05:47:03 by pmelis            #+#    #+#             */
-/*   Updated: 2024/07/23 05:50:09 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/02 14:29:00 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_redir	*add_redir(t_redir *head, t_redir *new_node)
 	last->next = new_node;
 	return (head);
 }
-
+// add heredocs initialize them
 t_cmd	*create_node(t_token *head)
 {
 	t_cmd	*new_node;
@@ -51,6 +51,7 @@ t_cmd	*create_node(t_token *head)
 	new_node->flags = get_flags(head);
 	new_node->infiles = get_infiles(head);
 	new_node->outfiles = get_outfiles(head);
+	new_node->heredocs = 0; //get_heredocs(head);
 	new_node->prev = NULL;
 	new_node->next = NULL;
 	return (new_node);

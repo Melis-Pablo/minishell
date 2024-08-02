@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:45:33 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/08/01 21:55:14 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/02 20:34:51 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,15 @@
 // 	return (0);
 // }
 
-void add_env_node_back(t_env **envp, char *key, char *value)
+void	add_env_node_back(t_env **envp, char *key, char *value)
 {
-	t_env *node;
-	t_env *i;
+	t_env	*node;
+	t_env	*i;
 
 	if (!key || !envp || !value)
 	{
-		return;
+		return ;
 	}
-
 	node = malloc(sizeof(t_env));
 	if (node == NULL)
 	{
@@ -88,8 +87,6 @@ void add_env_node_back(t_env **envp, char *key, char *value)
 	node->key = strdup(key);
 	node->value = strdup(value);
 	node->next = NULL;
-
-
 	if (*envp == NULL)
 	{
 		*envp = node;
@@ -108,29 +105,28 @@ void add_env_node_back(t_env **envp, char *key, char *value)
 	}
 }
 
-int parse_env(char **envp, t_shell *shell)
+int	parse_env(char **envp, t_shell *shell)
 {
-	int i;
-	char *entry;
-	char *key;
-	char *value;
-	char *equal_sign;
+	int		i;
+	char	*entry;
+	char	*key;
+	char	*value;
+	char	*equal_sign;
 
 	if (!shell || !envp)
 	{
 		return (1);
 	}
-
 	i = 0;
 	key = NULL;
 	equal_sign = NULL;
 	value = NULL;
-    shell->envc = 0;
+	shell->envc = 0;
 	while (envp[i] != NULL)
 	{
 		entry = strdup(envp[i]);
-        if(!entry)
-            return(1);
+		if (!entry)
+            return (1);
 		equal_sign = strchr(entry, '=');
 		if (!equal_sign)
 		{
@@ -143,7 +139,7 @@ int parse_env(char **envp, t_shell *shell)
 		}
 		key = entry;
 		value = equal_sign + 1;
-		add_env_node_back(shell->env, key, value);
+		add_env_node_back(&shell->env, key, value);
         free(entry);
         shell->envc++;
 		i++;

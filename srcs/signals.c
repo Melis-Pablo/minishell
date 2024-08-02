@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:28:48 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/01 17:13:34 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/02 16:46:51 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	signal_handler(void)
 void	handle_sigquit(int sig)
 {
 	(void)sig;
-	// rl_redisplay();
+	rl_redisplay();
 }
 
 void	handle_sigint(int sig)

@@ -6,33 +6,32 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 05:06:53 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/01 20:03:54 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/02 19:43:20 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_cmd	*builder(t_shell *shell, char *input)
+t_cmd	*builder(char *input)
 {
 	char	**token_arr;
 	t_token	*token_lst;
 	t_cmd	*cmd_lst;
-	(void)shell;
 
 /////////////////////////////////////////////////////////////////
 	//Split Tokens [String Array]////////////////////////////////
 	token_arr = split_tokens(input);
 	if (!token_arr)
 		return (NULL);
-	// print_str_array(token_arr);
+	//print_str_array(token_arr);
 /////////////////////////////////////////////////////////////////
 	//Lexer [Token Linked List]
 	token_lst = lexer(token_arr);
 	free_array(token_arr);
 	if (!token_lst)
 		return (NULL);
-	// printf("Lexer Output:\n");
-	// print_tokens(token_lst);
+	//printf("Lexer Output:\n");
+	//print_tokens(token_lst);
 /////////////////////////////////////////////////////////////////
 	//Syntax error check
 	if (syntax_error(token_lst))
@@ -40,20 +39,20 @@ t_cmd	*builder(t_shell *shell, char *input)
 		free_tokens(token_lst);
 		return (NULL);
 	}
-	// printf("Syntax Error Check Passed\n");
-	// print_tokens(token_lst);
+	//printf("Syntax Error Check Passed\n");
+	//print_tokens(token_lst);
 /////////////////////////////////////////////////////////////////
 	//Env Expansion [IMPLEMENT BUILTIN ENV]
 	token_lst = env_expand(token_lst);
 	if (!token_lst)
 		return (NULL);
-	// printf("Env Expansion Output:\n");
-	// print_tokens(token_lst);
+	//printf("Env Expansion Output:\n");
+	//print_tokens(token_lst);
 /////////////////////////////////////////////////////////////////
 	//Parser [Command Linked List]
 	cmd_lst = parser(token_lst);
-	printf("Parser Output:\n");
-	print_cmds(cmd_lst);
+	//printf("Parser Output:\n");
+	// print_cmds(cmd_lst);
 	free_tokens(token_lst);
 	if (!cmd_lst)
 		return (NULL);

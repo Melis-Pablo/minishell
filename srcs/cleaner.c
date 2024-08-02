@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 04:49:49 by pmelis            #+#    #+#             */
-/*   Updated: 2024/07/29 19:25:07 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/02 21:29:04 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,21 @@ void	free_redirs(t_redir *head)
 	}
 }
 
+void	free_env(t_env *env)
+{
+	t_env	*tmp;
+
+	tmp = NULL;
+	while (env)
+	{
+		tmp = env;
+		env = env->next;
+		free(tmp->key);
+		free(tmp->value);
+		free(tmp);
+	}
+}
+
 void	free_cmds(t_cmd *head)
 {
 	t_cmd	*tmp;
@@ -71,16 +86,3 @@ void	free_cmds(t_cmd *head)
 	}
 }
 
-void	free_env(t_env *env)
-{
-	t_env	*tmp;
-
-	while (env)
-	{
-		tmp = env;
-		env = env->next;
-		free(tmp->key);
-		free(tmp->value);
-		free(tmp);
-	}
-}

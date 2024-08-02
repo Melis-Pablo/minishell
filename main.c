@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 04:14:28 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/01 17:51:00 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/02 20:34:33 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ static int	miniloop(char **env)
 
 	ft_bzero(&shell, sizeof(t_shell));
 	shell.first_run = 1;
-	load_env(&shell, env);
+	shell.envc = 0;
+	parse_env(env, &shell);
 	signal_handler();
 	while (!shell.exit)
 		next_run(&shell);

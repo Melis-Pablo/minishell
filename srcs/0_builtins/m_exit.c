@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:15:25 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/08/01 21:52:48 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/02 18:55:51 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,45 +37,13 @@ int	ft_atoi(const char *str)
 	return (result * sign);
 }
 
-
-int	m_exit(t_cmd *cmd)
+int	m_exit(t_shell *shell, t_cmd *cmd)
 {
-	cmd->exit = 1;
+	shell->exit = 1;
+	if (cmd->args[0] && cmd->args[1])
+	{
+		printf("exit\nminishell: exit: too many arguments\n");
+		return (1);
+	}
 	return (ft_atoi(cmd->args[0]));
 }
-
-/*
-int	exit_cleanup(t_cmd *data)
-{
-	(void) data;
-	//close fds()
-	//close processes
-	//free everything()
-	//execute Commad handles
-	//return exitcode
-	return (0);
-}
-
-// while != exit in main loop
-
-int	m_exit(t_cmd *cmd)
-{
-	cmd->exit = 0;
-	return (cmd->exit);
-}
-
-// int	m_exit(char *cmd, t_data *data)
-// {
-// 	int	exitcode;
-
-// 	exitcode = 0;
-// 	(void) *data;
-// 	//exit_cleanup();
-// 	if (cmd != NULL)
-// 		exitcode = atoi(cmd);
-// 	if (exitcode < 0 && exitcode > 255)
-// 		exitcode %= 256;
-// 	//convertion error?
-// 	_exit(exitcode);
-// }
-*/

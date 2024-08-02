@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:47:36 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/01 17:53:46 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/02 20:46:43 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,17 @@
 
 # include "minishell.h"
 
-int	m_pwd(t_cmd *cmd);
-int	m_exit(t_cmd *cmd);
+int		m_pwd(t_cmd *cmd);
+int		m_exit(t_shell *shell, t_cmd *cmd);
+int		m_env(t_shell *shell);
+int		m_export(t_shell *shell, t_cmd *cmd);
+int		m_unset(t_shell *shell, t_cmd *cmd);
+int		m_cd(t_shell *shell, t_cmd *cmd);
+int		m_echo(t_cmd *cmd);
 
 
-int	builtins_caller(t_shell *shell, t_cmd *cmd, int *status);
+
+int		builtins_caller(t_shell *shell, t_cmd *cmd, int *status);
 
 // typedef int				(*t_builtin_func)(t_shell *shell, const t_cmd *cmd);
 

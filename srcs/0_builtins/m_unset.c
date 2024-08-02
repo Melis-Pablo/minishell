@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:26:04 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/08/01 15:18:46 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/02 20:21:44 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,63 +86,65 @@ int	add_to_env_export(t_cmd *cmd, char *str)
 	return (0);
 }*/
 
-int m_unset(t_shell *shell, t_cmd *cmd)
+int	remove_variable(t_shell *shell, char *var)
 {
-    int status = 0;
-    if(!cmd->args)
-    {
-        ft_putstr_fd("unset: not enough arguments", STDERR_FILENO);
-        return (1);
-    }
-    int i = 0;
-    while(cmd->args[i])
-    {
-        if(strchr(cmd->args[i], '='))
-        {
-            ft_putstr_fd("unset:", STDERR_FILENO);
-            ft_putstr_fd(cmd->args[i], STDERR_FILENO);
-            ft_putstr_fd("invalid argument", STDERR_FILENO);
-            status = 1;
-        }
-        else
-        {
-            if (remove_variable(shell, cmd->args[i]) != 1)
-                status = 1;
-        }
-    }
-    i++;
+	t_env	*current;
+	t_env	*prev;
+
+	current = shell->env;
+	prev = NULL;
+	while (current)
+	{
+		if (strncmp(current->key, var, ft_strlen(current->key) + 1) == 0)
+		{
+			if (prev == NULL)
+			{
+				shell->env = current->next;
+			}
+			else
+			{
+				prev->next = current->next;
+			}
+			free(current->key);
+			free(current->value);
+			free(current);
+			return (0);
+		}
+		prev = current;
+		current = current->next;
+	}
+	return (1);
 }
 
-int remove_variable(t_shell *shell, char *var)
+
+int	m_unset(t_shell *shell, t_cmd *cmd)
 {
-    t_env *current;
-    t_env *prev;
+	int	i;
 
-    current = shell->env;
-    prev = NULL;
-
-
-    while(current)
-    {
-        if(strncmp(current->key, var, ft_strlen(current->key) + 1) == 0)
-        {
-            if(prev == NULL)
-            {
-                shell->env = current->next;
-            }
-            else
-            {
-                prev->next == current->next;
-            }
-            free(current->key);
-            free(current->value);
-            free(current);
-            return (0);
-        }
-        prev = current;
-        current = current->next;
-    }
-    return (0);
+	i = 0;
+	if (cmd->args[0] == NULL)
+	{
+		ft_putstr_fd("unset: not enough arguments\n", STDERR_FILENO);
+		return (1);
+	}
+	while (cmd->args[i])
+	{
+		if (strchr(cmd->args[i], '='))
+		{
+			ft_putstr_fd("unset:", STDERR_FILENO);
+			ft_putstr_fd(cmd->args[i], STDERR_FILENO);
+			ft_putstr_fd("invalid argument", STDERR_FILENO);
+			shell->last_status = 1;
+		}
+		else
+		{
+			printf("removing: %s\n", cmd->args[i]);
+			if (remove_variable(shell, cmd->args[i]) != 1)
+				shell->last_status = 0;
+		}
+		i++;
+	}
+	return (shell->last_status);
 }
 
 // int main(void)

@@ -6,30 +6,13 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:59:06 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/01 21:49:14 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/02 20:33:01 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	load_env(t_shell *shell, char **envp)
-{
-	char	**env;
-	// char	*key;
-	//char	*value;
 
-	env = envp;
-	shell->envc = 0;
-	shell->secret_envc = 0;
-	while (*env)
-	{
-		parse_env(envp, shell);
-		//set_env(shell, key, value);
-		//set_secret_env(shell, key, value);
-		// free(key);
-		env++;
-	}
-}
 
 char	*get_env(t_env *env, char *key)
 {
@@ -60,20 +43,6 @@ const char	*get_env_nc(t_env *env, char *key)
 }
 
 
-int	ft_lstsize(t_list *lst)
-{
-	size_t	size;
-
-	if (!lst)
-		return (0);
-	size = 0;
-	while (lst)
-	{
-		size++;
-		lst = lst->next;
-	}
-	return (size);
-}
 
 char	*ft_strjoin(const char *s1, const char *s2)
 {
@@ -93,27 +62,47 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	return (p);
 }
 
+int	ft_env_size(t_env *env)
+{
+	int		size;
+
+	size = 0;
+	while (env)
+	{
+		size++;
+		env = env->next;
+	}
+	return (size);
+}
+
 char	**export_env(t_env *env)
 {
 	char	**envp;
 	int		i;
+	char	*key_equal;
 
 	i = 0;
-	envp = malloc(sizeof(char *) * (ft_lstsize((t_list *) env) + 1));
-	if (!envp)
-		return (0);
+	envp = malloc(sizeof(char *) * (ft_env_size(env) + 1));
 	while (env)
 	{
-		envp[i] = ft_strjoin(ft_strjoin(env->key, "="), env->value);
-		if (!envp[i])
+		key_equal = ft_strjoin(env->key, "=");
+		if (!key_equal)
 		{
-			free(envp);
+			free_array(envp);
 			return (0);
 		}
+		envp[i] = ft_strjoin(key_equal, env->value);
+		if (!envp[i])
+		{
+			free_array(envp);
+			free(key_equal);
+			return (0);
+		}
+		free(key_equal);
 		env = env->next;
 		i++;
 	}
-	envp[i] = 0;
+	envp[i] = NULL;
 	return (envp);
 }
 

@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 19:28:22 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/01 22:00:47 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/02 15:28:21 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ int	exec_child(t_cmd *cmd, t_env *env)
 	if (pid == 0)
 	{
 		result = execve(cmd->cmd, cmd->args, envp);
+		free_array(envp);
+		// (void)	cmd;
+		// result = 0;
 		exit(result);
 	}
 	else
