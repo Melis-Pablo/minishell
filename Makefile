@@ -4,7 +4,7 @@
 NAME		:= minishell
 INCLUDES	:= includes
 CC			:= gcc
-FLAGS		:=-Wall -Wextra -Werror -lreadline -I $(INCLUDES)
+FLAGS		:= -lreadline -I $(INCLUDES)
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
 ################################################################################

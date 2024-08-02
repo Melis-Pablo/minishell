@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
+/*
 int	split_env(char *str, char **key, char **value)
 {
 	int	i;
@@ -84,29 +84,65 @@ int	add_to_env_export(t_cmd *cmd, char *str)
 	}
 
 	return (0);
+}*/
+
+int m_unset(t_shell *shell, t_cmd *cmd)
+{
+    int status = 0;
+    if(!cmd->args)
+    {
+        ft_putstr_fd("unset: not enough arguments", STDERR_FILENO);
+        return (1);
+    }
+    int i = 0;
+    while(cmd->args[i])
+    {
+        if(strchr(cmd->args[i], '='))
+        {
+            ft_putstr_fd("unset:", STDERR_FILENO);
+            ft_putstr_fd(cmd->args[i], STDERR_FILENO);
+            ft_putstr_fd("invalid argument", STDERR_FILENO);
+            status = 1;
+        }
+        else
+        {
+            if (remove_variable(shell, cmd->args[i]) != 1)
+                status = 1;
+        }
+    }
+    i++;
 }
 
-int m_unset(t_cmd *cmd, char *str)
+int remove_variable(t_shell *shell, char *var)
 {
-    t_env *i = cmd->env;
-    t_env *prev = NULL;
+    t_env *current;
+    t_env *prev;
 
-    while (i != NULL) {
-        if (ft_strncmp(i->key, str, ft_strlen(str) + 1) == 0) {
-            if (prev == NULL) {  // Wenn es der erste Knoten ist
-                cmd->env = i->next;
-            } else {
-                prev->next = i->next;
+    current = shell->env;
+    prev = NULL;
+
+
+    while(current)
+    {
+        if(strncmp(current->key, var, ft_strlen(current->key) + 1) == 0)
+        {
+            if(prev == NULL)
+            {
+                shell->env = current->next;
             }
-            free(i->key);
-            free(i->value);
-            free(i);
-            return 0;
+            else
+            {
+                prev->next == current->next;
+            }
+            free(current->key);
+            free(current->value);
+            free(current);
+            return (0);
         }
-        prev = i;
-        i = i->next;
+        prev = current;
+        current = current->next;
     }
-    return 0;
+    return (0);
 }
 
 // int main(void)
