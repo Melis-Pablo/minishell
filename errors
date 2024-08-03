@@ -1,0 +1,12 @@
+
+Token”token”token
+
+Expand env and exit status with new env
+Expand env args that start with $(print nothing if not found)
+IF $ENV has $NOVALUE print $
+If $(whitespace) its just a dollar
+
+Export modify node when finds the same key
+If key on export has - in it :( 
+If flag  in export cmd, error
+if m_exit argument not number trow error

@@ -10,7 +10,6 @@ FLAGS		:= -Wall -Wextra -Werror -I $(INCLUDES)
 ################################################################################
 SRCS		:=	main.c \
 				srcs/4_env_expand/get_env.c \
-				srcs/4_env_expand/remove_env.c \
 				srcs/4_env_expand/OLD_envexpand.c \
 				srcs/1_split_tokens/split_tokens.c \
 				srcs/builder.c \
@@ -18,7 +17,6 @@ SRCS		:=	main.c \
 				srcs/5_parser/parser.c \
 				srcs/0_builtins/m_export.c \
 				srcs/0_builtins/builtin_caller.c \
-				srcs/0_builtins/env_ops.c \
 				srcs/0_builtins/m_cd.c \
 				srcs/0_builtins/m_exit.c \
 				srcs/0_builtins/m_unset.c \
@@ -40,7 +38,6 @@ SRCS		:=	main.c \
 				srcs/utils/utils.c \
 				srcs/utils/str_utils2.c \
 				srcs/cleaner.c \
-				srcs/5.1_redirections/my_here.c \
 				srcs/5.1_redirections/redirections.c \
 				srcs/5.1_redirections/heredoc.c \
 				srcs/signals.c

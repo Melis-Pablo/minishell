@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:44:36 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/01 17:50:34 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/03 15:30:04 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@
 # include "minishell.h"
 # include "types.h"
 
+
+void	free_env(t_env *env);
 void	free_array(char **arr);
 void	free_tokens(t_token *head);
-void	free_redirs(t_redir *head);
+void	cleanup_heredocs(t_cmd *cmd);
 void	free_cmds(t_cmd *head);
-void	free_env(t_env *env);
 
 #endif

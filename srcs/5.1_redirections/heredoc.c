@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 06:55:41 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/02 23:40:55 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/03 23:46:51 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,6 @@ void	cleanup_heredocs(t_cmd *cmd)
 	cmd->heredoc_count = 0;
 }
 
-// t_token *create_token(const char *word, t_token_type type) {
-// 	t_token *token = malloc(sizeof(t_token));
-// 	token->word = strdup(word);
-// 	token->type = type;
-// 	token->prev = NULL;
-// 	token->next = NULL;
-// 	return token;
-// }
-
 int	process_single_heredoc(const char *delimiter, const char *filename)
 {
 	char	line[MAX_LINE_LEN];
@@ -87,7 +78,6 @@ int	process_single_heredoc(const char *delimiter, const char *filename)
 		perror("open");
 		return (-1);
 	}
-
 	while (1)
 	{
 		len = ft_readlines(STDIN_FILENO, line, sizeof(line));
@@ -136,7 +126,6 @@ int	process_all_heredocs(t_doc *heredocs, int heredoc_count)
 	i = 0;
 	len = 0;
 	tmp_fd = 0;
-	//printf("heredoc_count: %d\n", heredoc_count);
 	while (i < heredoc_count)
 	{
 		if (process_single_heredoc(heredocs[i].delimiter, heredocs[i].filename) != 0)
@@ -155,7 +144,7 @@ int	process_all_heredocs(t_doc *heredocs, int heredoc_count)
 			len = read(tmp_fd, buffer, sizeof(buffer));
 			while (len > 0)
 			{
-				write(STDOUT_FILENO, buffer, len);
+				// write(STDOUT_FILENO, buffer, len);
 				len = read(tmp_fd, buffer, sizeof(buffer));
 			}
 			close(tmp_fd);
@@ -169,7 +158,6 @@ int	check_heredoc(t_cmd *cmd)
 {
 	t_redir	*tmp;
 	t_doc	heredocs[100];
-	// int		heredoc_count;
 	char	filename[15];
 
 	tmp = cmd->infiles;
@@ -183,7 +171,7 @@ int	check_heredoc(t_cmd *cmd)
 				printf("minishell: too many heredocs\n");
 				return (-1);
 			}
-			snprintf(filename, sizeof(filename), "heredoc_%d", cmd->heredoc_count); ///tmp/
+			snprintf(filename, sizeof(filename), "heredoc_%d", cmd->heredoc_count);
 			heredocs[cmd->heredoc_count].filename = ft_strdup(filename);
 			heredocs[cmd->heredoc_count].delimiter = ft_strdup(tmp->file);
 			cmd->heredoc_count++;
@@ -199,96 +187,3 @@ int	check_heredoc(t_cmd *cmd)
 	ft_memcpy(cmd->heredocs, heredocs, sizeof(t_doc) * cmd->heredoc_count);
 	return (0);
 }
-
-
-// int main() {
-// 	t_token *token_list = create_token("cat", WORD);
-// 	token_list->next = create_token("<<", HEREDOC);
-// 	token_list->next->prev = token_list;
-// 	token_list->next->next = create_token("EOF1", WORD);
-// 	token_list->next->next->prev = token_list->next;
-// 	token_list->next->next->next = create_token("<<", HEREDOC);
-// 	token_list->next->next->next->prev = token_list->next->next;
-// 	token_list->next->next->next->next = create_token("EOF2", WORD);
-// 	token_list->next->next->next->next->prev = token_list->next->next->next;
-
-// 	 t_cmd *cmd;
-// 	ft_bzero(&cmd, sizeof(t_cmd));
-// 	// builder()
-
-
-
-
-
-
-// 	if (check_heredoc(cmd) != 0) {
-// 		fprintf(stderr, "Failed to handle heredocs\n");     //->putstrfd()
-	
-// 		return 1;
-// 	}
-
-
-
-
-
-// 	if (process_all_heredocs(cmd->heredocs, cmd->heredoc_count) != 0)
-// 	{
-// 	fprintf(stderr, "Failed to process heredocs\n");        //->putstrfd()
-// 	cleanup_heredocs(cmd);
-// 	return (1);
-// 	}
-
-	
-// 	cleanup_heredocs(cmd);
-// 	// Free token list
-// 	return 0;
-// }
-
-/*
-int	check_heredoc(t_cmd *cmd)
-{
-	t_token *current = token_list;
-	t_doc heredocs[MAX_HEREDOCS];
-	int heredoc_count = 0;
-	char filename[20];
-
-	while (current != NULL)
-	{
-		if (current->type == HEREDOC && current->next != NULL)
-		{
-			if (heredoc_count >= MAX_HEREDOCS)
-			{
-				fprintf(stderr, "Too many heredocs\n");         //->putstrfd()
-				return -1;
-			}
-			//snprintf(filename, sizeof(filename), "/tmp/heredoc_%d", heredoc_count);
-			heredocs[heredoc_count].filename = strdup(filename);
-			heredocs[heredoc_count].delimiter = strdup(current->next->word);
-
-			free(current->word);
-			current->word = strdup(filename);
-			current->type = INPUT;
-
-			// Remove the delimiter token
-			t_token *temp = current->next;
-			current->next = temp->next;
-			if (temp->next)
-				temp->next->prev = current;
-			free(temp->word);
-			free(temp);
-			heredoc_count++;
-		}
-		current = current->next;
-	}
-
-	cmd->heredocs = (t_doc *)malloc(sizeof(t_doc) * heredoc_count);
-	if (cmd->heredocs == NULL)
-	{
-		fprintf(stderr, "Failed to allocate memory for heredocs\n");        //->putstrfd()
-		return -1;
-	}
-	memcpy(cmd->heredocs, heredocs, sizeof(t_doc) * heredoc_count);
-	cmd->heredoc_count = heredoc_count;
-	return (0);
-}
-*/

@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:49:46 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/08/02 19:01:50 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/03 15:22:25 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,6 @@ int	new_line_check(char **flags)
 	return (j);
 }
 
-/*
-m_echo():	echo command
-
-Arguments:	t_cmd *cmd
-
-Return:		void
-
-How it works:
-			1. starts index 0 arg
-			2. newline std 1
-			3. if first flag exist and newlinecheck 0(std case)
-				4. newline = 0
-*/
 int	m_echo(t_cmd *cmd)
 {
 	int	start;
@@ -80,33 +67,3 @@ int	m_echo(t_cmd *cmd)
 		printf("\n");
 	return (0);
 }
-
-////////////////////////////////////////////////////////////////////////////////
-//	Kevins /////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-/*
-int	echo_builtin(t_shell *shell, const t_cmd *cmd)
-{
-	int	i;
-	int	n_flag;
-
-	(void)shell;
-	i = 0;
-	n_flag = 0;
-	if (cmd->args[0] && ft_strncmp(cmd->args[0], "-n", 2) == 0)
-	{
-		n_flag = 1;
-		i++;
-	}
-	while (cmd->args[i])
-	{
-		printf("%s", cmd->args[i]);
-		if (cmd->args[i + 1])
-			printf(" ");
-		i++;
-	}
-	if (!n_flag)
-		printf("\n");
-	return (0);
-}
-*/

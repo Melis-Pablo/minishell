@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 04:14:28 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/02 23:43:34 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/03 17:10:33 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	miniloop(char **env)
 	while (!shell.exit)
 		next_run(&shell);
 	free_env(shell.env);
-	free_env(shell.secret_env);
 	return (shell.last_status);
 }
 
@@ -51,10 +50,11 @@ int	main(int ac, char **av, char **env)
 	return (miniloop(env));
 }
 
-
-
 // int main(void) {
-// 	char *input = "echo <<EOF";
+
+
+
+// 	char *input = readline(PROMPT);
 // 	t_cmd *cmd = builder(input);
 
 // 	if (check_heredoc(cmd) != 0) {
@@ -62,6 +62,7 @@ int	main(int ac, char **av, char **env)
 	
 // 		return 1;
 // 	}
+
 
 // 	if (process_all_heredocs(cmd->heredocs, cmd->heredoc_count) != 0)
 // 	{

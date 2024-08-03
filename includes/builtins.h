@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:47:36 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/02 20:46:43 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/03 14:18:13 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,28 +22,6 @@ int		m_export(t_shell *shell, t_cmd *cmd);
 int		m_unset(t_shell *shell, t_cmd *cmd);
 int		m_cd(t_shell *shell, t_cmd *cmd);
 int		m_echo(t_cmd *cmd);
-
-
-
 int		builtins_caller(t_shell *shell, t_cmd *cmd, int *status);
-
-// typedef int				(*t_builtin_func)(t_shell *shell, const t_cmd *cmd);
-
-// typedef struct s_builtin
-// {
-// 	char			*name;
-// 	t_builtin_func	func;
-// }	t_builtin;
-
-// static const t_builtin	g_builtins[] = {
-// {"exit", exit_builtin},
-// {"echo", echo_builtin},
-// {"cd", cd_builtin},
-// {"pwd", pwd_builtin},
-// {"env", env_builtin},
-// {"unset", unset_builtin},
-// {"export", export_builtin},
-// {0}
-// };
 
 #endif

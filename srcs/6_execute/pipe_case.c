@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 19:28:22 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/02 22:25:51 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/03 21:42:46 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	handle_final_case(t_shell *shell, t_cmd *cmd, int *status, t_pl *pl)
 
 int	exec_pipe_cmd(t_shell *shell, t_cmd *cmd, t_pl *pl, int *status)
 {
-	if (cmd->next)
+	if (cmd->cmd && cmd->next)
 	{
 		pl->fd_in = handle_pipe_case(shell, cmd, status, pl);
 		if (pl->fd_in == 1)
@@ -100,7 +100,5 @@ int	exec_pipe_cmd(t_shell *shell, t_cmd *cmd, t_pl *pl, int *status)
 		*status = handle_final_case(shell, cmd, status, pl);
 		return (*status);
 	}
-	//check for heredoc iterate over it
-	//else ++
 	return (-1);
 }

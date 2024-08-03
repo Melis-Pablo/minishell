@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:37:46 by pmelis            #+#    #+#             */
-/*   Updated: 2024/07/29 17:53:41 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/03 14:24:27 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,5 @@
 # include "minishell.h"
 
 void	signal_handler(void);
-void	handle_sigquit(int sig);
-void	handle_sigint(int sig);
 
 #endif

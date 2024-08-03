@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 06:06:19 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/02 22:28:13 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/03 22:22:36 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,19 @@
 
 int	redirect_inputs(t_cmd *cmd)
 {
-	t_redir	*tmp;
 	int		fd;
+	t_redir	*tmp;
+	char	*herenum;
+	char	*tmp_filename;
+	herenum = NULL;
+	tmp_filename = NULL;
 
 	tmp = cmd->infiles;
 	while (tmp)
 	{
 		if (tmp->type == INPUT)
 		{
-			fd = open(tmp->file, O_RDONLY);
+			fd = open(tmp->file, O_RDONLY); //O_NONBLOCK, O_CLOEXEC
 			if (fd == -1)
 				perror("input redirection error");
 			dup2(fd, STDIN_FILENO);
@@ -30,12 +34,24 @@ int	redirect_inputs(t_cmd *cmd)
 		}
 		if (tmp->type == HEREDOC)
 		{
-			//process_heredoc(tmp->file);
-			process_all_heredocs(cmd->heredocs, cmd->heredoc_count);
+
+			herenum = malloc(sizeof(char) * 3);
+			ft_itoa(cmd->heredoc_count - 1, herenum);
+			tmp_filename = ft_strjoin("heredoc_", herenum);
+			free(herenum);
+			fd = open(tmp_filename, O_RDONLY);
+			if (fd == -1)
+				perror("heredoc redirection error");
+			else
+			{
+				dup2(fd, STDIN_FILENO);
+				close(fd);
+			}
+			free(tmp_filename);
 		}
 		tmp = tmp->next;
 	}
-	return (0);
+	return (fd);
 }
 
 int	redirect_outputs(t_cmd *cmd)
@@ -55,8 +71,7 @@ int	redirect_outputs(t_cmd *cmd)
 		fd = open(tmp_out->file, open_flags, 0644);
 		if (fd == -1)
 			return (-1);
-		close(fd);
 		tmp_out = tmp_out->next;
 	}
-	return (open(tmp_out->file, open_flags, 0644));
+	return (fd);
 }

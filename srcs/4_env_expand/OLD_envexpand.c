@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 05:51:15 by pmelis            #+#    #+#             */
-/*   Updated: 2024/07/23 05:51:56 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/03 21:46:05 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,6 @@ char	*expand_env_variables(char *word)
 	free(word);
 	return (expand_env_variables(new_word));
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 char	*ft_clean_quotes(char *word)
 {

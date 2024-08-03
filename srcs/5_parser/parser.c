@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 05:47:03 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/02 14:29:00 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/03 21:10:08 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,26 @@ t_cmd	*create_node(t_token *head)
 	new_node->flags = get_flags(head);
 	new_node->infiles = get_infiles(head);
 	new_node->outfiles = get_outfiles(head);
-	new_node->heredocs = 0; //get_heredocs(head);
+	new_node->heredocs = NULL;
 	new_node->prev = NULL;
 	new_node->next = NULL;
 	return (new_node);
+}
+
+void	print_single_node(t_cmd *node)
+{
+	ft_putstr_fd("cmd: ", 1);
+	ft_putendl_fd(node->cmd, 1);
+	ft_putstr_fd("args: ", 1);
+	print_str_array(node->args);
+	ft_putstr_fd("flags: ", 1);
+	print_str_array(node->flags);
+	ft_putstr_fd("infiles: ", 1);
+	print_redirs(node->infiles);
+	ft_putstr_fd("outfiles: ", 1);
+	print_redirs(node->outfiles);
+	//endline
+	printf("\n");
 }
 
 t_cmd	*parser(t_token *head)
@@ -74,10 +90,9 @@ t_cmd	*parser(t_token *head)
 			tmp = tmp->next;
 		if (!tmp)
 			break ;
-		if (tmp->type == PIPE)
+		if (tmp && tmp->type == PIPE)
 			tmp = tmp->next;
 		head = tmp;
-		tmp = tmp->next;
 	}
 	return (cmds);
 }

@@ -6,88 +6,11 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 15:18:55 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/08/02 21:49:49 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/03 23:38:01 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//still to-do
-//ascii order!!!
 #include "../../includes/minishell.h"
-
-// void add_env_node_back(t_env **envp, char *key, char *value)
-// {
-// 	t_env *node;
-// 	t_env *i;
-
-// 	if (!key || !envp || !value)
-// 	{
-// 		return;
-// 	}
-
-// 	node = malloc(sizeof(t_env));
-// 	if (node == NULL)
-// 	{
-// 		perror("d;s");
-// 		exit(1);
-// 	}
-// 	node->key = strdup(key);
-// 	node->value = strdup(value);
-// 	node->next = NULL;
-
-// 	if (*envp == NULL)
-// 	{
-// 		*envp = node;
-// 	}
-// 	else
-// 	{
-// 		i = *envp;
-// 		while (i && i->next != NULL)
-// 		{
-// 			i = i->next;
-// 		}
-// 		if (i)
-// 		{
-// 			i->next = node;
-// 		}
-// 	}
-// }
-
-// int parse_env(char **envp, t_env **env)
-// {
-// 	int i;
-// 	char *entry;
-// 	char *key;
-// 	char *value;
-// 	char *equal_sign;
-
-// 	if (!env || !envp)
-// 	{
-// 		return (1);
-// 	}
-
-// 	i = 0;
-// 	key = NULL;
-// 	equal_sign = NULL;
-// 	value = NULL;
-// 	while (envp[i] != NULL)
-// 	{
-// 		entry = strdup(envp[i]);
-// 		equal_sign = strchr(entry, '=');
-// 		if (!equal_sign)
-// 		{
-// 			return (1);
-// 		}
-// 		else
-// 		{
-// 			*equal_sign = '\0';
-// 		}
-// 		key = entry;
-// 		value = equal_sign + 1;
-// 		add_env_node_back(env, key, value);
-// 		i++;
-// 	}
-// 	return (0);
-// }
 
 int	parse_arg(t_env *node, char *arg, t_shell *shell)
 {
@@ -101,7 +24,10 @@ int	parse_arg(t_env *node, char *arg, t_shell *shell)
 	t_env *tmp;
 
 	tmp = shell->env;
-	if (key_start == key_end || value_start == value_end)
+	printf("%s\n", arg);
+	char *c = strchr(arg, '-');
+	printf("%s=======================\n", c);
+	if (key_start == key_end || value_start == value_end || c != NULL)
 		return (1);
 	if (strchr(arg, '=') == NULL)
 	{
@@ -115,7 +41,7 @@ int	parse_arg(t_env *node, char *arg, t_shell *shell)
 	}
 	else
 	{
-		key = strndup(key_start, key_end - key_start);
+		key = strndup(key_start, key_end - key_start + 1);
 		value = strndup(value_start, value_end - value_start);
 		while (tmp->next)
 			tmp = tmp->next;
@@ -185,6 +111,7 @@ int	m_export(t_shell *shell, t_cmd *cmd)
 
 	result = 0;
 	i = 0;
+	print_cmds(cmd);
 	while (cmd->args[i])
 	{
 		node = malloc(sizeof(t_env));
@@ -196,7 +123,14 @@ int	m_export(t_shell *shell, t_cmd *cmd)
 		node->next = NULL;
 		if (parse_arg(node, cmd->args[i], shell) != 0)
 		{
-			printf("parsing der Hurensohn wieder :(");
+			printf("bash: export: `%s': not a valid identifier\n", cmd->args[i]);
+			free(node);
+			result = 1;
+		}
+		if (cmd->flags[0] != NULL)
+		{
+			printf("bash: export: `%s': not a valid identifier\n", cmd->flags[0]);
+			free(node);
 			result = 1;
 		}
 		i++;

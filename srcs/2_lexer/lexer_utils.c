@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 05:29:25 by pmelis            #+#    #+#             */
-/*   Updated: 2024/07/23 05:36:19 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/03 15:23:51 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void	remove_empty_words(t_token *head)
 		else
 			tmp = tmp->next;
 	}
-
 }
 
 void	set_types(t_token *head)

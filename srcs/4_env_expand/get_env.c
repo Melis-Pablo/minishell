@@ -6,27 +6,11 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:59:06 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/02 20:33:01 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/03 15:29:02 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-
-
-char	*get_env(t_env *env, char *key)
-{
-	t_env	*tmp_env;
-
-	tmp_env = env;
-	while (tmp_env)
-	{
-		if (ft_strncmp(tmp_env->key, key, ft_strlen(key)) == 0)
-			return (ft_strdup(tmp_env->value));
-		tmp_env = tmp_env->next;
-	}
-	return (0);
-}
 
 const char	*get_env_nc(t_env *env, char *key)
 {
@@ -41,8 +25,6 @@ const char	*get_env_nc(t_env *env, char *key)
 	}
 	return (0);
 }
-
-
 
 char	*ft_strjoin(const char *s1, const char *s2)
 {
@@ -105,49 +87,3 @@ char	**export_env(t_env *env)
 	envp[i] = NULL;
 	return (envp);
 }
-
-// void	set_env(t_shell *shell, char *key, const char *value)
-// {
-// 	t_env	*env;
-
-// 	env = shell->env;
-// 	while (env)
-// 	{
-// 		if (ft_strcmp(env->name, key) == 0)
-// 		{
-// 			free(env->value);
-// 			env->value = ft_strdup(value);
-// 			return ;
-// 		}
-// 		env = env->next;
-// 	}
-// 	env = malloc(sizeof(t_env));
-// 	env->name = ft_strdup(key);
-// 	env->value = ft_strdup(value);
-// 	env->next = shell->env;
-// 	shell->env = env;
-// 	shell->envc++;
-// }
-
-// void	set_secret_env(t_shell *shell, char *key, const char *value)
-// {
-// 	t_env	*env;
-
-// 	env = shell->secret_env;
-// 	while (env)
-// 	{
-// 		if (ft_strncmp(env->name, key, ft_strlen(key)) == 0)
-// 		{
-// 			free(env->value);
-// 			env->value = ft_strdup(value);
-// 			return ;
-// 		}
-// 		env = env->next;
-// 	}
-// 	env = malloc(sizeof(t_env));
-// 	env->name = ft_strdup(key);
-// 	env->value = ft_strdup(value);
-// 	env->next = shell->secret_env;
-// 	shell->secret_env = env;
-// 	shell->secret_envc++;
-// }

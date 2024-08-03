@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:39:59 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/01 21:44:50 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/03 16:14:34 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,15 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+typedef struct s_shell
+{
+	int		first_run;
+	int		last_status;
+	int		exit;
+	int		envc;
+	t_env	*env;
+}	t_shell;
+
 typedef struct s_redir
 {
 	char			*file;
@@ -55,18 +64,6 @@ typedef struct s_doc
 	char	*delimiter;
 }	t_doc;
 
-// typedef struct s_here
-// {
-// 	char	name[19];
-// 	int		fd;
-// }	t_here;
-
-typedef struct s_list
-{
-	void			*content;
-	struct s_list	*next;
-}	t_list;
-
 typedef struct s_cmd
 {
 	char			*cmd;
@@ -78,20 +75,8 @@ typedef struct s_cmd
 	struct s_redir	*outfiles;
 	struct s_cmd	*prev;
 	struct s_cmd	*next;
-	struct s_env	*env;
-	int				exit;
 }	t_cmd;
 
-typedef struct s_shell
-{
-	int		first_run;
-	int		last_status;
-	int		exit;
-	int		envc;
-	t_env	*env;
-	int		secret_envc;
-	t_env	*secret_env;
-}	t_shell;
 
 typedef struct s_pl
 {
@@ -99,32 +84,5 @@ typedef struct s_pl
 	int		fd_out;
 	int		fd_in;
 }	t_pl;
-
-
-
-/*
-static const struct {
-	char	*name;
-	int		type;
-	int		len;
-} s_c_type[] = {
-	{"|", CT_PIPE, 1},
-	{"<<", CT_REDIRECT_HEREDOC, 2},
-	{">>", CT_REDIRECT_OUTAPP, 2},
-	{">", CT_REDIRECT_OUT, 1},
-	{"<", CT_REDIRECT_IN, 1},
-	{"\0", CT_END, 1},
-	{0, 0, 0}
-};
-
-typedef struct s_cmd
-{
-	char	*name;
-	int		argc;
-	char	**args;
-	int		next_type;
-}	t_cmd;
-
-*/
 
 #endif

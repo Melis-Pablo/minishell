@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 06:47:35 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/01 20:07:33 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/03 15:34:11 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,34 +124,3 @@ char	*get_exec_path(char *name, t_env *env)
 		return (0);
 	return (find_executable_in_path(name, path));
 }
-
-
-// char	*find_command(char *cmd)
-// {
-// 	char	*path_env;
-// 	char	**paths;
-// 	char	*full_path;
-// 	int		i;
-
-// 	if (is_executable(cmd))
-// 		return (ft_strdup(cmd));
-// 	path_env = getenv("PATH");
-// 	paths = ft_split(path_env, ':');
-// 	if (!path_env || !paths)
-// 		return (NULL);
-// 	i = -1;
-// 	while (paths[++i])
-// 	{
-// 		full_path = join_paths(paths[i], cmd);
-// 		if (full_path && is_executable(full_path))
-// 		{
-// 			free(paths);
-// 			return (full_path);
-// 		}
-// 		free(full_path);
-// 	}
-// 	free(paths);
-// 	return (NULL);
-// }
-
-// /////////////

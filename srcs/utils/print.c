@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 05:41:51 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/02 21:47:15 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/03 15:27:01 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,18 +98,6 @@ void	print_cmds(t_cmd *head)
 		tmp = tmp->next;
 	}
 }
-
-/////////////////////////////////////////////////////////////////////////////////
-/*
-void	print_env_list(t_env *env)
-{
-	while (env)
-	{
-		printf("Key: %s, Value: %s\n", env->key, env->value);
-		env = env->next;
-	}
-}
-*/
 
 void	print_env_list(t_env *env)
 {
