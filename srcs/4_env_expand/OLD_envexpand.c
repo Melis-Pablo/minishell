@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 05:51:15 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/03 21:46:05 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/04 13:01:47 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*var_to_value(char *word, char *start, char *end, char *var_value)
 	return (new_word);
 }
 
-char	*expand_exit_status(char *word, char *start, char *end)
+char	*expand_exit_status(char *word, char *start, char *end, t_shell *shell)
 {
 	char	*var_value;
 	char	*new_word;
@@ -59,14 +59,28 @@ char	*expand_exit_status(char *word, char *start, char *end)
 		perror("malloc");
 		exit(EXIT_FAILURE);
 	}
-	//ft_itoa(g_signal_status, var_value);
+	ft_itoa(shell->last_status, var_value);
 	new_word = var_to_value(word, start, end + 1, var_value);
 	free(var_value);
 	free(word);
 	return (new_word);
 }
 
-char	*expand_env_variables(char *word)
+char	*get_var_value(char *var_name, t_env *env)
+{
+	t_env	*current;
+
+	current = env;
+	while (current)
+	{
+		if (!ft_strcmp(var_name, current->key))
+			return (current->value);
+		current = current->next;
+	}
+	return (NULL);
+}
+
+char	*expand_env_variables(char *word, t_shell *shell)
 {
 	char	*start;
 	char	*end;
@@ -79,20 +93,20 @@ char	*expand_env_variables(char *word)
 		return (word);
 	end = start + 1;
 	if (*end == '?')
-		return (expand_exit_status(word, start, end));
+		return (expand_exit_status(word, start, end, shell));
 	while (*end && ((*end == '_') || ft_isalnum(*end)))
 		end++;
 	var_name = get_var_name(start, end);
-	var_value = getenv(var_name);
+	var_value = get_var_value(var_name, shell->env);
 	if (!var_value)
 		var_value = "";
 	new_word = var_to_value(word, start, end, var_value);
 	free(var_name);
 	free(word);
-	return (expand_env_variables(new_word));
+	return (expand_env_variables(new_word, shell));
 }
 
-char	*ft_clean_quotes(char *word)
+char	*ft_clean_quotes(char *word, t_shell *shell)
 {
 	char	*new_word;
 
@@ -100,7 +114,7 @@ char	*ft_clean_quotes(char *word)
 	if (word[0] == '"' && word[ft_strlen(word) - 1] == '"')
 	{
 		new_word = ft_strndup(word + 1, ft_strlen(word) - 2);
-		new_word = expand_env_variables(new_word);
+		new_word = expand_env_variables(new_word, shell);
 		free(word);
 		return (new_word);
 	}
@@ -110,18 +124,49 @@ char	*ft_clean_quotes(char *word)
 		free(word);
 		return (new_word);
 	}
+	else if (word[0] == '$')
+	{
+		if (ft_strlen(word) == 1)
+			return (word);
+		new_word = expand_env_variables(word, shell);
+		return (new_word);
+	}
+	else if (strcmp(word, "~") == 0)
+	{
+		new_word = get_var_value("HOME", shell->env);
+		free(word);
+		return (new_word);
+	}
+	else if (strcmp(word, "~+") == 0)
+	{
+		new_word = get_var_value("PWD", shell->env);
+		free(word);
+		return (new_word);
+	}
+	else if (strcmp(word, "~-") == 0)
+	{
+		new_word = get_var_value("OLDPWD", shell->env);
+		free(word);
+		return (new_word);
+	}
+	else if (strcmp(word, "-") == 0)
+	{
+		new_word = get_var_value("OLDPWD", shell->env);
+		free(word);
+		return (new_word);
+	}
 	else
 		return (word);
 }
 
-t_token	*env_expand(t_token *head)
+t_token	*env_expand(t_token *head, t_shell *shell)
 {
 	t_token	*current;
 
 	current = head;
 	while (current)
 	{
-		current->word = ft_clean_quotes(current->word);
+		current->word = ft_clean_quotes(current->word, shell);
 		current = current->next;
 	}
 	return (head);

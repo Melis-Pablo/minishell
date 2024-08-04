@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 06:06:19 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/03 22:22:36 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/04 16:59:48 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	redirect_inputs(t_cmd *cmd)
 	{
 		if (tmp->type == INPUT)
 		{
-			fd = open(tmp->file, O_RDONLY); //O_NONBLOCK, O_CLOEXEC
+			fd = open(tmp->file, O_RDONLY);
 			if (fd == -1)
 				perror("input redirection error");
 			dup2(fd, STDIN_FILENO);

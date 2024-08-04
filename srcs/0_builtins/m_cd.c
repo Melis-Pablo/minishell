@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:32:33 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/08/03 15:22:17 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/04 13:39:56 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,11 @@ int	m_cd(t_shell *shell, t_cmd *cmd)
 	if (!old_pwd)
 	{
 		perror("getcwd");
+		return (1);
+	}
+	if (cmd->args && cmd->args[0] && cmd->args[1])
+	{
+		fprintf(stderr, "cd: too many arguments\n");
 		return (1);
 	}
 	if (!cmd->args || !cmd->args[0])

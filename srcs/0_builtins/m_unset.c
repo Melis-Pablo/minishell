@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:26:04 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/08/03 15:32:07 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/04 13:33:37 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ int	m_unset(t_shell *shell, t_cmd *cmd)
 	i = 0;
 	if (cmd->args[0] == NULL)
 	{
-		ft_putstr_fd("unset: not enough arguments\n", STDERR_FILENO);
-		return (1);
+		// ft_putstr_fd("unset: not enough arguments\n", STDERR_FILENO);
+		return (0);
 	}
 	while (cmd->args[i])
 	{
@@ -63,7 +63,6 @@ int	m_unset(t_shell *shell, t_cmd *cmd)
 		}
 		else
 		{
-			printf("removing: %s\n", cmd->args[i]);
 			if (remove_variable(shell, cmd->args[i]) != 1)
 				shell->last_status = 0;
 		}

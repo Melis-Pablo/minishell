@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 05:47:03 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/03 21:10:08 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/04 20:53:59 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ void	print_single_node(t_cmd *node)
 	ft_putendl_fd(node->cmd, 1);
 	ft_putstr_fd("args: ", 1);
 	print_str_array(node->args);
-	ft_putstr_fd("flags: ", 1);
-	print_str_array(node->flags);
+	// ft_putstr_fd("flags: ", 1);
+	// print_str_array(node->flags);
 	ft_putstr_fd("infiles: ", 1);
 	print_redirs(node->infiles);
 	ft_putstr_fd("outfiles: ", 1);

@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 15:18:55 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/08/03 23:38:01 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/04 17:16:38 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ int	parse_arg(t_env *node, char *arg, t_shell *shell)
 	t_env *tmp;
 
 	tmp = shell->env;
-	printf("%s\n", arg);
 	char *c = strchr(arg, '-');
-	printf("%s=======================\n", c);
 	if (key_start == key_end || value_start == value_end || c != NULL)
 		return (1);
 	if (strchr(arg, '=') == NULL)
@@ -111,7 +109,6 @@ int	m_export(t_shell *shell, t_cmd *cmd)
 
 	result = 0;
 	i = 0;
-	print_cmds(cmd);
 	while (cmd->args[i])
 	{
 		node = malloc(sizeof(t_env));
@@ -123,13 +120,15 @@ int	m_export(t_shell *shell, t_cmd *cmd)
 		node->next = NULL;
 		if (parse_arg(node, cmd->args[i], shell) != 0)
 		{
-			printf("bash: export: `%s': not a valid identifier\n", cmd->args[i]);
+			ft_putstr_fd("export: not a valid identifier\n", STDERR_FILENO);
+			// printf("bash: export: `%s': not a valid identifier\n", cmd->args[i]);
 			free(node);
 			result = 1;
 		}
 		if (cmd->flags[0] != NULL)
 		{
-			printf("bash: export: `%s': not a valid identifier\n", cmd->flags[0]);
+			ft_putstr_fd("export: not a valid identifier\n", STDERR_FILENO);
+			// printf("bash: export: `%s': not a valid identifier\n", cmd->flags[0]);
 			free(node);
 			result = 1;
 		}

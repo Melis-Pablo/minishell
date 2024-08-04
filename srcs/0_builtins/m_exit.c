@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:15:25 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/08/03 15:22:35 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/04 14:34:59 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ int	ft_atoi(const char *str)
 	}
 	return (result * sign);
 }
-
+//if flags exist -12312 make it arg
+// fix flags
 int	m_exit(t_shell *shell, t_cmd *cmd)
 {
 	shell->exit = 1;

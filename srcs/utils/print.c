@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 05:41:51 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/03 15:27:01 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/04 20:53:22 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,8 @@ void	print_cmds(t_cmd *head)
 		printf("CMD: %s\n", tmp->cmd);
 		printf("ARGS:\n");
 		print_str_array(tmp->args);
-		printf("FLAGS:\n");
-		print_str_array(tmp->flags);
+		// printf("FLAGS:\n");
+		// print_str_array(tmp->flags);
 		printf("INFILES:\n");
 		print_redirs(tmp->infiles);
 		printf("OUTFILES:\n");

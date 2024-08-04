@@ -6,13 +6,13 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 05:06:53 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/03 21:11:00 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/04 13:04:43 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_cmd	*builder(char *input)
+t_cmd	*builder(char *input, t_shell *shell)
 {
 	char	**token_arr;
 	t_token	*token_lst;
@@ -30,7 +30,7 @@ t_cmd	*builder(char *input)
 		free_tokens(token_lst);
 		return (NULL);
 	}
-	token_lst = env_expand(token_lst);
+	token_lst = env_expand(token_lst, shell);
 	if (!token_lst)
 		return (NULL);
 	cmd_lst = parser(token_lst);

@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:49:46 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/08/03 15:22:25 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/04 19:02:54 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,9 @@ int	m_echo(t_cmd *cmd)
 	start = 0;
 	newline = 1;
 	nl_flag = new_line_check(cmd->flags);
-	if (cmd->flags[0] != NULL && nl_flag != 0)
+	if (cmd->flags[0] != NULL && nl_flag == 0)
 	{
 		newline = 0;
-		//print_str_array(cmd->flags + nl_flag);
-		// merge_args(cmd);
 	}
 	if (cmd->args[start] != NULL)
 	{

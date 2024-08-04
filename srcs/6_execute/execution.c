@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 06:53:30 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/03 22:31:55 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/04 18:14:47 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	execute_internal(t_shell *shell, t_cmd *cmd, int *status)
 {
 	char	*path;
 
-	if (builtins_caller(shell, cmd, status))
+	if (builtins_caller(shell, cmd, status) == 0)
 		return (0);
 	path = get_exec_path(cmd->cmd, shell->env);
 	if (path)
@@ -106,7 +106,7 @@ int	execute(t_shell *shell, char *line, int *status)
 	result = 0;
 	if (!line || !*line)
 		return (0);
-	cmd = builder(line);
+	cmd = builder(line, shell);
 	if (!cmd)
 		return (*status = 1);
 	if (check_heredoc(cmd) != 0)
