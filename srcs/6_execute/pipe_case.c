@@ -6,23 +6,48 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 19:28:22 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/05 14:22:36 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/05 17:24:06 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+char	**combine_cmd_args(t_cmd *cmd)
+{
+	char	**cmd_args;
+	int		i;
+
+	i = 0;
+	while (cmd->args[i])
+		i++;
+	cmd_args = malloc(sizeof(char *) * (i + 2));
+	if (!cmd_args)
+		return (NULL);
+	i = 0;
+	cmd_args[i] = ft_strdup(cmd->cmd);
+	while (cmd->args[i])
+	{
+		cmd_args[i + 1] = ft_strdup(cmd->args[i]);
+		i++;
+	}
+	cmd_args[i + 1] = NULL;
+	return (cmd_args);
+}
 
 int	exec_child(t_cmd *cmd, t_env *env)
 {
 	char	**envp;
 	int		result;
 	pid_t	pid;
+	char	**cmd_args;
 
 	envp = export_env(env);
 	pid = fork();
 	if (pid == 0)
 	{
-		result = execve(cmd->cmd, cmd->args, envp);
+		cmd_args = combine_cmd_args(cmd);
+		result = execve(cmd_args[0], cmd_args, envp);
+		free_array(cmd_args);
 		free_array(envp);
 		// (void)	cmd;
 		// result = 0;
