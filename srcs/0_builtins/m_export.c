@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 15:18:55 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/08/05 00:25:21 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/05 14:16:16 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,25 +166,9 @@ int env_exist2(t_env *env, char *arg)
 		}
 		tmp = tmp->next;
 	}
+	free(key);
 	return(0);
 }
-
-// int	parse_value(char *arg,  t_shell *shell)
-// {
-// 	t_env *env;
-
-// 	env = shell->env;
-// 	if (env_exist2(env, key) == 1)
-// 	{
-// 		const char *equal = strchr(arg, '=');
-// 		const char *value_start = equal + 1;
-// 		const char *value_end = arg + strlen(arg);
-// 		while (env && strcmp(env->key, key) != 0)
-// 			env = env->next;
-// 		if (strcmp(env->key, key) != 0)
-// 			free(env->value);
-// 	}
-// }
 
 int	m_export(t_shell *shell, t_cmd *cmd)
 {
@@ -213,6 +197,7 @@ int	m_export(t_shell *shell, t_cmd *cmd)
 		{
 			result = 0;
 			i++;
+			free(node);
 			continue ;
 		}
 		if (parse_arg(node, cmd->args[i], shell) != 0) //(cmd->flags[0] != NULL)
@@ -223,77 +208,8 @@ int	m_export(t_shell *shell, t_cmd *cmd)
 		}
 		i++;
 	}
-	//printf("key=%s | value=%s", node->key, node->value);
-	// free(node);
-	//print_env_list(env_list);
 	sort(&shell->env);
 	if (cmd->args[0] == NULL)
 		print_env_list_export(shell->env);
 	return (result);
 }
-
-// int	m_export(t_shell *shell, t_cmd *cmd)
-// {
-// 	t_env	*env_list;
-// 	t_env	*node;
-// 	int		result;
-// 	int		i;
-
-// 	result = 0;
-// 	i = 0;
-// 	if (flag_checker(cmd->args))
-// 	{
-// 		ft_putstr_fd("export: not a valid identifier\n", STDERR_FILENO);
-// 		return (1);
-// 	}
-// 	node = malloc(sizeof(t_env));
-// 	if (!node)
-// 	{
-// 		perror("malloc");
-// 		return (1);
-// 	}
-// 	node->next = NULL;
-// 	node->key = NULL;
-// 	node->value = NULL;
-// 	while (cmd->args[i])
-// 	{
-// 		if (env_error_name(cmd->args[i]))
-// 		{
-// 			ft_putstr_fd("export: not a valid identifier\n", STDERR_FILENO);
-// 			if (cmd->args[i + 1] == NULL)
-// 				free(node);
-// 			break ;
-// 		}
-// 		env_list = shell->env;
-// 		if (parse_arg(node, cmd->args[i], shell) != 0)
-// 		{
-// 			ft_putstr_fd("export: not a valid identifier\n", STDERR_FILENO);
-// 			if (cmd->args[i + 1] == NULL)
-// 				free(node);
-// 			result = 1;
-// 		}
-// 		if (env_exists(env_list, cmd->args[i]))
-// 		{
-// 			env_list = shell->env;
-// 			while (env_list && strcmp(env_list->key, cmd->args[i]) != 0)
-// 				env_list = env_list->next;
-// 			free(env_list->value);
-// 			env_list->value = ft_strdup(cmd->args[i]);
-// 			free(node->key);
-// 			free(node->value);
-// 			free(node);
-// 		}
-// 		else
-// 		{
-// 			env_list = shell->env;
-// 			while (env_list->next)
-// 				env_list = env_list->next;
-// 			env_list->next = node;
-// 		}
-// 		i++;
-// 	}
-// 	sort(&shell->env);
-// 	if (cmd->args[0] == NULL)
-// 		print_env_list_export(shell->env);
-// 	return (result);
-// }

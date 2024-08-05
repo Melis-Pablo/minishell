@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 04:49:49 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/04 21:05:45 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/05 14:13:31 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ void	free_env(t_env *env)
 		tmp = env;
 		env = env->next;
 		free(tmp->key);
-		free(tmp->value);
+		if (tmp->value)
+			free(tmp->value);
 		free(tmp);
 	}
 }
