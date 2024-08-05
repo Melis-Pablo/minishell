@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:39:59 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/03 16:14:34 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/04 21:05:39 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef struct s_cmd
 {
 	char			*cmd;
 	char			**args;
-	char			**flags;
+	// char			**flags;
 	t_doc			*heredocs;
 	int				heredoc_count;
 	struct s_redir	*infiles;

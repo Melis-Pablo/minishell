@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 06:13:29 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/04 15:38:20 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/04 21:13:46 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ int	builtins_caller(t_shell *shell, t_cmd *cmd, int *status)
 	{
 		*status = m_pwd(cmd);
 	}
-	else if (strcmp(cmd->cmd, "echo") == 0)
-	{
-		*status = m_echo(cmd);
-	}
+	// else if (strcmp(cmd->cmd, "echo") == 0)
+	// {
+	// 	*status = m_echo(cmd);
+	// }
 	else if (strcmp(cmd->cmd, "cd") == 0)
 	{
 		*status = m_cd(shell, cmd);

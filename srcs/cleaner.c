@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 04:49:49 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/03 15:27:29 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/04 21:05:45 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	free_cmds(t_cmd *head)
 		if (tmp->cmd)
 			free(tmp->cmd);
 		free_array(tmp->args);
-		free_array(tmp->flags);
+		// free_array(tmp->flags);
 		free_redirs(tmp->infiles);
 		free_redirs(tmp->outfiles);
 		free(tmp);

@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 05:47:03 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/04 20:53:59 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/04 21:07:46 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_cmd	*create_node(t_token *head)
 		return (NULL);
 	new_node->cmd = get_cmd(head);
 	new_node->args = get_args(head);
-	new_node->flags = get_flags(head);
+	// new_node->flags = get_flags(head);
 	new_node->infiles = get_infiles(head);
 	new_node->outfiles = get_outfiles(head);
 	new_node->heredocs = NULL;

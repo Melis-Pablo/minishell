@@ -6,11 +6,18 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:15:25 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/08/04 14:34:59 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/05 00:02:10 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int ft_isalpha(int c)
+{
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+		return (1);
+	return (0);
+}
 
 int	ft_atoi(const char *str)
 {
@@ -40,11 +47,26 @@ int	ft_atoi(const char *str)
 // fix flags
 int	m_exit(t_shell *shell, t_cmd *cmd)
 {
+	int i;
+	
+	i = 0;
 	shell->exit = 1;
 	if (cmd->args[0] && cmd->args[1])
 	{
 		printf("exit\nminishell: exit: too many arguments\n");
 		return (1);
+	}
+	if (cmd->args[0])
+	{
+		while (cmd->args[0][i])
+		{
+			if (ft_isalpha(cmd->args[0][i]))
+			{
+				printf("exit\nminishell: exit: %s: numeric argument required\n", cmd->args[0]);
+				return (1);
+			}
+			i++;
+		}
 	}
 	return (ft_atoi(cmd->args[0]));
 }

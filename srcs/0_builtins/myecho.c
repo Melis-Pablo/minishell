@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 18:23:57 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/04 18:55:15 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/04 21:07:24 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,45 +62,45 @@
 // 	return (0);
 // }
 
-int	check_echo_n_flags(char **args, int *i)
-{
-	int n_flag;
-	int j;
+// int	check_echo_n_flags(char **args, int *i)
+// {
+// 	int n_flag;
+// 	int j;
 
-	n_flag = 0;
-	while (args[*i] && args[*i][0] == '-' && args[*i][1] == 'n')
-	{
-		j = 2;
-		while (args[*i][j] == 'n')
-			j++;
-		if (args[*i][j] == '\0')
-		{
-			(*i)++;
-			n_flag = 1;
-		}
-		else
-			break ;
-	}
-	return (n_flag);
-}
+// 	n_flag = 0;
+// 	while (args[*i] && args[*i][0] == '-' && args[*i][1] == 'n')
+// 	{
+// 		j = 2;
+// 		while (args[*i][j] == 'n')
+// 			j++;
+// 		if (args[*i][j] == '\0')
+// 		{
+// 			(*i)++;
+// 			n_flag = 1;
+// 		}
+// 		else
+// 			break ;
+// 	}
+// 	return (n_flag);
+// }
 
-int m_echo(t_cmd *cmd)
-{
-	int i;
-	int n_flag;
+// int m_echo(t_cmd *cmd)
+// {
+// 	int i;
+// 	int n_flag;
 
-	i = 1;
-	t_cmd *tmp = cmd;
-	merge_args(tmp);
-	n_flag = check_echo_n_flags(tmp->args, &i);
-	while (tmp->args[i])
-	{
-		ft_putstr_fd(tmp->args[i], STDOUT_FILENO);
-		if (tmp->args[i + 1])
-			ft_putstr_fd(" ", STDOUT_FILENO);
-		i++;
-	}
-	if (!n_flag)
-		ft_putstr_fd("\n", STDOUT_FILENO);
-	return (0);
-}
+// 	i = 1;
+// 	t_cmd *tmp = cmd;
+// 	merge_args(tmp);
+// 	n_flag = check_echo_n_flags(tmp->args, &i);
+// 	while (tmp->args[i])
+// 	{
+// 		ft_putstr_fd(tmp->args[i], STDOUT_FILENO);
+// 		if (tmp->args[i + 1])
+// 			ft_putstr_fd(" ", STDOUT_FILENO);
+// 		i++;
+// 	}
+// 	if (!n_flag)
+// 		ft_putstr_fd("\n", STDOUT_FILENO);
+// 	return (0);
+// }

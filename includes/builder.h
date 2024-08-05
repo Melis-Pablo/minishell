@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:04:27 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/04 13:04:47 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/04 21:05:33 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_cmd	*parser(t_token *head);
 t_redir	*add_redir(t_redir *head, t_redir *new_node);
 char	*get_cmd(t_token *head);
 char	**get_args(t_token *head);
-char	**get_flags(t_token *head);
+// char	**get_flags(t_token *head);
 t_redir	*get_infiles(t_token *head);
 t_redir	*get_outfiles(t_token *head);
 int		unclosed_quotes(char *str);

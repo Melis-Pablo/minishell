@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:57:58 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/03 15:30:11 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/04 21:13:29 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int			process_all_heredocs(t_doc *heredocs, int heredoc_count);
 int			redirect_inputs(t_cmd *cmd);
 int			exec_pipe_cmd(t_shell *shell, t_cmd *cmd, t_pl *pl, int *status);
 char		*get_exec_path(char *name, t_env *env);
-int			merge_args(t_cmd *cmd);
+// int			merge_args(t_cmd *cmd);
 int			exec_child(t_cmd *cmd, t_env *env);
 int			check_heredoc(t_cmd *cmd);
 
