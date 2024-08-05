@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_case.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 19:28:22 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/05 17:24:06 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/05 17:40:48 by grbuchne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ int	exec_child(t_cmd *cmd, t_env *env)
 		result = execve(cmd_args[0], cmd_args, envp);
 		free_array(cmd_args);
 		free_array(envp);
-		// (void)	cmd;
-		// result = 0;
 		exit(result);
 	}
 	else

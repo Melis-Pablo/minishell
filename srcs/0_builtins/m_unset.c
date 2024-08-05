@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   m_unset.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:26:04 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/08/04 13:33:37 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/05 17:37:32 by grbuchne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,9 @@ int	remove_variable(t_shell *shell, char *var)
 		if (strncmp(current->key, var, ft_strlen(current->key) + 1) == 0)
 		{
 			if (prev == NULL)
-			{
 				shell->env = current->next;
-			}
 			else
-			{
 				prev->next = current->next;
-			}
 			free(current->key);
 			free(current->value);
 			free(current);
@@ -48,10 +44,7 @@ int	m_unset(t_shell *shell, t_cmd *cmd)
 
 	i = 0;
 	if (cmd->args[0] == NULL)
-	{
-		// ft_putstr_fd("unset: not enough arguments\n", STDERR_FILENO);
 		return (0);
-	}
 	while (cmd->args[i])
 	{
 		if (strchr(cmd->args[i], '='))

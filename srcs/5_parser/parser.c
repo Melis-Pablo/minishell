@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 05:47:03 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/04 21:07:46 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/05 17:42:10 by grbuchne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_redir	*add_redir(t_redir *head, t_redir *new_node)
 	last->next = new_node;
 	return (head);
 }
-// add heredocs initialize them
+
 t_cmd	*create_node(t_token *head)
 {
 	t_cmd	*new_node;
@@ -48,7 +48,6 @@ t_cmd	*create_node(t_token *head)
 		return (NULL);
 	new_node->cmd = get_cmd(head);
 	new_node->args = get_args(head);
-	// new_node->flags = get_flags(head);
 	new_node->infiles = get_infiles(head);
 	new_node->outfiles = get_outfiles(head);
 	new_node->heredocs = NULL;
@@ -63,13 +62,10 @@ void	print_single_node(t_cmd *node)
 	ft_putendl_fd(node->cmd, 1);
 	ft_putstr_fd("args: ", 1);
 	print_str_array(node->args);
-	// ft_putstr_fd("flags: ", 1);
-	// print_str_array(node->flags);
 	ft_putstr_fd("infiles: ", 1);
 	print_redirs(node->infiles);
 	ft_putstr_fd("outfiles: ", 1);
 	print_redirs(node->outfiles);
-	//endline
 	printf("\n");
 }
 

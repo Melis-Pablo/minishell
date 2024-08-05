@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_caller.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 06:13:29 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/05 14:24:33 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/05 17:30:14 by grbuchne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ int	builtins_caller(t_shell *shell, t_cmd *cmd, int *status)
 	{
 		*status = m_pwd(cmd);
 	}
-	// else if (strcmp(cmd->cmd, "echo") == 0)
-	// {
-	// 	*status = m_echo(cmd);
-	// }
+	else if (strcmp(cmd->cmd, "echo") == 0)
+	{
+		*status = m_echo(cmd);
+	}
 	else if (strcmp(cmd->cmd, "cd") == 0)
 	{
 		*status = m_cd(shell, cmd);

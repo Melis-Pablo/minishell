@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 06:06:19 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/04 16:59:48 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/05 17:41:26 by grbuchne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int	redirect_inputs(t_cmd *cmd)
 	t_redir	*tmp;
 	char	*herenum;
 	char	*tmp_filename;
+
 	herenum = NULL;
 	tmp_filename = NULL;
-
 	tmp = cmd->infiles;
 	while (tmp)
 	{

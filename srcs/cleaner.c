@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaner.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 04:49:49 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/05 14:13:31 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/05 17:40:04 by grbuchne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ void	free_cmds(t_cmd *head)
 		if (tmp->cmd)
 			free(tmp->cmd);
 		free_array(tmp->args);
-		// free_array(tmp->flags);
 		free_redirs(tmp->infiles);
 		free_redirs(tmp->outfiles);
 		free(tmp);

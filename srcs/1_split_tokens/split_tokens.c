@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   split_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 05:26:33 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/04 16:25:43 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/05 17:42:59 by grbuchne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-//add "" and ' as delimiters
 int	check_delimiter(char *input, int *in_quote, char *quote)
 {
 	if (*input == '\'' || *input == '\"')
@@ -24,7 +23,6 @@ int	check_delimiter(char *input, int *in_quote, char *quote)
 			*quote = *input;
 			*in_quote = 1;
 		}
-		//return (2);
 	}
 	else if (!*in_quote && (*input == '|'
 			|| *input == '<' || *input == '>' || ft_is_space(*input)))
@@ -32,7 +30,6 @@ int	check_delimiter(char *input, int *in_quote, char *quote)
 	return (0);
 }
 
-//edit to count "token"token cases
 int	count_tokens(char *input)
 {
 	int		in_quote;

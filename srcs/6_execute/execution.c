@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 06:53:30 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/05 14:25:18 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/05 17:41:06 by grbuchne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	execute_internal(t_shell *shell, t_cmd *cmd, int *status)
 	{
 		free(cmd->cmd);
 		cmd->cmd = path;
-		// merge_args(cmd);
 		*status = exec_child(cmd, shell->env);
 		return (0);
 	}
@@ -107,7 +106,6 @@ int	execute(t_shell *shell, char *line, int *status)
 	if (!line || !*line)
 		return (0);
 	cmd = builder(line, shell);
-	// print_cmds(cmd);
 	if (!cmd)
 		return (*status = 1);
 	if (check_heredoc(cmd) != 0)

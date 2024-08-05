@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   m_cd.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:32:33 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/08/04 13:39:56 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/05 17:34:58 by grbuchne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	get_home(t_env **env)
 					free(path);
 				}
 			}
-			return (1);  
+			return (1);
 		}
 		i = i->next;
 	}
@@ -71,13 +71,10 @@ int	get_up(t_shell *shell)
 	{
 		if (strcmp(env->key, "PWD") == 0)
 		{
-			printf("env->value: %s\n", env->value);
 			index = get_parent_directory_index(env->value);
-			printf("index: %d\n", index);
 			if (index > 0)
 			{
 				new_pwd = strndup(env->value, index);
-				printf("new_pwd: %s\n", new_pwd);
 				if (new_pwd)
 				{
 					free(env->value);
@@ -107,23 +104,26 @@ int	m_cd(t_shell *shell, t_cmd *cmd)
 	}
 	if (cmd->args && cmd->args[0] && cmd->args[1])
 	{
-		fprintf(stderr, "cd: too many arguments\n");
+		ft_putendl_fd("cd: too many arguments\n", STDERR_FILENO);
 		return (1);
 	}
 	if (!cmd->args || !cmd->args[0])
 	{
 		if (get_home(&shell->env) != 0)
-			fprintf(stderr, "Failed to change to HOME directory\n");
+			ft_putendl_fd("Failed to change to HOME directory\n",
+				STDERR_FILENO);
 	}
 	else if (strcmp(cmd->args[0], "~") == 0)
 	{
 		if (get_home(&shell->env) != 0)
-			fprintf(stderr, "Failed to change to HOME directory\n");
+			ft_putendl_fd("Failed to change to HOME directory\n",
+				STDERR_FILENO);
 	}
 	else if (strcmp(cmd->args[0], "..") == 0)
 	{
 		if (get_up(shell) != 0)
-			fprintf(stderr, "Failed to change to parent directory\n");
+			ft_putendl_fd("Failed to change to parent directory\n",
+				STDERR_FILENO);
 	}
 	else if (chdir(cmd->args[0]) != 0)
 	{
@@ -140,7 +140,8 @@ int	m_cd(t_shell *shell, t_cmd *cmd)
 				if (strcmp(env->key, "PWD") == 0)
 				{
 					free(env->value);
-					env->value = new_pwd;
+					env->value = ft_strdup(new_pwd);
+					free(new_pwd);
 					free(old_pwd);
 					break ;
 				}
