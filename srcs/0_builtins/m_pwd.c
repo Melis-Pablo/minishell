@@ -6,7 +6,7 @@
 /*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 05:57:40 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/05 17:36:50 by grbuchne         ###   ########.fr       */
+/*   Updated: 2024/08/06 19:20:17 by grbuchne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	m_pwd(t_cmd *cmd)
 	char	*pwd;
 
 	(void) cmd;
-
 	pwd = getcwd(0, 0);
 	ft_putendl_fd(pwd, STDOUT_FILENO);
 	free(pwd);

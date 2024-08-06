@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   m_export.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 15:18:55 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/08/05 14:16:16 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/06 19:20:03 by grbuchne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
+/*
 int	parse_arg(t_env *node, char *arg, t_shell *shell)
 {
 	const char *equal = strchr(arg, '=');	// =
@@ -49,130 +49,146 @@ int	parse_arg(t_env *node, char *arg, t_shell *shell)
 		tmp->next = node;
 	}
 	return (0);
-}
+}*/
+#include <stdlib.h>
+#include <string.h>
 
-int get_env_length(t_env *env) {
-	int i = 0;
-
-	while (env) {
-		env = env->next;
-		i++;
+int init_parse_vars(const char *arg, const char **equal, const char **key_end, const char **value_start, const char **value_end)
+{
+	*equal = strchr(arg, '=');
+	if (*equal == NULL) {
+		*key_end = arg + strlen(arg);
+		*value_start = NULL;
+		*value_end = NULL;
+	} else {
+		*key_end = *equal - 1;
+		*value_start = *equal + 1;
+		*value_end = arg + strlen(arg);
 	}
-	return (i);
+
+	if (*key_end == arg || (*equal != NULL && *value_start == *value_end))
+		return (1);
+	return (0);
 }
 
-void lst_swap_next(t_env **env) {
+int handle_no_equal(t_env *node, const char *key_start, const char *key_end, t_env *tmp)
+{
+	char *key;
+	size_t key_len;
+
+	key_len = key_end - key_start;
+	key = strndup(key_start, key_len);
+	if (!key)
+		return (1);
+
+	while (tmp->next)
+		tmp = tmp->next;
+
+	node->key = key;
+	node->value = NULL;
+	node->next = NULL;
+	tmp->next = node;
+	return (0);
+}
+
+int handle_with_equal(t_env *node, const char *key_start, const char *key_end, const char *value_start, const char *value_end, t_env *tmp)
+{
+	char	*key;
+	char	*value;
+	size_t	key_len;
+	size_t	value_len;
+
+	key_len = key_end - key_start + 1;
+	value_len = value_end - value_start;
+
+	key = strndup(key_start, key_len);
+	value = strndup(value_start, value_len);
+	if (!key || !value)
+	{
+		free(key);
+		free(value);
+		return (1);
+	}
+
+	while (tmp->next)
+		tmp = tmp->next;
+
+	node->key = key;
+	node->value = value;
+	node->next = NULL;
+	tmp->next = node;
+	return (0);
+}
+
+int parse_arg(t_env *node, char *arg, t_shell *shell)
+{
+	const char *equal;
+	const char *key_end;
+	const char *value_start;
+	const char *value_end;
+	const char *key_start;
 	t_env *tmp;
 
-	if (!env || !*env || !(*env)->next) {
-		return;
-	}
-	tmp = (*env)->next;
-	(*env)->next = (*env)->next->next;
-	tmp->next = *env;
-	(*env) = tmp;
+	key_start = arg;
+	tmp = shell->env;
+
+	if (init_parse_vars(arg, &equal, &key_end, &value_start, &value_end))
+		return (1);
+
+	if (equal == NULL)
+		return handle_no_equal(node, key_start, key_end, tmp);
+
+	return handle_with_equal(node, key_start, key_end, value_start, value_end, tmp);
 }
 
-void sort(t_env **env)
+
+int	process_args(t_shell *shell, t_cmd *cmd, int *result)
 {
-	t_env **a;
-	int i;
-	int len;
+	t_env	*node;
+	int		i;
 
-	if (!env || !*env || !(*env)->next) {
-		return;
-	}
-
-	len = get_env_length(*env);
-	while(len > 1)
+	i = 0;
+	while (cmd->args[i])
 	{
-		a = env;
-		i = 0;
-		while(a != NULL && (*a)->next != NULL && i < len)
+		node = malloc(sizeof(t_env));
+		if (!node)
+			return (ft_perror("malloc"));
+		node->next = NULL;
+		if (env_exist2(shell->env, cmd->args[i]) == 1)
 		{
-			if (strcmp((*a)->key, (*a)->next->key) > 0) {
-				lst_swap_next(a);
-			}
-			a = &(*a)->next;
+			free(node);
 			i++;
+			continue ;
 		}
-		len--;
-	}
-}
-
-int	env_error_name(char *args)
-{
-	int	i;
-
-	i = 0;
-	while (args[i])
-	{
-		if (args[i] == '=')
-			return (0);
-		if (args[i] == '-')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int	flag_checker(char **args)
-{
-	int i;
-
-	i = 0;
-	while (args[i])
-	{
-		if (ft_strncmp(args[i], "-", 1) == 0)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int	env_exists(t_env *env, char *key)
-{
-	t_env *tmp;
-
-	tmp = env;
-	while (tmp)
-	{
-		if (strcmp(tmp->key, key) == 0)
-			return (1);
-		tmp = tmp->next;
-	}
-	return (0);
-}
-
-int env_exist2(t_env *env, char *arg)
-{	
-	t_env *tmp;
-
-	const char *equal = strchr(arg, '=');	// =
-	const char *key_start = arg;		// key_start = arg
-	const char *key_end = equal - 1;
-	const char *value_start = equal + 1;	// value_start = equal + 1
-	// const char *value_end = arg + strlen(arg);
-	char *key = strndup(key_start, key_end - key_start + 1);
-	tmp = env;
-	while (tmp)
-	{
-		if (strcmp(tmp->key, key) == 0)
+		if (parse_arg(node, cmd->args[i], shell) != 0)
 		{
-			free(tmp->value);
-			tmp->value = strdup(value_start);
-			free(key);
-			return (1);
+			ft_putstr_fd("export: not a valid identifier\n", STDERR_FILENO);
+			free(node);
+			*result = 1;
 		}
-		tmp = tmp->next;
+		i++;
 	}
-	free(key);
-	return(0);
+	return (0);
 }
 
 int	m_export(t_shell *shell, t_cmd *cmd)
 {
-	// t_env	*env_list;
+	int	result;
+
+	result = 0;
+	if (check_flag(cmd))
+		return (1);
+	if (process_args(shell, cmd, &result))
+		return (1);
+	sort(&shell->env);
+	if (cmd->args[0] == NULL)
+		print_env_list_export(shell->env);
+	return (result);
+}
+
+/*
+int	m_export(t_shell *shell, t_cmd *cmd)
+{
 	t_env	*node;
 	int		result;
 	int		i;
@@ -188,10 +204,7 @@ int	m_export(t_shell *shell, t_cmd *cmd)
 	{
 		node = malloc(sizeof(t_env));
 		if (!node)
-		{
-			perror("malloc");
-			return (1);
-		}
+			return (ft_perror("malloc"));
 		node->next = NULL;
 		if (env_exist2(shell->env, cmd->args[i]) == 1)
 		{
@@ -213,3 +226,4 @@ int	m_export(t_shell *shell, t_cmd *cmd)
 		print_env_list_export(shell->env);
 	return (result);
 }
+*/

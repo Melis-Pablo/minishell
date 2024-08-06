@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:39:59 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/04 21:05:39 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/06 19:21:37 by grbuchne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,15 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+typedef struct s_envarg
+{
+	char	*equal;
+	char	*key_start;
+	char	*key_end;
+	char	*value_start;
+	char	*key;
+}	t_envarg;
+
 typedef struct s_shell
 {
 	int		first_run;
@@ -76,7 +85,6 @@ typedef struct s_cmd
 	struct s_cmd	*prev;
 	struct s_cmd	*next;
 }	t_cmd;
-
 
 typedef struct s_pl
 {

@@ -24,6 +24,10 @@ SRCS		:=	main.c \
 				srcs/0_builtins/m_pwd.c \
 				srcs/0_builtins/get_envp.c \
 				srcs/0_builtins/m_echo.c \
+				srcs/0_builtins/builtin_utils.c \
+				srcs/0_builtins/builtin_utils2.c \
+				srcs/0_builtins/builtin_utils3.c \
+				srcs/0_builtins/builtin_utils4.c \
 				srcs/3_syntax_error/syntax_error.c \
 				srcs/3_syntax_error/unclosed_quotes.c \
 				srcs/6_execute/find_exec.c \
@@ -41,6 +45,7 @@ SRCS		:=	main.c \
 				srcs/5.1_redirections/redirections.c \
 				srcs/5.1_redirections/heredoc.c \
 				srcs/signals.c
+
 
 OBJS		:= $(SRCS:.c=.o)
 

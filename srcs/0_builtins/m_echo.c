@@ -6,12 +6,11 @@
 /*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:49:46 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/08/05 18:10:46 by grbuchne         ###   ########.fr       */
+/*   Updated: 2024/08/06 19:19:15 by grbuchne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 int	m_echo(t_cmd *cmd)
 {

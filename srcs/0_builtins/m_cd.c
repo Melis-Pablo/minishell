@@ -6,12 +6,170 @@
 /*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:32:33 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/08/05 17:34:58 by grbuchne         ###   ########.fr       */
+/*   Updated: 2024/08/06 19:18:38 by grbuchne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+static int	handle_cd_args(t_cmd *cmd, char **old_pwd)
+{
+	if (cmd->args && cmd->args[0] && cmd->args[1])
+	{
+		ft_putendl_fd("cd: too many arguments\n", STDERR_FILENO);
+		free(*old_pwd);
+		return (1);
+	}
+	return (0);
+}
+
+static int	change_directory(t_shell *shell, t_cmd *cmd)
+{
+	if (!cmd->args || !cmd->args[0] || strcmp(cmd->args[0], "~") == 0
+		|| strcmp(cmd->args[0], "HOME") == 0)
+		return (get_home(&shell->env));
+	else if (strcmp(cmd->args[0], "..") == 0)
+		return (get_up(shell));
+	else if (chdir(cmd->args[0]) != 0)
+		return (ft_perror("chdir"));
+	return (0);
+}
+
+static int	update_pwd1(t_shell *shell)
+{
+	char	*new_pwd;
+	t_env	*env;
+
+	new_pwd = getcwd(NULL, 0);
+	if (!new_pwd)
+		return (ft_perror("getcwd"));
+	env = shell->env;
+	while (env)
+	{
+		if (strcmp(env->key, "PWD") == 0)
+		{
+			free(env->value);
+			env->value = new_pwd;
+			return (0);
+		}
+		env = env->next;
+	}
+	free(new_pwd);
+	return (1);
+}
+
+static int	update_oldpwd(t_shell *shell, char *old_pwd)
+{
+	t_env	*env;
+
+	env = shell->env;
+	while (env)
+	{
+		if (strcmp(env->key, "OLDPWD") == 0)
+		{
+			free(env->value);
+			env->value = old_pwd;
+			return (0);
+		}
+		env = env->next;
+	}
+	free(old_pwd);
+	return (1);
+}
+
+int	m_cd(t_shell *shell, t_cmd *cmd)
+{
+	char	*old_pwd;
+	int		result;
+
+	old_pwd = getcwd(NULL, 0);
+	if (!old_pwd)
+		return (ft_perror("getcwd"));
+	if (handle_cd_args(cmd, &old_pwd) != 0)
+		return (1);
+	result = change_directory(shell, cmd);
+	if (result != 0)
+	{
+		free(old_pwd);
+		return (result);
+	}
+	result = update_pwd1(shell);
+	if (result != 0)
+	{
+		free(old_pwd);
+		return (result);
+	}
+	return (update_oldpwd(shell, old_pwd));
+}
+
+/*
+	//////////////////////OLD VERSION///////////////////////
+int	m_cd(t_shell *shell, t_cmd *cmd)
+{
+	char	*old_pwd;
+	int		result;
+	char	*new_pwd;
+	t_env	*env;
+
+	old_pwd = getcwd(NULL, 0);
+	if (!old_pwd)
+		return (ft_perror("getcwd"));
+	if (cmd->args && cmd->args[0] && cmd->args[1])
+	{
+		ft_putendl_fd("cd: too many arguments\n", STDERR_FILENO);
+		free(old_pwd);
+		return (1);
+	}
+	result = 0;
+	if (!cmd->args || !cmd->args[0] || strcmp(cmd->args[0], "~") == 0
+		||strcmp(cmd->args[0], "HOME") == 0)
+		result = get_home(&shell->env);
+	else if (strcmp(cmd->args[0], "..") == 0)
+		result = get_up(shell);
+	else
+	{
+		if (chdir(cmd->args[0]) != 0)
+		{
+			perror("chdir");
+			free(old_pwd);
+			return (1);
+		}
+		new_pwd = getcwd(NULL, 0);
+		if (!new_pwd)
+		{
+			perror("getcwd");
+			free(old_pwd);
+			return (1);
+		}
+		env = shell->env;
+		while (env)
+		{
+			if (strcmp(env->key, "PWD") == 0)
+			{
+				free(env->value);
+				env->value = new_pwd;
+				break ;
+			}
+			env = env->next;
+		}
+	}
+	env = shell->env;
+	while (env)
+	{
+		if (strcmp(env->key, "OLDPWD") == 0)
+		{
+			free(env->value);
+			env->value = old_pwd;
+			return (result);
+		}
+		env = env->next;
+	}
+	free(old_pwd);
+	return (result);
+}
+
+
+///////////////////////////////invalid funktions//////////////////////////////
 int	get_home(t_env **env)
 {
 	t_env	*i;
@@ -50,43 +208,48 @@ int	get_home(t_env **env)
 	return (1);
 }
 
-int	get_parent_directory_index(char *str)
-{
-	int	i;
+/////////////////////////////////////////////////////////////////////////////////
 
-	i = strlen(str) - 1;
-	while (i > 0 && str[i] != '/')
-		i--;
-	return (i);
-}
 
-int	get_up(t_shell *shell)
+int	get_home(t_env **env)
 {
-	t_env	*env;
+	t_env	*current;
+	char	*home_path;
 	char	*new_pwd;
-	int		index;
 
-	env = shell->env;
-	while (env != NULL)
+	current = *env;
+	home_path = NULL;
+	while (current)
 	{
-		if (strcmp(env->key, "PWD") == 0)
+		if (strcmp(current->key, "HOME") == 0)
 		{
-			index = get_parent_directory_index(env->value);
-			if (index > 0)
-			{
-				new_pwd = strndup(env->value, index);
-				if (new_pwd)
-				{
-					free(env->value);
-					env->value = new_pwd;
-					chdir(env->value);
-					return (0);
-				}
-			}
-			return (1);
+			home_path = current->value;
+			break ;
 		}
-		env = env->next;
+		current = current->next;
 	}
+	if (!home_path)
+	{
+		ft_putendl_fd("HOME not set in environment", STDERR_FILENO);
+		return (1);
+	}
+	if (chdir(home_path) != 0)
+		return (ft_perror("chdir"));
+	new_pwd = getcwd(NULL, 0);
+	if (!new_pwd)
+		return (ft_perror("get_cwd"));
+	current = *env;
+	while (current)
+	{
+		if (strcmp(current->key, "PWD") == 0)
+		{
+			free(current->value);
+			current->value = new_pwd;
+			return (0);
+		}
+		current = current->next;
+	}
+	free(new_pwd);
 	return (1);
 }
 
@@ -168,3 +331,34 @@ int	m_cd(t_shell *shell, t_cmd *cmd)
 	free(old_pwd);
 	return (0);
 }
+
+int	get_up(t_shell *shell)
+{
+	t_env	*env;
+	char	*new_pwd;
+	int		index;
+
+	env = shell->env;
+	while (env != NULL)
+	{
+		if (strcmp(env->key, "PWD") == 0)
+		{
+			index = get_parent_directory_index(env->value);
+			if (index > 0)
+			{
+				new_pwd = strndup(env->value, index);
+				if (new_pwd)
+				{
+					free(env->value);
+					env->value = new_pwd;
+					chdir(env->value);
+					return (0);
+				}
+			}
+			return (1);
+		}
+		env = env->next;
+	}
+	return (1);
+}
+*/

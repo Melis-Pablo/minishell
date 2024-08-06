@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   m_exit.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:15:25 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/08/05 00:02:10 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/06 19:19:47 by grbuchne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int ft_isalpha(int c)
+int	ft_isalpha(int c)
 {
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
 		return (1);
@@ -43,12 +43,11 @@ int	ft_atoi(const char *str)
 	}
 	return (result * sign);
 }
-//if flags exist -12312 make it arg
-// fix flags
+
 int	m_exit(t_shell *shell, t_cmd *cmd)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	shell->exit = 1;
 	if (cmd->args[0] && cmd->args[1])
@@ -62,7 +61,8 @@ int	m_exit(t_shell *shell, t_cmd *cmd)
 		{
 			if (ft_isalpha(cmd->args[0][i]))
 			{
-				printf("exit\nminishell: exit: %s: numeric argument required\n", cmd->args[0]);
+				printf("exit\nminishell: exit: %s: numeric argument required\n",
+					cmd->args[0]);
 				return (1);
 			}
 			i++;
