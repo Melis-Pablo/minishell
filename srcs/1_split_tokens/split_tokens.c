@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 05:26:33 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/08 19:40:05 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/08 20:02:06 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,34 +30,42 @@ int	check_delimiter(char *input, int *in_quote, char *quote)
 	return (0);
 }
 
+int	handle_delimiter(char **input, int *count, int *in_token)
+{
+	char	quote;
+	int		in_quote;
+
+	quote = '\0';
+	in_quote = 0;
+	if (check_delimiter(*input, &in_quote, &quote))
+	{
+		if (*in_token)
+		{
+			(*count)++;
+			*in_token = 0;
+		}
+		if (**input == '|' || **input == '<' || **input == '>')
+		{
+			(*count)++;
+			while (**input == '|' || **input == '<' || **input == '>')
+				(*input)++;
+			return (1);
+		}
+	}
+	return (0);
+}
+
 int	count_tokens(char *input)
 {
-	int		in_quote;
-	char	quote;
 	int		count;
 	int		in_token;
 
 	count = 0;
-	in_quote = 0;
 	in_token = 0;
-	quote = '\0';
 	while (*input)
 	{
-		if (check_delimiter(input, &in_quote, &quote))
-		{
-			if (in_token)
-			{
-				count++;
-				in_token = 0;
-			}
-			if (*input == '|' || *input == '<' || *input == '>')
-			{
-				count++;
-				while (*input == '|' || *input == '<' || *input == '>')
-					input++;
-				continue ;
-			}
-		}
+		if (handle_delimiter(&input, &count, &in_token))
+			continue ;
 		else
 			in_token = 1;
 		input++;
