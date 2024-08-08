@@ -6,7 +6,7 @@
 /*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 16:21:14 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/08/06 18:10:51 by grbuchne         ###   ########.fr       */
+/*   Updated: 2024/08/08 18:54:40 by grbuchne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ char	*change_to_home(const char *home_path)
 
 	if (chdir(home_path) != 0)
 	{
-		ft_perror("chdir");
+		ft_perror("chdir", 1);
 		return (NULL);
 	}
 	new_pwd = getcwd(NULL, 0);
 	if (!new_pwd)
 	{
-		ft_perror("getcwd");
+		ft_perror("getcwd", 1);
 		return (NULL);
 	}
 	return (new_pwd);

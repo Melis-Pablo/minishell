@@ -6,16 +6,16 @@
 /*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 13:59:57 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/08/06 18:10:34 by grbuchne         ###   ########.fr       */
+/*   Updated: 2024/08/08 18:53:37 by grbuchne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_perror(char *str)
+int	ft_perror(char *str, int i)
 {
 	perror(str);
-	return (1);
+	return (i);
 }
 
 int	update_pwd3(t_env *env, const char *new_pwd)

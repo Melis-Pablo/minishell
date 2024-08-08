@@ -6,7 +6,7 @@
 /*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 19:18:32 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/08/05 21:13:57 by grbuchne         ###   ########.fr       */
+/*   Updated: 2024/08/08 16:18:08 by grbuchne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,35 +56,14 @@ int	env_exists(t_env *env, char *key)
 	return (0);
 }
 
-void	*init_envarg(t_envarg *envarg, char *arg)
+void	set_value(t_env *tmp, t_envarg envarg)
 {
-	envarg->equal = strchr(arg, '=');
-	envarg->key_start = arg;
-	envarg->key_end = envarg->equal - 1;
-	envarg->value_start = envarg->equal + 1;
-	envarg->key = strndup(envarg->key_start,
-			envarg->key_end - envarg->key_start + 1);
-	return (envarg);
+	free(tmp->value);
+	tmp->value = strdup(envarg.value_start);
 }
 
-int	env_exist2(t_env *env, char *arg)
+void	set_value_null(t_env *tmp)
 {
-	t_env		*tmp;
-	t_envarg	envarg;
-
-	init_envarg(&envarg, arg);
-	tmp = env;
-	while (tmp)
-	{
-		if (strcmp(tmp->key, envarg.key) == 0)
-		{
-			free(tmp->value);
-			tmp->value = strdup(envarg.value_start);
-			free(envarg.key);
-			return (1);
-		}
-		tmp = tmp->next;
-	}
-	free(envarg.key);
-	return (0);
+	free(tmp->value);
+	tmp->value = NULL;
 }

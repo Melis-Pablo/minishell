@@ -6,7 +6,7 @@
 /*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:45:33 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/08/06 19:17:37 by grbuchne         ###   ########.fr       */
+/*   Updated: 2024/08/08 19:03:08 by grbuchne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	add_env_node_back(t_env **envp, char *key, char *value)
 		return ;
 	node = malloc(sizeof(t_env));
 	if (node == NULL)
-		exit(ft_perror("malloc"));
+		exit(ft_perror("malloc", 1));
 	node->key = strdup(key);
 	node->value = strdup(value);
 	node->next = NULL;

@@ -10,10 +10,8 @@ FLAGS		:= -Wall -Wextra -Werror -g -I $(INCLUDES)
 ################################################################################
 SRCS		:=	main.c \
 				srcs/4_env_expand/get_env.c \
-				srcs/4_env_expand/special_envexpand.c \
-				srcs/4_env_expand/envexpand.c \
+				srcs/4_env_expand/OLD_envexpand.c \
 				srcs/1_split_tokens/split_tokens.c \
-				srcs/1_split_tokens/split_tokens_tools.c \
 				srcs/builder.c \
 				srcs/5_parser/parser_utils.c \
 				srcs/5_parser/parser.c \
@@ -30,6 +28,7 @@ SRCS		:=	main.c \
 				srcs/0_builtins/builtin_utils2.c \
 				srcs/0_builtins/builtin_utils3.c \
 				srcs/0_builtins/builtin_utils4.c \
+				srcs/0_builtins/builtin_utils5.c \
 				srcs/3_syntax_error/syntax_error.c \
 				srcs/3_syntax_error/unclosed_quotes.c \
 				srcs/6_execute/find_exec.c \
@@ -40,16 +39,13 @@ SRCS		:=	main.c \
 				srcs/2_lexer/lexer_utils.c \
 				srcs/utils/str_utils.c \
 				srcs/utils/print.c \
-				srcs/utils/print2.c \
 				srcs/utils/ft_split.c \
 				srcs/utils/utils.c \
-				srcs/utils/utils2.c \
 				srcs/utils/str_utils2.c \
 				srcs/cleaner.c \
 				srcs/5.1_redirections/redirections.c \
 				srcs/5.1_redirections/heredoc.c \
 				srcs/signals.c
-
 
 OBJS		:= $(SRCS:.c=.o)
 

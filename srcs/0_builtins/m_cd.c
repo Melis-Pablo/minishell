@@ -6,7 +6,7 @@
 /*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:32:33 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/08/06 19:18:38 by grbuchne         ###   ########.fr       */
+/*   Updated: 2024/08/08 19:02:35 by grbuchne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	change_directory(t_shell *shell, t_cmd *cmd)
 	else if (strcmp(cmd->args[0], "..") == 0)
 		return (get_up(shell));
 	else if (chdir(cmd->args[0]) != 0)
-		return (ft_perror("chdir"));
+		return (ft_perror("chdir", 1));
 	return (0);
 }
 
@@ -42,7 +42,7 @@ static int	update_pwd1(t_shell *shell)
 
 	new_pwd = getcwd(NULL, 0);
 	if (!new_pwd)
-		return (ft_perror("getcwd"));
+		return (ft_perror("getcwd", 1));
 	env = shell->env;
 	while (env)
 	{
@@ -84,7 +84,7 @@ int	m_cd(t_shell *shell, t_cmd *cmd)
 
 	old_pwd = getcwd(NULL, 0);
 	if (!old_pwd)
-		return (ft_perror("getcwd"));
+		return (ft_perror("getcwd", 1));
 	if (handle_cd_args(cmd, &old_pwd) != 0)
 		return (1);
 	result = change_directory(shell, cmd);
