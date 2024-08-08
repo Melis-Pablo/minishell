@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaner.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 04:49:49 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/05 17:40:04 by grbuchne         ###   ########.fr       */
+/*   Updated: 2024/08/08 13:56:40 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,3 @@ void	free_cmds(t_cmd *head)
 		free(tmp);
 	}
 }
-

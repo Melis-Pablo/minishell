@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 05:41:51 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/05 17:40:24 by grbuchne         ###   ########.fr       */
+/*   Updated: 2024/08/08 13:58:39 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	print_str_array(char **arr)
 	}
 	printf("\n");
 }
-
 
 void	print_tokens(t_token *head)
 {
@@ -121,4 +120,3 @@ void	print_env_list_export(t_env *env)
 		tmp = tmp->next;
 	}
 }
-

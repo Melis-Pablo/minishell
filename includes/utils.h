@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:46:31 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/03 20:46:16 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/08 13:56:16 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,7 @@ int		ft_strcmp(const char *s1, const char *s2);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 char	*ft_strjoin(const char *s1, const char *s2);
 void	ft_itoa(int n, char *str);
-
-
 void	print_cmds(t_cmd *head);
-
 void	print_redirs(t_redir *head);
 void	print_str_array(char **arr);
 void	print_tokens(t_token *head);

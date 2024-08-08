@@ -6,62 +6,11 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 06:47:35 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/03 15:34:11 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/08 13:58:21 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-char	*ft_strchr(const char *s, int chr)
-{
-	unsigned char	c;
-
-	if (!s)
-		return (0);
-	c = (unsigned char)chr;
-	while (*s)
-	{
-		if (*s == c)
-			return ((char *)s);
-		s++;
-	}
-	if (!c)
-		return ((char *)s);
-	return (0);
-}
-
-void	*ft_memcpy(void *dst, const void *src, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	while (i++ < n)
-		((unsigned char *) dst)[i - 1] = ((unsigned char *) src)[i - 1];
-	return (dst);
-}
-
-char	*ft_substr(const char *s, unsigned int start, size_t len)
-{
-	size_t	slen;
-	char	*p;
-
-	slen = ft_strlen(s);
-	if (len > slen)
-		len = slen;
-	if (start < slen)
-	{
-		p = malloc(len + 1);
-		ft_memcpy(p, (s + start), len);
-		p[len] = 0;
-	}
-	else
-	{
-		p = malloc(1);
-		*p = 0;
-	}
-	return (p);
-}
-
 
 char	*join_paths(const char *dir, const char *cmd)
 {

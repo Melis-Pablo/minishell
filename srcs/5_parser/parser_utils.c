@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 05:47:05 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/04 21:11:04 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/08 13:57:17 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	**get_args(t_token *head)
 	args = NULL;
 	while (tmp && tmp->type != PIPE)
 	{
-		if (tmp->type == WORD ) //&& !(strncmp(tmp->word, "-", 1) == 0)
+		if (tmp->type == WORD)
 			i++;
 		tmp = tmp->next;
 	}
@@ -88,7 +88,7 @@ char	**get_args(t_token *head)
 	}
 	while (head && head->type != PIPE)
 	{
-		if (head->type == WORD ) //&& !(strncmp(head->word, "-", 1) == 0)
+		if (head->type == WORD)
 		{
 			args[i] = ft_strdup(head->word);
 			i++;
