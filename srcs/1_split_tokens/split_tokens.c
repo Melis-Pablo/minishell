@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 05:26:33 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/08 19:16:01 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/08 19:40:05 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,51 +65,6 @@ int	count_tokens(char *input)
 	if (in_token)
 		count++;
 	return (count);
-}
-
-char	*get_token(char **input)
-{
-	int		in_quote;
-	char	quote;
-	char	*start;
-	char	*token;
-	int		len;
-
-	in_quote = 0;
-	quote = '\0';
-	start = *input;
-	token = NULL;
-	len = 0;
-	while (**input)
-	{
-		if (check_delimiter(*input, &in_quote, &quote))
-		{
-			if (len > 0)
-				break ;
-			if (**input == '|' || **input == '<' || **input == '>')
-			{
-				start = *input;
-				while (**input == '|' || **input == '<' || **input == '>')
-					(*input)++;
-				len = *input - start;
-				break ;
-			}
-		}
-		else
-		{
-			if (len == 0)
-				start = *input;
-			len++;
-		}
-		(*input)++;
-	}
-	token = (char *)malloc(len + 1);
-	if (token)
-	{
-		ft_strncpy(token, start, len);
-		token[len] = '\0';
-	}
-	return (token);
 }
 
 char	**split_tokens(char *input)

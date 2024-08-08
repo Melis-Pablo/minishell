@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:04:27 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/08 15:46:35 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/08 19:34:32 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,7 @@ char	*var_to_value(char *word, char *start, char *end, char *var_value);
 char	*expand_exit_status(char *word, char *start, char *end, t_shell *shell);
 char	*get_var_value(char *var_name, t_env *env);
 char	*expand_env_variables(char *word, t_shell *shell);
+char	*get_token(char **input);
+int		check_delimiter(char *input, int *in_quote, char *quote);
 
 #endif

@@ -13,6 +13,7 @@ SRCS		:=	main.c \
 				srcs/4_env_expand/special_envexpand.c \
 				srcs/4_env_expand/envexpand.c \
 				srcs/1_split_tokens/split_tokens.c \
+				srcs/1_split_tokens/split_tokens_tools.c \
 				srcs/builder.c \
 				srcs/5_parser/parser_utils.c \
 				srcs/5_parser/parser.c \
