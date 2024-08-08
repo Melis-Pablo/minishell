@@ -6,192 +6,80 @@
 /*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 15:18:55 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/08/06 19:20:03 by grbuchne         ###   ########.fr       */
+/*   Updated: 2024/08/08 20:10:56 by grbuchne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-/*
-int	parse_arg(t_env *node, char *arg, t_shell *shell)
-{
-	const char *equal = strchr(arg, '=');	// =
-	const char *key_start = arg;		// key_start = arg
-	const char *key_end = equal - 1;	// key_end = equal - 1
-	const char *value_start = equal + 1;	// value_start = equal + 1
-	const char *value_end = arg + strlen(arg);	// value_end = arg + strlen(arg)
-	char *key = NULL;
-	char *value = NULL;
-	t_env *tmp;
 
-	tmp = shell->env;
-	// char *c = strchr(arg, '-');
-	if (key_start == key_end || value_start == value_end )//|| c != NULL
-		return (1);
-	if (strchr(arg, '=') == NULL)
+void	init_key(t_envarg *envarg, char *arg)
+{
+	char	*equal;
+
+	equal = strchr(arg, '=');
+	envarg->key_start = arg;
+	if (equal)
 	{
-		key = strndup(key_start, key_end - key_start);
-		while (tmp->next)
-			tmp = tmp->next;
-		node->key = key;
-		node->value = NULL;
-		node->next = NULL;
-		tmp->next = node;
+		envarg->key_end = equal - 1;
 	}
 	else
 	{
-		key = strndup(key_start, key_end - key_start + 1);
-		value = strndup(value_start, value_end - value_start);
-		while (tmp->next)
-			tmp = tmp->next;
-		node->key = key;
-		node->value = value;
-		node->next = NULL;
-		tmp->next = node;
+		envarg->key_end = arg + strlen(arg) - 1;
 	}
-	return (0);
-}*/
-#include <stdlib.h>
-#include <string.h>
-
-int init_parse_vars(const char *arg, const char **equal, const char **key_end, const char **value_start, const char **value_end)
-{
-	*equal = strchr(arg, '=');
-	if (*equal == NULL) {
-		*key_end = arg + strlen(arg);
-		*value_start = NULL;
-		*value_end = NULL;
-	} else {
-		*key_end = *equal - 1;
-		*value_start = *equal + 1;
-		*value_end = arg + strlen(arg);
-	}
-
-	if (*key_end == arg || (*equal != NULL && *value_start == *value_end))
-		return (1);
-	return (0);
+	envarg->key = strndup(envarg->key_start,
+			envarg->key_end - envarg->key_start + 1);
+	envarg->equal = equal;
 }
 
-int handle_no_equal(t_env *node, const char *key_start, const char *key_end, t_env *tmp)
+void	init_value(t_envarg *envarg, char *arg)
 {
-	char *key;
-	size_t key_len;
-
-	key_len = key_end - key_start;
-	key = strndup(key_start, key_len);
-	if (!key)
-		return (1);
-
-	while (tmp->next)
-		tmp = tmp->next;
-
-	node->key = key;
-	node->value = NULL;
-	node->next = NULL;
-	tmp->next = node;
-	return (0);
-}
-
-int handle_with_equal(t_env *node, const char *key_start, const char *key_end, const char *value_start, const char *value_end, t_env *tmp)
-{
-	char	*key;
-	char	*value;
-	size_t	key_len;
-	size_t	value_len;
-
-	key_len = key_end - key_start + 1;
-	value_len = value_end - value_start;
-
-	key = strndup(key_start, key_len);
-	value = strndup(value_start, value_len);
-	if (!key || !value)
+	if (envarg->equal)
 	{
-		free(key);
-		free(value);
-		return (1);
+		envarg->value_start = envarg->equal + 1;
+		envarg->value_end = arg + strlen(arg);
 	}
-
-	while (tmp->next)
-		tmp = tmp->next;
-
-	node->key = key;
-	node->value = value;
-	node->next = NULL;
-	tmp->next = node;
-	return (0);
+	else
+	{
+		envarg->value_start = NULL;
+		envarg->value_end = NULL;
+	}
 }
 
-int parse_arg(t_env *node, char *arg, t_shell *shell)
+t_envarg	*init_envarg2(t_envarg *envarg, char *arg)
 {
-	const char *equal;
-	const char *key_end;
-	const char *value_start;
-	const char *value_end;
-	const char *key_start;
-	t_env *tmp;
-
-	key_start = arg;
-	tmp = shell->env;
-
-	if (init_parse_vars(arg, &equal, &key_end, &value_start, &value_end))
-		return (1);
-
-	if (equal == NULL)
-		return handle_no_equal(node, key_start, key_end, tmp);
-
-	return handle_with_equal(node, key_start, key_end, value_start, value_end, tmp);
+	init_key(envarg, arg);
+	init_value(envarg, arg);
+	return (envarg);
 }
 
-
-int	process_args(t_shell *shell, t_cmd *cmd, int *result)
+int	handle_export_arg(t_shell *shell, char *arg, int *result)
 {
 	t_env	*node;
-	int		i;
 
-	i = 0;
-	while (cmd->args[i])
+	node = malloc(sizeof(t_env));
+	if (!node)
+		return (ft_perror("malloc", 1));
+	node->next = NULL;
+	if (env_exist2(shell->env, arg) == 1)
 	{
-		node = malloc(sizeof(t_env));
-		if (!node)
-			return (ft_perror("malloc"));
-		node->next = NULL;
-		if (env_exist2(shell->env, cmd->args[i]) == 1)
-		{
-			free(node);
-			i++;
-			continue ;
-		}
-		if (parse_arg(node, cmd->args[i], shell) != 0)
-		{
-			ft_putstr_fd("export: not a valid identifier\n", STDERR_FILENO);
-			free(node);
-			*result = 1;
-		}
-		i++;
+		free(node);
+		return (0);
 	}
+	if (parse_arg(node, arg, shell) != 0)
+	{
+		ft_putstr_fd("export: not a valid identifier\n", STDERR_FILENO);
+		free(node);
+		*result = 1;
+		return (1);
+	}
+	sort(&shell->env);
 	return (0);
 }
 
 int	m_export(t_shell *shell, t_cmd *cmd)
 {
 	int	result;
-
-	result = 0;
-	if (check_flag(cmd))
-		return (1);
-	if (process_args(shell, cmd, &result))
-		return (1);
-	sort(&shell->env);
-	if (cmd->args[0] == NULL)
-		print_env_list_export(shell->env);
-	return (result);
-}
-
-/*
-int	m_export(t_shell *shell, t_cmd *cmd)
-{
-	t_env	*node;
-	int		result;
-	int		i;
+	int	i;
 
 	result = 0;
 	i = 0;
@@ -202,28 +90,13 @@ int	m_export(t_shell *shell, t_cmd *cmd)
 	}
 	while (cmd->args[i])
 	{
-		node = malloc(sizeof(t_env));
-		if (!node)
-			return (ft_perror("malloc"));
-		node->next = NULL;
-		if (env_exist2(shell->env, cmd->args[i]) == 1)
+		if (handle_export_arg(shell, cmd->args[i], &result) != 0)
 		{
-			result = 0;
-			i++;
-			free(node);
-			continue ;
-		}
-		if (parse_arg(node, cmd->args[i], shell) != 0) //(cmd->flags[0] != NULL)
-		{
-			ft_putstr_fd("export: not a valid identifier\n", STDERR_FILENO);
-			free(node);
 			result = 1;
 		}
 		i++;
 	}
-	sort(&shell->env);
 	if (cmd->args[0] == NULL)
 		print_env_list_export(shell->env);
 	return (result);
 }
-*/
