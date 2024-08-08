@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:59:06 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/03 15:29:02 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/08 15:52:01 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,12 @@ int	ft_env_size(t_env *env)
 	return (size);
 }
 
+char	**free_arr_retnull(char **arr)
+{
+	free_array(arr);
+	return (NULL);
+}
+
 char	**export_env(t_env *env)
 {
 	char	**envp;
@@ -69,10 +75,7 @@ char	**export_env(t_env *env)
 	{
 		key_equal = ft_strjoin(env->key, "=");
 		if (!key_equal)
-		{
-			free_array(envp);
-			return (0);
-		}
+			return (free_arr_retnull(envp));
 		envp[i] = ft_strjoin(key_equal, env->value);
 		if (!envp[i])
 		{

@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 06:53:30 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/08 14:06:54 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/08 15:26:01 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,14 @@ int	exec_pipeline(t_shell *shell, t_cmd *cmd, int *status, int len)
 	return (*status);
 }
 
+int	err_exec_quit(t_cmd *cmd, int *status)
+{
+	free_cmds(cmd);
+	cleanup_heredocs(cmd);
+	*status = 1;
+	return (1);
+}
+
 int	execute(t_shell *shell, char *line, int *status)
 {
 	t_cmd	*cmd;
@@ -74,12 +82,7 @@ int	execute(t_shell *shell, char *line, int *status)
 	if (!cmd)
 		return (*status = 1);
 	if (check_heredoc(cmd) != 0)
-	{
-		free_cmds(cmd);
-		cleanup_heredocs(cmd);
-		*status = 1;
-		return (1);
-	}
+		return (err_exec_quit(cmd, status));
 	if (process_all_heredocs(cmd->heredocs, cmd->heredoc_count) != 0)
 	{
 		ft_putstr_fd("Failed to process heredocs\n", STDERR_FILENO);

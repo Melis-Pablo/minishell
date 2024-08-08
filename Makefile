@@ -10,7 +10,8 @@ FLAGS		:= -Wall -Wextra -Werror -g -I $(INCLUDES)
 ################################################################################
 SRCS		:=	main.c \
 				srcs/4_env_expand/get_env.c \
-				srcs/4_env_expand/OLD_envexpand.c \
+				srcs/4_env_expand/special_envexpand.c \
+				srcs/4_env_expand/envexpand.c \
 				srcs/1_split_tokens/split_tokens.c \
 				srcs/builder.c \
 				srcs/5_parser/parser_utils.c \
