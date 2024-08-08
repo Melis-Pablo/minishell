@@ -38,8 +38,10 @@ SRCS		:=	main.c \
 				srcs/2_lexer/lexer_utils.c \
 				srcs/utils/str_utils.c \
 				srcs/utils/print.c \
+				srcs/utils/print2.c \
 				srcs/utils/ft_split.c \
 				srcs/utils/utils.c \
+				srcs/utils/utils2.c \
 				srcs/utils/str_utils2.c \
 				srcs/cleaner.c \
 				srcs/5.1_redirections/redirections.c \

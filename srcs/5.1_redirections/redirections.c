@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 06:06:19 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/05 17:41:26 by grbuchne         ###   ########.fr       */
+/*   Updated: 2024/08/08 14:02:57 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	redirect_inputs(t_cmd *cmd)
 		}
 		if (tmp->type == HEREDOC)
 		{
-
 			herenum = malloc(sizeof(char) * 3);
 			ft_itoa(cmd->heredoc_count - 1, herenum);
 			tmp_filename = ft_strjoin("heredoc_", herenum);

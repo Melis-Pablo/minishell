@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 05:12:27 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/03 15:27:12 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/08 14:01:33 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,36 @@ int	array_len(char **arr)
 	while (arr && arr[i])
 		i++;
 	return (i);
+}
+
+void	*ft_memcpy(void *dst, const void *src, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i++ < n)
+		((unsigned char *) dst)[i - 1] = ((unsigned char *) src)[i - 1];
+	return (dst);
+}
+
+char	*ft_substr(const char *s, unsigned int start, size_t len)
+{
+	size_t	slen;
+	char	*p;
+
+	slen = ft_strlen(s);
+	if (len > slen)
+		len = slen;
+	if (start < slen)
+	{
+		p = malloc(len + 1);
+		ft_memcpy(p, (s + start), len);
+		p[len] = 0;
+	}
+	else
+	{
+		p = malloc(1);
+		*p = 0;
+	}
+	return (p);
 }

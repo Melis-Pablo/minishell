@@ -1,34 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   print2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/29 17:28:48 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/08 14:10:29 by pmelis           ###   ########.fr       */
+/*   Created: 2024/08/08 14:03:41 by pmelis            #+#    #+#             */
+/*   Updated: 2024/08/08 14:03:57 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-void	handle_sigquit(int sig)
+void	print_env_list(t_env *env)
 {
-	(void)sig;
-	rl_redisplay();
+	while (env)
+	{
+		printf("%s=%s\n", env->key, env->value);
+		env = env->next;
+	}
 }
 
-void	handle_sigint(int sig)
+void	print_env_list_export(t_env *env)
 {
-	(void)sig;
-	rl_replace_line("", 0);
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_redisplay();
-}
+	t_env	*tmp;
 
-void	signal_handler(void)
-{
-	signal(SIGQUIT, handle_sigquit);
-	signal(SIGINT, handle_sigint);
+	tmp = env;
+	while (tmp)
+	{
+		printf("declare -x %s", tmp->key);
+		if (tmp->value != NULL)
+			printf("=\"%s\"\n", tmp->value);
+		else
+			printf("\n");
+		tmp = tmp->next;
+	}
 }

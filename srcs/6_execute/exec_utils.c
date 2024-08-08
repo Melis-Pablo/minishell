@@ -6,35 +6,42 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 06:10:08 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/04 21:12:36 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/08 14:06:50 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// int	merge_args(t_cmd *cmd)
-// {
-// 	int		i;
-// 	int		j;
-// 	int		t_len;
-// 	char	**merged;
+int	execute_internal(t_shell *shell, t_cmd *cmd, int *status)
+{
+	char	*path;
 
-// 	if (!cmd)
-// 		return (1);
-// 	t_len = 1 + array_len(cmd->args) + array_len(cmd->flags);
-// 	merged = (char **)malloc(sizeof(char *) * (t_len + 1));
-// 	if (!merged)
-// 		return (1);
-// 	i = 0;
-// 	merged[i++] = ft_strdup(cmd->cmd);
-// 	j = 0;
-// 	while (cmd->args && cmd->args[j])
-// 		merged[i++] = ft_strdup(cmd->args[j++]);
-// 	j = 0;
-// 	while (cmd->flags && cmd->flags[j])
-// 		merged[i++] = ft_strdup(cmd->flags[j++]);
-// 	merged[i] = NULL;
-// 	free_array(cmd->args);
-// 	cmd->args = merged;
-// 	return (0);
-// }
+	if (builtins_caller(shell, cmd, status) == 0)
+		return (0);
+	path = get_exec_path(cmd->cmd, shell->env);
+	if (path)
+	{
+		free(cmd->cmd);
+		cmd->cmd = path;
+		*status = exec_child(cmd, shell->env);
+		return (0);
+	}
+	ft_putstr_fd("minishell: command not found: ", 2);
+	ft_putstr_fd(cmd->cmd, 2);
+	ft_putstr_fd("\n", 2);
+	*status = 127;
+	return (1);
+}
+
+int	count_commands(t_cmd *cmd)
+{
+	int	count;
+
+	count = 1;
+	while (cmd)
+	{
+		count++;
+		cmd = cmd->next;
+	}
+	return (count);
+}

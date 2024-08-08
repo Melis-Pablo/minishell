@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 06:55:41 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/05 17:39:33 by grbuchne         ###   ########.fr       */
+/*   Updated: 2024/08/08 14:17:42 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ ssize_t	ft_readlines(int fd, char *buffer, ssize_t maxlen)
 	if (!buffer || maxlen == 0)
 		return (-1);
 	bytes_read = 0;
-
 	bytes_read = read(fd, &c, 1);
 	while (bytes_read > 0)
 	{
@@ -45,7 +44,6 @@ ssize_t	ft_readlines(int fd, char *buffer, ssize_t maxlen)
 		return (0);
 	else
 		buffer[n] = '\0';
-
 	return (n);
 }
 
@@ -95,15 +93,12 @@ int	process_single_heredoc(const char *delimiter, const char *filename)
 			line[len - 1] = '\0';
 			len--;
 		}
-
 		if (strcmp(line, delimiter) == 0)
 		{
 			break ;
 		}
-
 		strcat(line, "\n");
 		len++;
-
 		if (write(tmp_fd, line, len) == -1)
 		{
 			perror("write");
@@ -111,7 +106,6 @@ int	process_single_heredoc(const char *delimiter, const char *filename)
 			return (-1);
 		}
 	}
-
 	close(tmp_fd);
 	return (0);
 }
@@ -154,76 +148,75 @@ int	process_all_heredocs(t_doc *heredocs, int heredoc_count)
 	return (0);
 }
 
-char *generate_filename(int count)
+char	*generate_filename(int count)
 {
-    int num_digits = 1;
-    int temp = count;
-    while (temp /= 10)
-        num_digits++;
+	int		num_digits;
+	int		temp;
+	int		len;
+	char	*filename;
 
-    int len = 8 + num_digits + 1;  // "heredoc_" (8 Zeichen) + Ziffern + Nullterminator
-    char *filename = (char *)malloc(len);
-    if (!filename)
-        return NULL;
-
-    // Formatierung des Dateinamens ohne snprintf
-    snprintf(filename, len, "heredoc_%d", count); // Mit snprintf
-    return filename;
+	num_digits = 1;
+	temp = count;
+	while (temp /= 10)
+		num_digits++;
+	len = 8 + num_digits + 1;  // "heredoc_" (8 Zeichen) + Ziffern + Nullterminator
+	filename = (char *)malloc(len);
+	if (!filename)
+		return (NULL);
+	// Formatierung des Dateinamens ohne snprintf
+	snprintf(filename, len, "heredoc_%d", count); // Mit snprintf
+	return (filename);
 }
 
-int check_heredoc(t_cmd *cmd)
+int	check_heredoc(t_cmd *cmd)
 {
-    t_redir *tmp;
-    t_doc heredocs[100];
+	t_redir	*tmp;
+	t_doc	heredocs[100];
+	char	*filename;
 
-    tmp = cmd->infiles;
-    cmd->heredoc_count = 0;
-    while (tmp)
-    {
-        if (tmp->type == HEREDOC)
-        {
-            if (cmd->heredoc_count >= 100)
-            {
-                printf("minishell: too many heredocs\n");
-                return (-1);
-            }
-
-            char *filename = generate_filename(cmd->heredoc_count);
-            if (!filename)
-            {
-                perror("malloc filename error");
-                return (-1);
-            }
-
-            heredocs[cmd->heredoc_count].filename = ft_strdup(filename);
-            if (!heredocs[cmd->heredoc_count].filename)
-            {
-                perror("ft_strdup filename error");
-                free(filename);
-                return (-1);
-            }
-
-            heredocs[cmd->heredoc_count].delimiter = ft_strdup(tmp->file);
-            if (!heredocs[cmd->heredoc_count].delimiter)
-            {
-                perror("ft_strdup delimiter error");
-                free(heredocs[cmd->heredoc_count].filename);
-                free(filename);
-                return (-1);
-            }
-
-            free(filename);
-            cmd->heredoc_count++;
-        }
-        tmp = tmp->next;
-    }
-
-    cmd->heredocs = (t_doc *)malloc(sizeof(t_doc) * (cmd->heredoc_count + 1));
-    if (!cmd->heredocs)
-    {
-        perror("malloc heredoc error");
-        return (-1);
-    }
-    memcpy(cmd->heredocs, heredocs, sizeof(t_doc) * cmd->heredoc_count);
-    return (0);
+	tmp = cmd->infiles;
+	cmd->heredoc_count = 0;
+	while (tmp)
+	{
+		if (tmp->type == HEREDOC)
+		{
+			if (cmd->heredoc_count >= 100)
+			{
+				printf("minishell: too many heredocs\n");
+				return (-1);
+			}
+			filename = generate_filename(cmd->heredoc_count);
+			if (!filename)
+			{
+				perror("malloc filename error");
+				return (-1);
+			}
+			heredocs[cmd->heredoc_count].filename = ft_strdup(filename);
+			if (!heredocs[cmd->heredoc_count].filename)
+			{
+				perror("ft_strdup filename error");
+				free(filename);
+				return (-1);
+			}
+			heredocs[cmd->heredoc_count].delimiter = ft_strdup(tmp->file);
+			if (!heredocs[cmd->heredoc_count].delimiter)
+			{
+				perror("ft_strdup delimiter error");
+				free(heredocs[cmd->heredoc_count].filename);
+				free(filename);
+				return (-1);
+			}
+			free(filename);
+			cmd->heredoc_count++;
+		}
+		tmp = tmp->next;
+	}
+	cmd->heredocs = (t_doc *)malloc(sizeof(t_doc) * (cmd->heredoc_count + 1));
+	if (!cmd->heredocs)
+	{
+		perror("malloc heredoc error");
+		return (-1);
+	}
+	memcpy(cmd->heredocs, heredocs, sizeof(t_doc) * cmd->heredoc_count);
+	return (0);
 }
