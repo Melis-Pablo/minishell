@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 05:26:33 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/05 17:42:59 by grbuchne         ###   ########.fr       */
+/*   Updated: 2024/08/08 19:16:01 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,10 +134,7 @@ char	**split_tokens(char *input)
 		}
 		token = get_token(&input);
 		if (token)
-		{
-			tokens[i] = token;
-			i++;
-		}
+			tokens[i++] = token;
 	}
 	tokens[i] = NULL;
 	return (tokens);
