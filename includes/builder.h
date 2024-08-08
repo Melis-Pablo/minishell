@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:04:27 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/04 21:05:33 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/08 14:52:04 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,11 @@ t_cmd	*parser(t_token *head);
 t_redir	*add_redir(t_redir *head, t_redir *new_node);
 char	*get_cmd(t_token *head);
 char	**get_args(t_token *head);
-// char	**get_flags(t_token *head);
 t_redir	*get_infiles(t_token *head);
 t_redir	*get_outfiles(t_token *head);
 int		unclosed_quotes(char *str);
 t_cmd	*builder(char *input, t_shell *shell);
-int		check_inner_chars(char *word, char c);
+int		ck_in_ch(char *word, char c);
 t_token	*inject_token(t_token *prev, t_token *new_node, t_token *next);
 t_token	*add_token(t_token *head, t_token *new_node);
 void	set_types(t_token *head);

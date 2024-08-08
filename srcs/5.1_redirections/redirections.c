@@ -6,47 +6,61 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 06:06:19 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/08 14:02:57 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/08 15:20:02 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	redirect_inputs(t_cmd *cmd)
+int	input_case(t_redir *tmp)
+{
+	int	fd;
+
+	fd = open(tmp->file, O_RDONLY);
+	if (fd == -1)
+		perror("input redirection error");
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	return (fd);
+}
+
+int	heredoc_case(t_cmd *cmd)
 {
 	int		fd;
-	t_redir	*tmp;
 	char	*herenum;
 	char	*tmp_filename;
 
 	herenum = NULL;
 	tmp_filename = NULL;
+	herenum = malloc(sizeof(char) * 3);
+	ft_itoa(cmd->heredoc_count - 1, herenum);
+	tmp_filename = ft_strjoin("heredoc_", herenum);
+	free(herenum);
+	fd = open(tmp_filename, O_RDONLY);
+	if (fd == -1)
+		perror("heredoc redirection error");
+	else
+	{
+		dup2(fd, STDIN_FILENO);
+		close(fd);
+	}
+	free(tmp_filename);
+	return (fd);
+}
+
+int	redirect_inputs(t_cmd *cmd)
+{
+	int		fd;
+	t_redir	*tmp;
+
 	tmp = cmd->infiles;
 	while (tmp)
 	{
 		if (tmp->type == INPUT)
-		{
-			fd = open(tmp->file, O_RDONLY);
-			if (fd == -1)
-				perror("input redirection error");
-			dup2(fd, STDIN_FILENO);
-			close(fd);
-		}
+			fd = input_case(tmp);
 		if (tmp->type == HEREDOC)
 		{
-			herenum = malloc(sizeof(char) * 3);
-			ft_itoa(cmd->heredoc_count - 1, herenum);
-			tmp_filename = ft_strjoin("heredoc_", herenum);
-			free(herenum);
-			fd = open(tmp_filename, O_RDONLY);
-			if (fd == -1)
-				perror("heredoc redirection error");
-			else
-			{
-				dup2(fd, STDIN_FILENO);
-				close(fd);
-			}
-			free(tmp_filename);
+			fd = heredoc_case(cmd);
 		}
 		tmp = tmp->next;
 	}

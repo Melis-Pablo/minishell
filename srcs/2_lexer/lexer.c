@@ -6,7 +6,7 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 05:29:26 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/03 15:17:44 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/08 15:11:05 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,9 @@ void	merge_redirects(t_token *head)
 		if (tmp->type != WORD && tmp->type != PIPE && tmp->next)
 		{
 			free(tmp->word);
-			if (tmp->next->type == WORD
-				&& !check_inner_chars(tmp->next->word, '|')
-				&& !check_inner_chars(tmp->next->word, '>')
-				&& !check_inner_chars(tmp->next->word, '<'))
+			if (tmp->next->type == WORD && !ck_in_ch(tmp->next->word, '|')
+				&& !ck_in_ch(tmp->next->word, '>')
+				&& !ck_in_ch(tmp->next->word, '<'))
 			{
 				tmp->word = ft_strdup(tmp->next->word);
 				free(tmp->next->word);
@@ -56,6 +55,21 @@ void	merge_redirects(t_token *head)
 	}
 }
 
+void	complete_split(t_token *tmp, t_token_type type)
+{
+	free(tmp->word);
+	tmp->word = ft_strdup("|");
+	tmp->type = PIPE;
+	if (type == INPUT)
+		tmp = inject_token(tmp, create_token("<", INPUT), tmp->next);
+	else if (type == OUTPUT)
+		tmp = inject_token(tmp, create_token(">", OUTPUT), tmp->next);
+	else if (type == APPEND)
+		tmp = inject_token(tmp, create_token(">>", APPEND), tmp->next);
+	else if (type == HEREDOC)
+		tmp = inject_token(tmp, create_token("<<", HEREDOC), tmp->next);
+}
+
 void	split_piperedir(t_token *head)
 {
 	t_token	*tmp;
@@ -65,31 +79,19 @@ void	split_piperedir(t_token *head)
 	{
 		if (ft_strcmp(tmp->word, "|<") == 0)
 		{
-			free(tmp->word);
-			tmp->word = ft_strdup("|");
-			tmp->type = PIPE;
-			tmp = inject_token(tmp, create_token("<", INPUT), tmp->next);
+			complete_split(tmp, INPUT);
 		}
 		else if (ft_strcmp(tmp->word, "|>") == 0)
 		{
-			free(tmp->word);
-			tmp->word = ft_strdup("|");
-			tmp->type = PIPE;
-			tmp = inject_token(tmp, create_token(">", OUTPUT), tmp->next);
+			complete_split(tmp, OUTPUT);
 		}
 		else if (ft_strcmp(tmp->word, "|>>") == 0)
 		{
-			free(tmp->word);
-			tmp->word = ft_strdup("|");
-			tmp->type = PIPE;
-			tmp = inject_token(tmp, create_token(">>", APPEND), tmp->next);
+			complete_split(tmp, APPEND);
 		}
 		else if (ft_strcmp(tmp->word, "|<<") == 0)
 		{
-			free(tmp->word);
-			tmp->word = ft_strdup("|");
-			tmp->type = PIPE;
-			tmp = inject_token(tmp, create_token("<<", HEREDOC), tmp->next);
+			complete_split(tmp, HEREDOC);
 		}
 		tmp = tmp->next;
 	}

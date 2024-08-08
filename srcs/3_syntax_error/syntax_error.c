@@ -6,13 +6,13 @@
 /*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 05:38:02 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/03 15:18:29 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/08 14:23:21 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	check_inner_chars(char *word, char c)
+int	ck_in_ch(char *word, char c)
 {
 	size_t	len;
 	size_t	i;
@@ -48,19 +48,19 @@ int	check_errors(char *word)
 	i = 0;
 	if (is_quoted(word))
 		return (0);
-	if (check_inner_chars(word, ';'))
+	if (ck_in_ch(word, ';'))
 		i = 1;
-	if (check_inner_chars(word, '&'))
+	if (ck_in_ch(word, '&'))
 		i = 2;
-	if (check_inner_chars(word, '|'))
+	if (ck_in_ch(word, '|'))
 		i = 3;
-	if (check_inner_chars(word, '(') || check_inner_chars(word, ')'))
+	if (ck_in_ch(word, '(') || ck_in_ch(word, ')'))
 		i = 4;
-	if (check_inner_chars(word, '*'))
+	if (ck_in_ch(word, '*'))
 		i = 5;
-	if (check_inner_chars(word, '\\'))
+	if (ck_in_ch(word, '\\'))
 		i = 6;
-	if (check_inner_chars(word, '>') || check_inner_chars(word, '<'))
+	if (ck_in_ch(word, '>') || ck_in_ch(word, '<'))
 		i = 7;
 	if (unclosed_quotes(word))
 		i = 8;
