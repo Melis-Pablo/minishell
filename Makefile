@@ -49,6 +49,8 @@ SRCS		:=	main.c \
 				srcs/cleaner.c \
 				srcs/5.1_redirections/redirections.c \
 				srcs/5.1_redirections/heredoc.c \
+				srcs/5.1_redirections/heredoc_utils.c \
+				srcs/5.1_redirections/heredoc_utils2.c \
 				srcs/signals.c \
 
 OBJS		:= $(SRCS:.c=.o)

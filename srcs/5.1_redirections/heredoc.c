@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/23 06:55:41 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/08 14:17:42 by pmelis           ###   ########.fr       */
+/*   Created: 2024/08/08 19:50:07 by grbuchne          #+#    #+#             */
+/*   Updated: 2024/08/09 13:26:23 by grbuchne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #define MAX_LINE_LEN 1024
 #define MAX_HEREDOCS 100
-
+/*
 ssize_t	ft_readlines(int fd, char *buffer, ssize_t maxlen)
 {
 	ssize_t	n;
@@ -47,23 +47,6 @@ ssize_t	ft_readlines(int fd, char *buffer, ssize_t maxlen)
 	return (n);
 }
 
-void	cleanup_heredocs(t_cmd *cmd)
-{
-	int	i;
-
-	i = 0;
-	while (i < cmd->heredoc_count)
-	{
-		unlink(cmd->heredocs[i].filename);
-		free(cmd->heredocs[i].filename);
-		free(cmd->heredocs[i].delimiter);
-		i++;
-	}
-	free(cmd->heredocs);
-	cmd->heredocs = NULL;
-	cmd->heredoc_count = 0;
-}
-
 int	process_single_heredoc(const char *delimiter, const char *filename)
 {
 	char	line[MAX_LINE_LEN];
@@ -87,7 +70,6 @@ int	process_single_heredoc(const char *delimiter, const char *filename)
 		}
 		if (len == 0)
 			break ;
-
 		if (len > 0 && line[len - 1] == '\n')
 		{
 			line[len - 1] = '\0';
@@ -120,52 +102,106 @@ int	process_all_heredocs(t_doc *heredocs, int heredoc_count)
 	i = 0;
 	len = 0;
 	tmp_fd = 0;
-	while (i < heredoc_count)
+	while (i++ < heredoc_count)
 	{
-		if (process_single_heredoc(heredocs[i].delimiter, heredocs[i].filename) != 0)
-		{
-			perror("Failed to process heredoc");
-			return (-1);
-		}
-		i++;
+		if (process_single_heredoc(heredocs[i].delimiter,
+				heredocs[i].filename) != 0)
+			ft_perror("Failed to process heredoc", -1);
 	}
 	i = 0;
-	while (i < heredoc_count)
+	while (i++ < heredoc_count)
 	{
 		tmp_fd = open(heredocs[i].filename, O_RDONLY);
 		if (tmp_fd != -1)
 		{
 			len = read(tmp_fd, buffer, sizeof(buffer));
 			while (len > 0)
-			{
-				// write(STDOUT_FILENO, buffer, len);
 				len = read(tmp_fd, buffer, sizeof(buffer));
-			}
 			close(tmp_fd);
 		}
-		i++;
+	}
+	return (0);
+}
+*/
+
+int	read_and_write_heredoc(int tmp_fd, const char *delimiter)
+{
+	char	line[MAX_LINE_LEN];
+	ssize_t	len;
+
+	while (1)
+	{
+		len = ft_readlines(STDIN_FILENO, line, sizeof(line));
+		if (len < 0)
+			ft_perror("ft_readlines", -1);
+		if (len == 0)
+			break ;
+		if (process_line(line, &len, delimiter, tmp_fd) != 0)
+			return (-1);
 	}
 	return (0);
 }
 
-char	*generate_filename(int count)
+int	process_all_heredocs(t_doc *heredocs, int heredoc_count)
 {
-	int		num_digits;
-	int		temp;
-	int		len;
-	char	*filename;
+	int	i;
+	int	status;
 
-	num_digits = 1;
-	temp = count;
-	while (temp /= 10)
-		num_digits++;
-	len = 8 + num_digits + 1;  // "heredoc_" (8 Zeichen) + Ziffern + Nullterminator
-	filename = (char *)malloc(len);
+	i = 0;
+	while (i < heredoc_count)
+	{
+		status = process_single_heredoc(heredocs[i].delimiter,
+				heredocs[i].filename);
+		if (status != 0)
+			ft_perror("Failed to process heredoc", -1);
+		i++;
+	}
+	return (read_all_heredocs(heredocs, heredoc_count));
+}
+
+int	process_line(char *line, ssize_t *len, const char *delimiter, int tmp_fd)
+{
+	if (*len > 0 && line[*len - 1] == '\n')
+	{
+		line[*len - 1] = '\0';
+		(*len)--;
+	}
+	if (strcmp(line, delimiter) == 0)
+		return (1);
+	strcat(line, "\n");
+	(*len)++;
+	if (write(tmp_fd, line, *len) == -1)
+		ft_perror("write", -1);
+	return (0);
+}
+
+int	init_heredoc(t_cmd *cmd, t_redir *tmp, t_doc *heredocs, char *filename)
+{
+	if (cmd->heredoc_count >= 100)
+	{
+		printf("minishell: too many heredocs\n");
+		return (-1);
+	}
+	filename = generate_filename(cmd->heredoc_count);
 	if (!filename)
-		return (NULL);
-	// Formatierung des Dateinamens ohne snprintf
-	snprintf(filename, len, "heredoc_%d", count); // Mit snprintf
-	return (filename);
+		return (ft_perror("malloc filename error", -1));
+	heredocs[cmd->heredoc_count].filename = ft_strdup(filename);
+	if (!heredocs[cmd->heredoc_count].filename)
+	{
+		perror("ft_strdup filename error");
+		free(filename);
+		return (-1);
+	}
+	heredocs[cmd->heredoc_count].delimiter = ft_strdup(tmp->file);
+	if (!heredocs[cmd->heredoc_count].delimiter)
+	{
+		perror("ft_strdup delimiter error");
+		free(heredocs[cmd->heredoc_count].filename);
+		free(filename);
+		return (-1);
+	}
+	free(filename);
+	return (0);
 }
 
 int	check_heredoc(t_cmd *cmd)
@@ -176,36 +212,13 @@ int	check_heredoc(t_cmd *cmd)
 
 	tmp = cmd->infiles;
 	cmd->heredoc_count = 0;
+	filename = NULL;
 	while (tmp)
 	{
 		if (tmp->type == HEREDOC)
 		{
-			if (cmd->heredoc_count >= 100)
-			{
-				printf("minishell: too many heredocs\n");
+			if (init_heredoc(cmd, tmp, heredocs, filename) == -1)
 				return (-1);
-			}
-			filename = generate_filename(cmd->heredoc_count);
-			if (!filename)
-			{
-				perror("malloc filename error");
-				return (-1);
-			}
-			heredocs[cmd->heredoc_count].filename = ft_strdup(filename);
-			if (!heredocs[cmd->heredoc_count].filename)
-			{
-				perror("ft_strdup filename error");
-				free(filename);
-				return (-1);
-			}
-			heredocs[cmd->heredoc_count].delimiter = ft_strdup(tmp->file);
-			if (!heredocs[cmd->heredoc_count].delimiter)
-			{
-				perror("ft_strdup delimiter error");
-				free(heredocs[cmd->heredoc_count].filename);
-				free(filename);
-				return (-1);
-			}
 			free(filename);
 			cmd->heredoc_count++;
 		}
@@ -213,10 +226,7 @@ int	check_heredoc(t_cmd *cmd)
 	}
 	cmd->heredocs = (t_doc *)malloc(sizeof(t_doc) * (cmd->heredoc_count + 1));
 	if (!cmd->heredocs)
-	{
-		perror("malloc heredoc error");
-		return (-1);
-	}
+		ft_perror("malloc heredoc error", -1);
 	memcpy(cmd->heredocs, heredocs, sizeof(t_doc) * cmd->heredoc_count);
 	return (0);
 }
