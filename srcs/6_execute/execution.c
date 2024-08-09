@@ -6,7 +6,7 @@
 /*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 06:53:30 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/09 14:48:05 by grbuchne         ###   ########.fr       */
+/*   Updated: 2024/08/09 15:44:21 by grbuchne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int	check_input_redir(t_cmd *cmd, t_pl *pl)
 	if (cmd->infiles)
 	{
 		pl->fd_in = redirect_inputs(cmd);
+		if (pl->fd_in == -1)
+			return (1);
 		if (pl->fd_out == -1)
 			return (1);
 	}
@@ -49,7 +51,10 @@ int	exec_pipeline(t_shell *shell, t_cmd *cmd, int *status, int len)
 	og_stdin = dup(STDIN_FILENO);
 	og_stdout = dup(STDOUT_FILENO);
 	if (check_input_redir(cmd, pl) != 0)
+	{
+		free(pl);
 		return (1);
+	}
 	pl->fd_out = og_stdout;
 	while (len--)
 	{
