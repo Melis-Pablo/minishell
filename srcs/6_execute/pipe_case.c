@@ -6,7 +6,7 @@
 /*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 19:28:22 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/05 17:40:48 by grbuchne         ###   ########.fr       */
+/*   Updated: 2024/08/09 15:08:55 by grbuchne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,7 @@ int	handle_pipe_case(t_shell *shell, t_cmd *cmd, int *status, t_pl *pl)
 	pid_t	pid;
 
 	if (pipe(pl->pipe_fd) == -1)
-	{
-		perror("pipe");
-		return (1);
-	}
+		ft_perror("pipe", 1);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -75,13 +72,15 @@ int	handle_pipe_case(t_shell *shell, t_cmd *cmd, int *status, t_pl *pl)
 		dup2(pl->pipe_fd[1], STDOUT_FILENO);
 		if (pl->fd_in != STDIN_FILENO)
 			close(pl->fd_in);
-		close(pl->pipe_fd[1]);
+		if (pl->pipe_fd[1] != STDOUT_FILENO)
+			close(pl->pipe_fd[1]);
 		execute_internal(shell, cmd, status);
 		exit(*status);
 	}
 	else
 	{
-		close(pl->pipe_fd[1]);
+		if (pl->pipe_fd[1] != -1)
+			close(pl->pipe_fd[1]);
 		pl->fd_in = pl->pipe_fd[0];
 	}
 	return (pl->fd_in);

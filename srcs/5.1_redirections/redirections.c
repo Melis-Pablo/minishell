@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 06:06:19 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/08 15:20:02 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/09 14:21:40 by grbuchne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,11 @@ int	input_case(t_redir *tmp)
 	fd = open(tmp->file, O_RDONLY);
 	if (fd == -1)
 		perror("input redirection error");
-	dup2(fd, STDIN_FILENO);
-	close(fd);
+	else
+	{
+		dup2(fd, STDIN_FILENO);
+		close(fd);
+	}
 	return (fd);
 }
 

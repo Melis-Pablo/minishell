@@ -6,7 +6,7 @@
 /*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 19:50:07 by grbuchne          #+#    #+#             */
-/*   Updated: 2024/08/09 13:26:23 by grbuchne         ###   ########.fr       */
+/*   Updated: 2024/08/09 15:10:22 by grbuchne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,15 +145,11 @@ int	read_and_write_heredoc(int tmp_fd, const char *delimiter)
 int	process_all_heredocs(t_doc *heredocs, int heredoc_count)
 {
 	int	i;
-	int	status;
 
 	i = 0;
 	while (i < heredoc_count)
 	{
-		status = process_single_heredoc(heredocs[i].delimiter,
-				heredocs[i].filename);
-		if (status != 0)
-			ft_perror("Failed to process heredoc", -1);
+		process_single_heredoc(heredocs[i].delimiter, heredocs[i].filename);
 		i++;
 	}
 	return (read_all_heredocs(heredocs, heredoc_count));
