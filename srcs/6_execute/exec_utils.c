@@ -6,7 +6,7 @@
 /*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 06:10:08 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/09 16:08:54 by grbuchne         ###   ########.fr       */
+/*   Updated: 2024/08/09 16:26:32 by grbuchne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	count_commands(t_cmd *cmd)
 	return (count);
 }
 
-int	free_pl_ret(t_pl *pl, int ret)
+int	free_pl_ret(void *pl, int ret)
 {
 	free(pl);
 	return (ret);
