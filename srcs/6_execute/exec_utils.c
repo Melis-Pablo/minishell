@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 06:10:08 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/08 14:06:50 by pmelis           ###   ########.fr       */
+/*   Updated: 2024/08/09 16:08:54 by grbuchne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,10 @@ int	count_commands(t_cmd *cmd)
 		cmd = cmd->next;
 	}
 	return (count);
+}
+
+int	free_pl_ret(t_pl *pl, int ret)
+{
+	free(pl);
+	return (ret);
 }

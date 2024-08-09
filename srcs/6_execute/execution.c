@@ -6,7 +6,7 @@
 /*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 06:53:30 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/09 15:44:21 by grbuchne         ###   ########.fr       */
+/*   Updated: 2024/08/09 16:09:47 by grbuchne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,7 @@ int	exec_pipeline(t_shell *shell, t_cmd *cmd, int *status, int len)
 	og_stdin = dup(STDIN_FILENO);
 	og_stdout = dup(STDOUT_FILENO);
 	if (check_input_redir(cmd, pl) != 0)
-	{
-		free(pl);
-		return (1);
-	}
+		free_pl_ret(pl, 1);
 	pl->fd_out = og_stdout;
 	while (len--)
 	{
