@@ -10,25 +10,27 @@ FLAGS		:= -Wall -Wextra -Werror -g -I $(INCLUDES)
 ################################################################################
 SRCS		:=	main.c \
 				srcs/4_env_expand/get_env.c \
-				srcs/4_env_expand/OLD_envexpand.c \
+				srcs/4_env_expand/envexpand.c \
+				srcs/4_env_expand/special_envexpand.c \
+				srcs/1_split_tokens/split_tokens_tools.c \
 				srcs/1_split_tokens/split_tokens.c \
 				srcs/builder.c \
 				srcs/5_parser/parser_utils.c \
 				srcs/5_parser/parser.c \
+				srcs/0_builtins/builtin_utils4.c \
 				srcs/0_builtins/m_export.c \
 				srcs/0_builtins/builtin_caller.c \
 				srcs/0_builtins/m_cd.c \
+				srcs/0_builtins/builtin_utils3.c \
 				srcs/0_builtins/m_exit.c \
+				srcs/0_builtins/builtin_utils.c \
+				srcs/0_builtins/builtin_utils2.c \
 				srcs/0_builtins/m_unset.c \
 				srcs/0_builtins/m_env.c \
 				srcs/0_builtins/m_pwd.c \
+				srcs/0_builtins/builtin_utils5.c \
 				srcs/0_builtins/get_envp.c \
 				srcs/0_builtins/m_echo.c \
-				srcs/0_builtins/builtin_utils.c \
-				srcs/0_builtins/builtin_utils2.c \
-				srcs/0_builtins/builtin_utils3.c \
-				srcs/0_builtins/builtin_utils4.c \
-				srcs/0_builtins/builtin_utils5.c \
 				srcs/3_syntax_error/syntax_error.c \
 				srcs/3_syntax_error/unclosed_quotes.c \
 				srcs/6_execute/find_exec.c \
@@ -38,14 +40,16 @@ SRCS		:=	main.c \
 				srcs/2_lexer/lexer.c \
 				srcs/2_lexer/lexer_utils.c \
 				srcs/utils/str_utils.c \
+				srcs/utils/utils2.c \
 				srcs/utils/print.c \
+				srcs/utils/print2.c \
 				srcs/utils/ft_split.c \
 				srcs/utils/utils.c \
 				srcs/utils/str_utils2.c \
 				srcs/cleaner.c \
 				srcs/5.1_redirections/redirections.c \
 				srcs/5.1_redirections/heredoc.c \
-				srcs/signals.c
+				srcs/signals.c \
 
 OBJS		:= $(SRCS:.c=.o)
 

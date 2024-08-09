@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grbuchne <grbuchne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmelis <pmelis@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:39:59 by pmelis            #+#    #+#             */
-/*   Updated: 2024/08/06 19:21:37 by grbuchne         ###   ########.fr       */
+/*   Updated: 2024/08/09 13:13:17 by pmelis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_envarg
 	char	*key_end;
 	char	*value_start;
 	char	*key;
+	char	*value_end;
 }	t_envarg;
 
 typedef struct s_shell
