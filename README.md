@@ -1,120 +1,176 @@
 # Minishell
 
-### As beautiful as a shell
+## 🐚 Project Overview
 
->[!note]
->Summary:
->This project is about creating a simple shell.
-Yes, your own little bash.
-You will learn a lot about processes and file descriptors.
- Version: 7.1
+Minishell is a custom implementation of a Unix shell, similar to bash but with a simplified feature set. This project demonstrates deep understanding of process creation and control, file descriptor manipulation, signal handling, and parsing techniques.
 
-## 0. Contents
+## ✨ Features
+
+### Command Line Interface
+- Interactive prompt with username and current directory
+- Command history navigation
+- Line editing capabilities (using readline library)
+
+### Core Functionality
+- Command execution with absolute or relative paths
+- Environment variable management and expansion
+- Exit status tracking with `$?` support
+- Signal handling (Ctrl+C, Ctrl+D, Ctrl+\\)
+
+### Command Processing
+- Command parsing with quotes (`'` and `"`) handling
+- Support for input/output redirections (`<`, `>`, `<<`, `>>`)
+- Pipelines for connecting multiple commands (`|`)
+
+### Built-in Commands
+- `echo` with `-n` flag support
+- `cd` for directory navigation
+- `pwd` to display current working directory
+- `env` to display environment variables
+- `export` to set environment variables
+- `unset` to remove environment variables
+- `exit` to terminate the shell
+
+### Bonus Features
+- Logical operators (`&&`, `||`) with parentheses for precedence
+- Wildcard expansion (`*`) in the current directory
+
+## 🧠 Technical Implementation
+
+### Architecture
+
+The implementation follows a modular design with distinct components:
+
+1. **Lexer/Parser**: Transforms raw input into structured tokens and builds an abstract syntax tree
+2. **Executor**: Processes the command tree and handles execution flow
+3. **Built-ins**: Custom implementation of shell built-in commands
+4. **Environment Manager**: Handles environment variable storage and manipulation
+5. **Signal Handler**: Manages signal interception and appropriate responses
+
+### Key Challenges
+
+- **Parsing Complex Commands**: Handling nested quotes, redirections, and pipes
+- **Process Management**: Creating, monitoring, and synchronizing child processes
+- **File Descriptor Management**: Proper handling of input/output redirections
+- **Memory Management**: Preventing leaks in a complex, long-running program
+- **Signal Handling**: Implementing bash-like behavior for terminal signals
+
+## 💻 Usage
+
+### Prerequisites
+
+- GCC compiler
+- Make
+- Readline library
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/Melis-Pablo/minishell.git
+cd minishell
+
+# Compile the program
+make
+```
+
+### Running Minishell
+
+```bash
+# Launch the shell
+./minishell
+```
+
+### Example Commands
+
+```bash
+# Basic command execution
+$ ls -la
+
+# Redirections
+$ ls > file.txt
+$ cat < file.txt
+
+# Pipes
+$ ls -la | grep .c | wc -l
+
+# Environment variables
+$ echo $HOME
+$ export MY_VAR=hello
+$ echo $MY_VAR
+
+# Here document
+$ cat << EOF
+> This is a multi-line
+> text input
+> EOF
+
+# Bonus features
+$ ls *.c
+$ (ls -la && echo "Success") || echo "Failure"
+```
+
+## 🛠️ Development Approach
+
+### Parser Implementation
+
+The command parser was implemented using a recursive descent approach:
+
+1. **Lexical Analysis**: Breaking input into tokens (commands, arguments, operators)
+2. **Syntax Analysis**: Building an abstract syntax tree from tokens
+3. **Semantic Analysis**: Validating command structure before execution
+
+### Process Management
+
+Commands are executed using a carefully designed process management system:
+
+```
+Input: cmd1 | cmd2 | cmd3
+
+Execution Flow:
+           ┌─────┐
+           │Shell│
+           └──┬──┘
+              │
+     ┌────────┴────────┐
+     ▼        ▼        ▼
+┌────┐    ┌────┐    ┌────┐
+│cmd1│───►│cmd2│───►│cmd3│
+└────┘    └────┘    └────┘
+```
+
+### Signal Handling
+
+Custom signal handlers ensure the shell responds appropriately to user interrupts:
+
+- **SIGINT (Ctrl+C)**: Interrupts current command, displays a new prompt
+- **SIGQUIT (Ctrl+\\)**: Ignored in interactive mode
+- **EOF (Ctrl+D)**: Exits the shell gracefully
+
+## 📝 Learning Outcomes
+
+This project provided in-depth experience with:
+
+- **Low-level System Programming**: Working directly with Unix system calls
+- **Process Creation and Control**: Managing process execution and communication
+- **Parser Design**: Building a robust command interpreter
+- **Signal Handling**: Implementing custom signal responses
+- **Memory Management**: Ensuring proper allocation and deallocation in a complex program
+
+## 🔍 Testing
+
+The implementation was tested against various scenarios:
+
+- Complex command combinations with pipes and redirections
+- Edge cases in quoting and variable expansion
+- Signal handling during different execution states
+- Memory leak detection using Valgrind
+- Comparison with bash behavior for reference
+
+## 📖 Resources
+
+For detailed project requirements, see the [minishell.md](minishell.md) file.
+
 ---
 
-1. Introduction
-2. Common instructions
-3. Mandatory part
-4. Bonus part
-5. Submission and peer-evaluation
-
-## 1. Introduction
----
-
-The existence of shells is linked to the very existence of IT.
-
-At the time, all developers agreed that communicating with a computer using aligned 1/0 switches was seriously irritating.
-
-It was only logical that they came up with the idea of creating a software to communicate with a computer using interactive lines of commands in a language somewhat close to the human language.
-
-Thanks to Minishell, you’ll be able to travel through time and come back to problems people faced when Windows didn’t exist.
-
-## 2. Common Instructions
----
-
-- Your project must be written in C.
-- Your project must be written in accordance with the Norm. If you have bonus files/functions, they are included in the norm check and you will receive a 0 if there is a norm error inside.
-- Your functions should not quit unexpectedly (segmentation fault, bus error, double free, etc) apart from undefined behaviors. If this happens, your project will be considered non functional and will receive a 0 during the evaluation.
-- All heap allocated memory space must be properly freed when necessary. No leaks will be tolerated.
-- If the subject requires it, you must submit a Makefile which will compile your source files to the required output with the flags -Wall, -Wextra and -Werror, use cc, and your Makefile must not relink.
-- Your Makefile must at least contain the rules $(NAME), all, clean, fclean and re.
-- To turn in bonuses to your project, you must include a rule bonus to your Makefile, which will add all the various headers, libraries or functions that are forbidden on the main part of the project. Bonuses must be in a different file _bonus.{c/h} if the subject does not specify anything else. Mandatory and bonus part evaluation is done separately.
-- If your project allows you to use your libft, you must copy its sources and its associated Makefile in a libft folder with its associated Makefile. Your project's Makefile must compile the library by using its Makefile, then compile the project.
-- We encourage you to create test programs for your project even though this work won't have to be submitted and won't be graded. It will give you a chance to easily test your work and your peers' work. You will find those tests especially useful during your defence. Indeed, during defence, you are free to use your tests and/or the tests of the peer you are evaluating.
-- Submit your work to your assigned git repository. Only the work in the git repository will be graded. If Deepthought is assigned to grade your work, it will be done after your peer-evaluations. If an error happens in any section of your work during Deepthought's grading, the evaluation will stop.
-
-
-## 3. Mandatory Part
----
-
-| Program name       | minishell                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Turn in files      | Makefile, \*.h, \*.c                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| Makefile           | NAME, all, clean, fclean, re                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| Arguments          |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| External functions | readline, rl_clear_history, rl_on_new_line,<br>rl_replace_line, rl_redisplay, add_history,<br>printf, malloc, free, write, access, open, read,<br>close, fork, wait, waitpid, wait3, wait4, signal,<br>sigaction, sigemptyset, sigaddset, kill, exit,<br>getcwd, chdir, stat, lstat, fstat, unlink, execve,<br>dup, dup2, pipe, opendir, readdir, closedir,<br>strerror, perror, isatty, ttyname, ttyslot, ioctl,<br>getenv, tcsetattr, tcgetattr, tgetent, tgetflag,<br>tgetnum, tgetstr, tgoto, tputs |
-| Libft authorized   | Yes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| Description        | Write a shell                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-
-Your shell should:
-- Display a prompt when waiting for a new command.
-- Have a working history.
-- Search and launch the right executable (based on the PATH variable or using a relative or an absolute path).
-- Avoid using more than one global variableto indicate a received signal. Consider the implications: this approach ensures that your signal handler will not access your main data structures.
-
->[!warning]
->Be careful. This global variable cannot provide any other
-information or data access than the number of a received signal.
-Therefore, using "norm" type structures in the global scope is
-forbidden.
-
-- Not interpret unclosed quotes or special characters which are not required by the subject such as \ (backslash) or ; (semicolon).
-- Handle ’ (single quote) which should prevent the shell from interpreting the metacharacters in the quoted sequence.
-- Handle " (double quote) which should prevent the shell from interpreting the metacharacters in the quoted sequence except for $ (dollar sign).
-- Implement redirections:
-	- < should redirect input.
-	- > should redirect output.
-	- << should be given a delimiter, then read the input until a line containing the delimiter is seen. However, it doesn’t have to update the history!
-	- >> should redirect output in append mode.
-- Implement pipes (| character). The output of each command in the pipeline is connected to the input of the next command via a pipe.
-- Handle environment variables ($ followed by a sequence of characters) which should expand to their values.
-- Handle $? which should expand to the exit status of the most recently executed foreground pipeline.
-- Handle ctrl-C, ctrl-D and ctrl-\ which should behave like in bash.
-- In interactive mode:
-	- ctrl-C displays a new prompt on a new line.
-	- ctrl-D exits the shell.
-	- ctrl-\ does nothing.
-- Your shell must implement the following builtins:
-	- echo with option -n
-	- cd with only a relative or absolute path
-	- pwd with no options
-	- export with no options
-	- unset with no options
-	- env with no options or arguments
-	- exit with no options
-
-The readline() function can cause memory leaks. You don’t have to fix them. But that doesn’t mean your own code, yes the code you wrote, can have memory leaks.
-
->[!note]
->You should limit yourself to the subject description. Anything that
-is not asked is not required.
-If you have any doubt about a requirement, take bash as a reference.
-
-## 4. Bonus Part
----
-
-Your program has to implement:
-
-- && and || with parenthesis for priorities.
-- Wildcards * should work for the current working directory.
-
->[!warning]
->The bonus part will only be assessed if the mandatory part is
-PERFECT. Perfect means the mandatory part has been integrally done
-and works without malfunctioning. If you have not passed ALL the
-mandatory requirements, your bonus part will not be evaluated at all.
-
-## 5. Submission and peer-evaluation
----
-
-Turn in your assignment in your Git repository as usual. Only the work inside your repository will be evaluated during the defense. Don’t hesitate to double check the names of your files to ensure they are correct.
+*This project is part of the 42 School Common Core curriculum.*
